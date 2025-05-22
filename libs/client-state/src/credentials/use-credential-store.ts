@@ -1,6 +1,7 @@
 import { CredentialResponse } from '@react-oauth/google';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { createSelectors } from '../createSelectors';
 
 export interface CredentialStore {
   isLoggedIn: boolean;
@@ -11,7 +12,7 @@ export type CredentialStoreAction = {
   setCredentials: (credentials: CredentialResponse | null) => void;
 };
 
-export const useCredentialStore = create<
+export const useCredentialStoreBase = create<
   CredentialStore & CredentialStoreAction
 >()(
   immer((set) => ({
@@ -25,3 +26,5 @@ export const useCredentialStore = create<
     },
   }))
 );
+
+export const useCredentialStore = createSelectors(useCredentialStoreBase);

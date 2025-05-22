@@ -2,15 +2,24 @@ import { CredentialResponse } from '@react-oauth/google';
 import { useSessionStorage } from '@uidotdev/usehooks';
 import { useEffect } from 'react';
 import { useCredentialStore } from '@adg/client-state';
+import axios from 'axios';
 
 export const useAuthentication = () => {
-  const { credentials, isLoggedIn, setCredentials } = useCredentialStore();
+  // state
+  const credentials = useCredentialStore.use.credentials();
+  const isLoggedIn = useCredentialStore.use.isLoggedIn();
+  const setCredentials = useCredentialStore.use.setCredentials();
+
   const [storedCredentials, setStoredCredentials] =
     useSessionStorage<CredentialResponse | null>('credentials', null);
 
   const onLoginSuccess = (credential: CredentialResponse) => {
     setCredentials(credential);
     setStoredCredentials(credential);
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = `Bearer ${credential.credential}`;
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
   };
 
   console.log('credentials', credentials);
