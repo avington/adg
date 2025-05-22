@@ -8,6 +8,33 @@
     },
     {
       "path": "./apps/client"
+    },
+    {
+      "path": "./libs/client-theme"
+    },
+    {
+      "path": "./apps/server-e2e"
+    },
+    {
+      "path": "./apps/server"
+    },
+    {
+      "path": "./libs/server-auth"
+    },
+    {
+      "path": "./libs/client-auth"
+    },
+    {
+      "path": "./libs/client-hooks"
+    },
+    {
+      "path": "./libs/client-state"
+    },
+    {
+      "path": "./libs/global-models"
+    },
+    {
+      "path": "./libs/client-components"
     }
   ]
 }

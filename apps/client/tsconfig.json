@@ -3,6 +3,12 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/client-theme"
+    },
+    {
+      "path": "../../libs/client-auth"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {

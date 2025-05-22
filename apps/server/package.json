@@ -1,0 +1,30 @@
+{
+  "name": "@adg/server",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "server",
+    "targets": {
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "server:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "server:build:development"
+          },
+          "production": {
+            "buildTarget": "server:build:production"
+          }
+        }
+      }
+    }
+  }
+}
