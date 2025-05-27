@@ -1,11 +1,13 @@
+import { UserModel } from '@adg/global-models';
 import { NextFunction, Request, Response } from 'express';
 import { OAuth2Client } from 'google-auth-library';
+import { mapTokenInfoToUser } from '../auth/user-mapper';
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || 'your-google-client-id';
 const client = new OAuth2Client(CLIENT_ID);
 
 export async function googleJwtAuthMiddleware(
-  req: Request,
+  req: Request & { user?: UserModel },
   res: Response,
   next: NextFunction
 ) {
@@ -30,8 +32,9 @@ export async function googleJwtAuthMiddleware(
 
     console.log('Google user payload:', payload);
     // Attach user info to request
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (req as any).googleUser = payload;
+    const user = mapTokenInfoToUser(payload);
+
+    req.user = user;
     return next();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {

@@ -1,2 +1,1 @@
-export * from './lib/global-models';
-export * from './credentials';
+export * from './accounts/user-models';

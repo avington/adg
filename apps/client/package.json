@@ -1,5 +1,33 @@
 {
   "name": "@adg/client",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "nx": {
+    "targets": {
+      "build": {
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{options.outputPath}"
+        ]
+      },
+      "lint": {
+        "outputs": [
+          "{options.outputFile}"
+        ]
+      },
+      "dev": {
+        "dependsOn": [
+          {
+            "projects": [
+              "server"
+            ],
+            "target": "serve"
+          }
+        ],
+        "outputs": []
+      }
+    }
+  }
 }

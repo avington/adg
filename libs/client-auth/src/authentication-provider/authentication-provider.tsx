@@ -1,6 +1,5 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { PropsWithChildren } from 'react';
-import styled from 'styled-components';
 
 export interface AuthenticationProviderProps {
   clientId: string;

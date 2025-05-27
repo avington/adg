@@ -37,7 +37,7 @@
       "path": "./libs/client-components"
     },
     {
-      "path": "./libs/client-misc"
+      "path": "./libs/global-models"
     }
   ]
 }

@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["uidotdev", "usehooks"]
+  "cSpell.words": ["uidotdev", "usehooks"],
+  "nxConsole.generateAiAgentRules": true
 }

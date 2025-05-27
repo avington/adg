@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "../client-misc"
-    },
-    {
       "path": "../client-state"
     },
     {

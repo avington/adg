@@ -4,7 +4,7 @@ import AuthenticationProvider from './authentication-provider';
 
 describe('AuthenticationProvider', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<AuthenticationProvider />);
+    const { baseElement } = render(<AuthenticationProvider clientId={''} />);
     expect(baseElement).toBeTruthy();
   });
 });
