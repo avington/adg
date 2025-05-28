@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/client-feature-portfolio"
+    },
+    {
       "path": "../../libs/client-theme"
     },
     {

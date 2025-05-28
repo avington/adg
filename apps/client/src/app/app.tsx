@@ -1,12 +1,18 @@
 import { AuthenticationProvider } from '@adg/client-auth';
 import { ClientTheme } from '@adg/client-theme';
+import axios from 'axios';
+import { RouterProvider } from 'react-router-dom';
+import { routerConfig } from './route-config';
 
 export function App() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  console.log('clientId', clientId);
+  axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+
   return (
     <AuthenticationProvider clientId={clientId}>
-      <ClientTheme />
+      <ClientTheme>
+        <RouterProvider router={routerConfig} />
+      </ClientTheme>
     </AuthenticationProvider>
   );
 }

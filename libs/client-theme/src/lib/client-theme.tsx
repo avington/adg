@@ -1,12 +1,8 @@
-import styled from 'styled-components';
+import { PropsWithChildren } from 'react';
 import { BodyContainer } from '../global/body-container';
 
-export const ClientTheme: React.FC = () => {
-  return (
-    <BodyContainer>
-      <h1>Welcome to ClientTheme!</h1>
-    </BodyContainer>
-  );
+export const ClientTheme: React.FC<PropsWithChildren> = ({ children }) => {
+  return <BodyContainer>{children}</BodyContainer>;
 };
 
 export default ClientTheme;

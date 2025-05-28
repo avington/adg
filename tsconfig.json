@@ -38,6 +38,9 @@
     },
     {
       "path": "./libs/global-models"
+    },
+    {
+      "path": "./libs/client-feature-portfolio"
     }
   ]
 }

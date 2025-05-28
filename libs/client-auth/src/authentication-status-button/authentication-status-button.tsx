@@ -1,29 +1,29 @@
-import styled from 'styled-components';
-import { GoogleLogin, useGoogleOAuth } from '@react-oauth/google';
-import { useAuthentication } from '../use-authentication';
 import { RenderWhen } from '@adg/client-components';
+import { useUserStore } from '@adg/client-state';
+import { GoogleLogin } from '@react-oauth/google';
+import { useAuthentication } from '../use-authentication';
+import { UserProfileMenu } from './user-profile-menu/user-profile-menu';
 
-const StyledAuthenticationStatusButton = styled.div`
-  color: pink;
-`;
 export function AuthenticationStatusButton() {
   const { isLoggedIn, onLoginSuccess } = useAuthentication();
+  const user = useUserStore.use.user();
+
   return (
-    <StyledAuthenticationStatusButton>
-      <RenderWhen>
-        <RenderWhen.If isTrue={!isLoggedIn}>
-          <GoogleLogin
-            onSuccess={onLoginSuccess}
-            onError={() => {
-              console.log('Login Failed');
-            }}
-          />
-        </RenderWhen.If>
-        <RenderWhen.If isTrue={isLoggedIn}>
-          <div>Logged In</div>
-        </RenderWhen.If>
-      </RenderWhen>
-    </StyledAuthenticationStatusButton>
+    <RenderWhen>
+      <RenderWhen.If isTrue={!isLoggedIn}>
+        <GoogleLogin
+          onSuccess={onLoginSuccess}
+          onError={() => {
+            console.log('Login Failed');
+          }}
+        />
+      </RenderWhen.If>
+      <RenderWhen.If isTrue={isLoggedIn}>
+        <UserProfileMenu>
+          <span>{user?.fullName || 'User Profile'}</span>
+        </UserProfileMenu>
+      </RenderWhen.If>
+    </RenderWhen>
   );
 }
 
