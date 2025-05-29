@@ -1,0 +1,66 @@
+{
+  "name": "@adg/processor-portfolio",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "targets": {
+      "build": {
+        "executor": "@nx/esbuild:esbuild",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "defaultConfiguration": "production",
+        "options": {
+          "platform": "node",
+          "outputPath": "apps/processor-portfolio/dist",
+          "format": [
+            "cjs"
+          ],
+          "bundle": false,
+          "main": "apps/processor-portfolio/src/main.ts",
+          "tsConfig": "apps/processor-portfolio/tsconfig.app.json",
+          "assets": [
+            "apps/processor-portfolio/src/assets"
+          ],
+          "esbuildOptions": {
+            "sourcemap": true,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        },
+        "configurations": {
+          "development": {},
+          "production": {
+            "esbuildOptions": {
+              "sourcemap": false,
+              "outExtension": {
+                ".js": ".js"
+              }
+            }
+          }
+        }
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "@adg/processor-portfolio:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "@adg/processor-portfolio:build:development"
+          },
+          "production": {
+            "buildTarget": "@adg/processor-portfolio:build:production"
+          }
+        }
+      }
+    }
+  }
+}
