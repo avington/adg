@@ -24,6 +24,7 @@ const GlobalResetStyle = createGlobalStyle`
     body {
         min-height: 100vh;
         font-family: 'Source Code Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        color: var(--color-grey-900);
     }
 
     img, picture, video, canvas, svg {
