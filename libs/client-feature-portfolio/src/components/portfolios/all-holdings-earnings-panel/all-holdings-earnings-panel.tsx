@@ -7,7 +7,7 @@ const StyledAllHoldingsEarningsPanel = styled.div`
 export function AllHoldingsEarningsPanel() {
   return (
     <StyledAllHoldingsEarningsPanel>
-      <h1>Welcome to AllHoldingsEarningsPanel!</h1>
+      <h1>Welcome to All Holdings Earnings Panel!</h1>
     </StyledAllHoldingsEarningsPanel>
   );
 }

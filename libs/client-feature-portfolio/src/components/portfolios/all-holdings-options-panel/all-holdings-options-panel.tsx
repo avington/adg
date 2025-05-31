@@ -7,7 +7,7 @@ const StyledAllHoldingsOptionsPanel = styled.div`
 export function AllHoldingsOptionsPanel() {
   return (
     <StyledAllHoldingsOptionsPanel>
-      <h1>Welcome to AllHoldingsOptionsPanel!</h1>
+      <h1>Welcome to All Holdings Options Panel!</h1>
     </StyledAllHoldingsOptionsPanel>
   );
 }

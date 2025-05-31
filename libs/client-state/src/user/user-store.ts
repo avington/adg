@@ -31,7 +31,7 @@ export const useUserStore = createSelectors(
           state.error = null;
         });
         try {
-          const response = await axios.get('/user');
+          const response = await axios.get('/auth');
           if (response.status !== 200) {
             throw new Error('Failed to fetch user');
           }

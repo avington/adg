@@ -1,5 +1,5 @@
 import { AuthenticationProvider } from '@adg/client-auth';
-import { ClientTheme } from '@adg/client-theme';
+import { BodyContainer } from '@adg/client-theme';
 import axios from 'axios';
 import { RouterProvider } from 'react-router-dom';
 import { routerConfig } from './route-config';
@@ -10,9 +10,9 @@ export function App() {
 
   return (
     <AuthenticationProvider clientId={clientId}>
-      <ClientTheme>
+      <BodyContainer>
         <RouterProvider router={routerConfig} />
-      </ClientTheme>
+      </BodyContainer>
     </AuthenticationProvider>
   );
 }

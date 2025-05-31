@@ -1,6 +1,5 @@
-import { DomainTypes } from '@adg/global-models';
-
-export interface IDomainEvent<T = DomainTypes> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface IDomainEvent<T = any> {
   readonly aggregateId: string;
   readonly aggregateType: string;
   readonly eventType: string;

@@ -3,7 +3,7 @@ import GlobalResetStyle from './reset';
 import GlobalColors from './colors';
 import { GlobalThemeContextProvider } from './context/global-theme-context-provider';
 import { DefaultHeader } from './header/default-header';
-import { StyledMain } from './main/styled-main';
+import { StyledInnerMain, StyledMain } from './main/styled-main';
 
 export const BodyContainerStyles = styled.div`
   display: grid;
@@ -32,7 +32,9 @@ export const BodyContainer = ({ children }: { children: React.ReactNode }) => {
         <GlobalResetStyle />
         <GlobalColors />
         <DefaultHeader />
-        <StyledMain>{children}</StyledMain>
+        <StyledMain>
+          <StyledInnerMain>{children}</StyledInnerMain>
+        </StyledMain>
       </BodyContainerStyles>
     </GlobalThemeContextProvider>
   );

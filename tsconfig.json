@@ -37,9 +37,6 @@
       "path": "./libs/client-components"
     },
     {
-      "path": "./libs/global-models"
-    },
-    {
       "path": "./libs/client-feature-portfolio"
     },
     {
@@ -47,9 +44,6 @@
     },
     {
       "path": "./libs/server-bullmq-config"
-    },
-    {
-      "path": "./libs/server-event-store"
     },
     {
       "path": "./libs/server-event-store"
@@ -67,16 +61,16 @@
       "path": "./apps/processor-portfolio"
     },
     {
-      "path": "./libs/server-user"
-    },
-    {
-      "path": "./libs/server-portfolio"
-    },
-    {
       "path": "./libs/server-domain-position"
     },
     {
       "path": "./libs/server-domain-lot"
+    },
+    {
+      "path": "./libs/server-domain-portfolio"
+    },
+    {
+      "path": "./libs/server-domain-user"
     }
   ]
 }

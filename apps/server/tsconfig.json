@@ -4,6 +4,12 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/server-bullmq-config"
+    },
+    {
+      "path": "../../libs/server-domain-user"
+    },
+    {
       "path": "../../libs/server-auth"
     },
     {

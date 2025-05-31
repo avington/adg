@@ -1,15 +1,13 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
+// Description: Main entry point for the server application,
+// setting up middleware, routes, and starting the server.
 import express from 'express';
 import * as path from 'path';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
-import { googleJwtAuthMiddleware, userRouter } from '@adg/server-auth';
+import { googleJwtAuthMiddleware, authRouter } from '@adg/server-auth';
+import userRouter from './routes/user-routes';
 
 const clientDomain = process.env.CLIENT_DOMAIN || 'http://localhost:3000';
 const app = express();
@@ -42,10 +40,7 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to server!' });
 });
 
-app.get('/api/auth', googleJwtAuthMiddleware, (req, res) => {
-  res.send({ message: 'Welcome to private server!' });
-});
-
+app.use('/api/v1/auth', googleJwtAuthMiddleware, authRouter);
 app.use('/api/v1/user', googleJwtAuthMiddleware, userRouter);
 
 const port = process.env.PORT || 3333;
