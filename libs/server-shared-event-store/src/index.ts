@@ -17,6 +17,7 @@ export class MongoEventStore<E extends IEvent = IEvent>
   async connect() {
     this.uri = process.env.MONGO_URI || this.uri;
     this.client = new MongoClient(this.uri);
+    console.log(`Connecting to MongoDB at ${this.uri}...`);
     await this.client.connect();
     this.db = this.client.db(this.dbName);
     this.eventsCollection = this.db.collection(this.collectionName);

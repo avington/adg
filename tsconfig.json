@@ -68,6 +68,9 @@
     },
     {
       "path": "./apps/query"
+    },
+    {
+      "path": "./apps/processor-user-events"
     }
   ]
 }
