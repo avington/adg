@@ -8,6 +8,8 @@ import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import { googleJwtAuthMiddleware, authRouter } from '@adg/server-auth';
 import userRouter from './routes/user-routes';
+import { BullMqEventBus } from '@adg/server-shared-event-bus-bullmq';
+import { MongoEventStore } from '@adg/server-shared-event-store';
 
 const clientDomain = process.env.CLIENT_DOMAIN || 'http://localhost:3000';
 const app = express();
@@ -41,7 +43,15 @@ app.get('/api', (req, res) => {
 });
 
 app.use('/api/v1/auth', googleJwtAuthMiddleware, authRouter);
-app.use('/api/v1/user', googleJwtAuthMiddleware, userRouter);
+
+const eventBus = new BullMqEventBus();
+const eventStore = new MongoEventStore(
+  process.env.MONGO_URI || 'mongodb://localhost:27017',
+  process.env.EVENT_STORE_DB || 'adg_event_store_db'
+);
+
+// Route for event store connections
+app.use('/users', userRouter(eventStore, eventBus));
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {

@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../server-shared-kernel"
+    },
+    {
+      "path": "../server-domain-user-aggregates"
+    },
+    {
+      "path": "../server-domain-user-commands"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
+}

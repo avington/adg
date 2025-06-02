@@ -12,10 +12,16 @@
   "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
   "references": [
     {
-      "path": "../../libs/server-bullmq-config/tsconfig.lib.json"
+      "path": "../../libs/server-domain-user-commands/tsconfig.lib.json"
     },
     {
-      "path": "../../libs/server-domain-user/tsconfig.lib.json"
+      "path": "../../libs/server-domain-user-command-handlers/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-shared-event-store/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-shared-event-bus-bullmq/tsconfig.lib.json"
     },
     {
       "path": "../../libs/server-auth/tsconfig.lib.json"

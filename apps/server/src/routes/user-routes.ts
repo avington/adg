@@ -1,78 +1,65 @@
 import {
-  CREATE_USER_COMMAND,
-  CreateUserCommand,
-  UPDATE_USER_NAME_COMMAND,
-  UpdateUserNameCommand,
-} from '@adg/server-user';
+  CreateUserCommandHandler,
+  UpdateUserNameCommandHandler,
+} from '@adg/server-domain-user-command-handlers';
 import {
-  redisConnection,
-  USER_COMMANDS_QUEUE,
-} from '@adg/server-bullmq-config';
-import { Queue } from 'bullmq';
-import express, { Request, Response, Router } from 'express';
-import { v4 as uuidv4 } from 'uuid';
+  CreateUserCommand,
+  UpdateUserNameCommand,
+} from '@adg/server-domain-user-commands';
+import { BullMqEventBus } from '@adg/server-shared-event-bus-bullmq';
+import { MongoEventStore } from '@adg/server-shared-event-store';
+import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { CreateUserPayload, UpdateUserNamePayload } from '@adg/global-models';
 
-// commands
-const userCommandsQueue = new Queue<CreateUserCommand | UpdateUserNameCommand>(
-  USER_COMMANDS_QUEUE,
-  { connection: redisConnection }
-);
-const userRouter: Router = express.Router();
-// --- User Routes ---
-userRouter
-  .route('/')
-  .post(async (req: Request, res: Response) => {
+export function userRouter(
+  eventStore: MongoEventStore,
+  eventBus: BullMqEventBus
+): Router {
+  const userRouter: Router = Router();
+
+  // --- User Routes ---
+  userRouter.post('/', async (req: Request, res: Response) => {
     try {
-      const payload: CreateUserPayload = req.body;
-      if (!payload.lastName || !payload.email) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .send({ message: 'Name and email are required.' });
-      }
-      const id = payload.id || uuidv4(); // Allow client-provided ID or generate one
-      const command: CreateUserCommand = {
-        commandName: CREATE_USER_COMMAND,
-        // aggregateId is not strictly needed here as it's a creation, but can be useful for idempotency key or pre-allocation
-        payload: { ...payload, id },
-      };
-      await userCommandsQueue.add(command.commandName, command);
-      return res
-        .status(StatusCodes.CREATED)
-        .send({ message: 'User creation command accepted.', id });
-    } catch (error) {
-      console.error('Error dispatching create user command:', error);
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .send({ message: 'Internal server error.' });
-    }
-  })
-  .put(async (req: Request, res: Response) => {
-    try {
-      const { userId } = req.params;
-      const payload: UpdateUserNamePayload = req.body;
-      if (!payload.lastName) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .send({ message: 'Name is required.' });
-      }
-      const command: UpdateUserNameCommand = {
-        commandName: UPDATE_USER_NAME_COMMAND,
-        aggregateId: userId,
-        payload,
-      };
-      await userCommandsQueue.add(command.commandName, command);
-      return res
-        .status(StatusCodes.ACCEPTED)
-        .send({ message: 'Update user name command accepted.' });
-    } catch (error) {
-      console.error('Error dispatching update user name command:', error);
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .send({ message: 'Internal server error.' });
+      const { userId, firstName, lastName, email, fullName, createdAt } =
+        req.body;
+      const command = new CreateUserCommand(crypto.randomUUID(), userId, {
+        userId,
+        firstName,
+        lastName,
+        email,
+        fullName,
+        createdAt,
+      });
+      const handler = new CreateUserCommandHandler(eventStore, eventBus);
+      await handler.execute(command);
+      res.status(StatusCodes.CREATED).json({ message: 'User created' });
+    } catch (err) {
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: (err as Error).message });
     }
   });
 
-export { userRouter };
+  userRouter.put('/', async (req: Request, res: Response) => {
+    try {
+      const { userId, firstName, lastName, updatedAt } = req.body;
+      const command = new UpdateUserNameCommand(crypto.randomUUID(), userId, {
+        userId,
+        firstName,
+        lastName,
+        updatedAt,
+      });
+      const handler = new UpdateUserNameCommandHandler(eventStore, eventBus);
+      await handler.execute(command);
+      res.status(StatusCodes.ACCEPTED).json({ message: 'User name updated' });
+    } catch (err) {
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: (err as Error).message });
+    }
+  });
+
+  return userRouter;
+}
+
 export default userRouter;

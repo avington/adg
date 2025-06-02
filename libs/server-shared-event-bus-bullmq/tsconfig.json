@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../server-shared-bullmq"
+    },
+    {
+      "path": "../server-shared-kernel"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
+}

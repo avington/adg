@@ -4,10 +4,16 @@
   "include": [],
   "references": [
     {
-      "path": "../../libs/server-bullmq-config"
+      "path": "../../libs/server-domain-user-commands"
     },
     {
-      "path": "../../libs/server-domain-user"
+      "path": "../../libs/server-domain-user-command-handlers"
+    },
+    {
+      "path": "../../libs/server-shared-event-store"
+    },
+    {
+      "path": "../../libs/server-shared-event-bus-bullmq"
     },
     {
       "path": "../../libs/server-auth"
