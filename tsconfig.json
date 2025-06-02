@@ -40,37 +40,34 @@
       "path": "./libs/client-feature-portfolio"
     },
     {
-      "path": "./libs/server-shared"
+      "path": "./libs/server-shared-kernel"
     },
     {
-      "path": "./libs/server-bullmq-config"
+      "path": "./libs/server-shared-bullmq"
     },
     {
-      "path": "./libs/server-event-store"
+      "path": "./libs/server-shared-event-store"
     },
     {
-      "path": "./apps/processor-user-e2e"
+      "path": "./libs/server-shared-event-bus-bullmq"
     },
     {
-      "path": "./apps/processor-user"
+      "path": "./libs/server-domain-user-events"
     },
     {
-      "path": "./apps/processor-portfolio-e2e"
+      "path": "./libs/server-domain-user-aggregates"
     },
     {
-      "path": "./apps/processor-portfolio"
+      "path": "./libs/server-domain-user-command-handlers"
     },
     {
-      "path": "./libs/server-domain-position"
+      "path": "./libs/server-domain-read-models"
     },
     {
-      "path": "./libs/server-domain-lot"
+      "path": "./libs/server-domain-user-commands"
     },
     {
-      "path": "./libs/server-domain-portfolio"
-    },
-    {
-      "path": "./libs/server-domain-user"
+      "path": "./apps/query"
     }
   ]
 }
