@@ -1,82 +1,50 @@
-# Adg
+# ADG Monorepo
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+This repository is organized as an Nx workspace and implements an event-sourced architecture with a React client and a GraphQL query API.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Event Sourcing (Backend)
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- **Event Store:**  
+  Uses a MongoDB-backed event store (`MongoEventStore`) to persist all domain events. Events are versioned and concurrency is enforced.
+- **Event Bus:**  
+  Publishes events using BullMQ queues (`BullMqEventBus`), enabling asynchronous event processing and integration with workers.
+- **Domain Commands & Events:**  
+  Domain logic is encapsulated in commands (e.g., `CreateUserCommand`, `UpdateUserNameCommand`) and events (e.g., `UserCreatedEvent`, `UserNameUpdatedEvent`).
+- **Command Handlers:**  
+  Command handlers process incoming commands, apply business logic, and emit events to the event store and event bus.
+- **Read Model Projection:**  
+  Workers (e.g., `processor-user-events`) listen for domain events and update MongoDB read models for efficient querying.
 
-## Finish your CI setup
+## Query API (GraphQL)
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/U09YJv8qvG)
+- **Apollo Server:**  
+  Provides a GraphQL endpoint for querying the read model stored in MongoDB.
+- **Resolvers & Type Definitions:**  
+  Loads GraphQL type definitions and resolvers dynamically, supporting modular schema development.
+- **Express Integration:**  
+  The GraphQL server is mounted on an Express app, with CORS and logging middleware for development.
 
+## Client Application (Frontend)
 
-## Run tasks
+- **React App:**  
+  The client is a React application using React Router for navigation.
+- **Authentication:**  
+  Integrates Google OAuth for authentication, storing credentials in session storage and managing user state.
+- **API Communication:**  
+  Uses Axios to communicate with the backend API, sending authenticated requests. Will eventually use GraphQL for main queries.
+- **Feature Modules:**  
+  Implements feature-based code splitting and lazy loading for scalable UI development.
 
-To run the dev server for your app, use:
+## Development
 
-```sh
-npx nx serve client
-```
+- **Nx Workspace:**  
+  Use Nx CLI and Nx Console for code generation, building, and running tasks.
+- **Running the App:**
+  - Start the backend: `nx serve server`
+  - Start the event processor: `nx serve processor-user-events`
+  - Start the GraphQL query API: `nx serve query`
+  - Start the frontend: `nx serve client`
 
-To create a production bundle:
+---
 
-```sh
-npx nx build client
-```
-
-To see all available targets to run for a project, run:
-
-```sh
-npx nx show project client
-```
-
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/react:app demo
-```
-
-To generate a new library, use:
-
-```sh
-npx nx g @nx/react:lib mylib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+For more details, see the individual library and app README files.
