@@ -10,6 +10,9 @@
       "path": "../../libs/server-domain-user-command-handlers"
     },
     {
+      "path": "../../libs/server-shared-bullmq"
+    },
+    {
       "path": "../../libs/server-shared-event-store"
     },
     {

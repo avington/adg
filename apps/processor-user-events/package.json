@@ -1,0 +1,67 @@
+{
+  "name": "@adg/processor-user-events",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "processor-user-events",
+    "targets": {
+      "build": {
+        "executor": "@nx/esbuild:esbuild",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "defaultConfiguration": "production",
+        "options": {
+          "platform": "node",
+          "outputPath": "apps/processor-user-events/dist",
+          "format": [
+            "cjs"
+          ],
+          "bundle": false,
+          "main": "apps/processor-user-events/src/main.ts",
+          "tsConfig": "apps/processor-user-events/tsconfig.app.json",
+          "assets": [
+            "apps/processor-user-events/src/assets"
+          ],
+          "esbuildOptions": {
+            "sourcemap": true,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        },
+        "configurations": {
+          "development": {},
+          "production": {
+            "esbuildOptions": {
+              "sourcemap": false,
+              "outExtension": {
+                ".js": ".js"
+              }
+            }
+          }
+        }
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "processor-user-events:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "processor-user-events:build:development"
+          },
+          "production": {
+            "buildTarget": "processor-user-events:build:production"
+          }
+        }
+      }
+    }
+  }
+}

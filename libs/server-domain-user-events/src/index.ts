@@ -1,2 +1,3 @@
-export * from './user-created-event';
-export * from './user-name-updated-event';
+export * from './events/user-created-event';
+export * from './events/user-name-updated-event';
+export * from './handlers/handle-user-created-event';
