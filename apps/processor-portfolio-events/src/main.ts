@@ -1,8 +1,12 @@
 import { MongoClient } from 'mongodb';
 import { Worker } from 'bullmq';
 import { redisConnection, QueueNames } from '@adg/server-shared-bullmq';
-import { handleUserCreatedEvent } from '@adg/server-domain-user-events';
-import type { UserCreatedEvent } from '@adg/server-domain-user-events';
+import {
+  handlePortfolioCreatedEvent,
+  handlePortfolioUpdatedEvent,
+  PortfolioCreatedEvent,
+  PortfolioUpdatedEvent,
+} from '@adg/server-domain-portfolio-events';
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
 const DB_NAME = process.env.READ_MODEL_DB_NAME || 'read-model';
@@ -19,11 +23,20 @@ async function main() {
     QueueNames.DOMAIN_EVENTS,
     async (job) => {
       const { name, data } = job;
-      // Handle UserCreatedEvent
-      if (name === 'UserCreatedEvent') {
-        await handleUserCreatedEvent(data as UserCreatedEvent, usersCollection);
+      // Handle PortfolioCreatedEvent
+      if (name === 'PortfolioCreatedEvent') {
+        await handlePortfolioCreatedEvent(
+          data as PortfolioCreatedEvent,
+          usersCollection
+        );
+        // Handle UserCreatedEvent
+        if (name === 'PortfolioCreatedEvent') {
+          await handlePortfolioUpdatedEvent(
+            data as PortfolioUpdatedEvent,
+            usersCollection
+          );
+        }
       }
-      // Add more event handlers as needed
     },
     { connection: redisConnection }
   );

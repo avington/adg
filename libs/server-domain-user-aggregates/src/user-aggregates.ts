@@ -26,18 +26,13 @@ export class UserAggregate extends AggregateRoot {
     if (this.state.userId) {
       throw new Error('User already exists');
     }
-    const event = new UserCreatedEvent(
-      uuid(),
-      data.userId,
-      this.version + 1,
-      {
-        userId: data.userId,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        createdAt: data.createdAt ?? new Date(),
-      }
-    );
+    const event = new UserCreatedEvent(uuid(), data.userId, this.version + 1, {
+      userId: data.userId,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      createdAt: data.createdAt ?? new Date(),
+    });
     this.apply(event);
   }
 

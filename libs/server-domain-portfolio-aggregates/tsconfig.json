@@ -4,10 +4,13 @@
   "include": [],
   "references": [
     {
-      "path": "../../libs/global-read-models"
+      "path": "../server-domain-portfolio-events"
     },
     {
-      "path": "./tsconfig.app.json"
+      "path": "../server-shared-kernel"
+    },
+    {
+      "path": "./tsconfig.lib.json"
     },
     {
       "path": "./tsconfig.spec.json"
