@@ -17,6 +17,6 @@ export class UpdatePortfolioCommand extends Command<UpdatePortfolioNamePayload> 
     payload: UpdatePortfolioNamePayload,
     timestamp: Date = new Date()
   ) {
-    super(id, 'UpdateUserNameCommand', timestamp, aggregateId, payload);
+    super(id, 'UpdatePortfolioCommand', timestamp, aggregateId, payload);
   }
 }

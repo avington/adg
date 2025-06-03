@@ -17,6 +17,7 @@ async function main() {
   await mongoClient.connect();
   const db = mongoClient.db(DB_NAME);
   const usersCollection = db.collection('users');
+  const portfoliosCollection = db.collection('portfolios');
 
   // Set up BullMQ Worker for user events
   const worker = new Worker(
@@ -27,15 +28,16 @@ async function main() {
       if (name === 'PortfolioCreatedEvent') {
         await handlePortfolioCreatedEvent(
           data as PortfolioCreatedEvent,
+          portfoliosCollection
+        );
+      }
+
+      // Handle PortfolioUpdatedEvent
+      if (name === 'PortfolioUpdatedEvent') {
+        await handlePortfolioUpdatedEvent(
+          data as PortfolioUpdatedEvent,
           usersCollection
         );
-        // Handle UserCreatedEvent
-        if (name === 'PortfolioCreatedEvent') {
-          await handlePortfolioUpdatedEvent(
-            data as PortfolioUpdatedEvent,
-            usersCollection
-          );
-        }
       }
     },
     { connection: redisConnection }

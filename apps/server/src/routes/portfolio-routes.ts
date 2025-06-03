@@ -1,6 +1,5 @@
-import { BullMqEventBus } from '@adg/server-shared-event-bus-bullmq';
-import { MongoEventStore } from '@adg/server-shared-event-store';
-import { Router, Request, Response } from 'express';
+import { AuthenticatedRequest } from '@adg/global-models';
+import { googleJwtAuthMiddleware } from '@adg/server-auth';
 import {
   CreatePortfolioCommandHandler,
   UpdatePortfolioCommandHandler,
@@ -9,11 +8,11 @@ import {
   CreatePortfolioCommand,
   UpdatePortfolioCommand,
 } from '@adg/server-domain-portfolio-commands';
+import { BullMqEventBus } from '@adg/server-shared-event-bus-bullmq';
+import { MongoEventStore } from '@adg/server-shared-event-store';
+import { Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { googleJwtAuthMiddleware } from '@adg/server-auth';
-import { AuthenticatedRequest, UserModel } from '@adg/global-models';
-
-
+import { v4 as uuidv4 } from 'uuid';
 
 export function portfolioRouter(
   eventStore: MongoEventStore,
@@ -36,19 +35,15 @@ export function portfolioRouter(
           createdAt,
           lastUpdatedBy,
         } = req.body;
-        const command = new CreatePortfolioCommand(
-          crypto.randomUUID(),
+        const command = new CreatePortfolioCommand(uuidv4(), portfolioId, {
           portfolioId,
-          {
-            portfolioId,
-            userId,
-            name,
-            description,
-            isActive,
-            createdAt,
-            lastUpdatedBy,
-          }
-        );
+          userId,
+          name,
+          description,
+          isActive,
+          createdAt,
+          lastUpdatedBy,
+        });
         const handler = new CreatePortfolioCommandHandler(eventStore, eventBus);
         await handler.execute(command);
         res.status(StatusCodes.CREATED).json({ message: 'Portfolio created' });
@@ -60,39 +55,43 @@ export function portfolioRouter(
     }
   );
 
-  portfolioRouter.put('/', async (req: Request, res: Response) => {
-    try {
-      const {
-        portfolioId,
-        userId,
-        name,
-        description,
-        isActive,
-        updatedAt,
-        lastUpdatedBy,
-      } = req.body;
-      const command = new UpdatePortfolioCommand(
-        crypto.randomUUID(),
-        portfolioId,
-        {
+  portfolioRouter.put(
+    '/',
+    googleJwtAuthMiddleware,
+    async (req: AuthenticatedRequest, res: Response) => {
+      const userId = req.user?.sub ?? '';
+      try {
+        const {
           portfolioId,
-          userId,
           name,
           description,
           isActive,
           updatedAt,
           lastUpdatedBy,
-        }
-      );
-      const handler = new UpdatePortfolioCommandHandler(eventStore, eventBus);
-      await handler.execute(command);
-      res.status(StatusCodes.ACCEPTED).json({ message: 'Portfolio updated' });
-    } catch (err) {
-      res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ error: (err as Error).message });
+        } = req.body;
+        const command = new UpdatePortfolioCommand(
+          crypto.randomUUID(),
+          portfolioId,
+          {
+            portfolioId,
+            userId,
+            name,
+            description,
+            isActive,
+            updatedAt,
+            lastUpdatedBy,
+          }
+        );
+        const handler = new UpdatePortfolioCommandHandler(eventStore, eventBus);
+        await handler.execute(command);
+        res.status(StatusCodes.ACCEPTED).json({ message: 'Portfolio updated' });
+      } catch (err) {
+        res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: (err as Error).message });
+      }
     }
-  });
+  );
 
   return portfolioRouter;
 }

@@ -107,6 +107,6 @@
   "workspaces": [
     "apps/*",
     "libs/*",
-    "server-domain-portfolio-events"
+    "libs/server-domain-portfolio-events"
   ]
 }

@@ -8,7 +8,7 @@ export async function handlePortfolioCreatedEvent(
 ): Promise<void> {
   // Use portfolioId as the unique identifier for idempotency
   await portfoliosCollection.updateOne(
-    { portfolioId: event },
+    { portfolioId: event.payload.portfolioId },
     {
       $setOnInsert: {
         portfolioId: event.payload.portfolioId || uuidv4(), // Generate a new ID if not provided
