@@ -61,7 +61,7 @@
       "path": "./libs/server-domain-user-command-handlers"
     },
     {
-      "path": "./libs/server-domain-read-models"
+      "path": "./libs/global-read-models"
     },
     {
       "path": "./libs/server-domain-user-commands"
@@ -71,6 +71,21 @@
     },
     {
       "path": "./apps/processor-user-events"
+    },
+    {
+      "path": "./libs/server-domain-portfolio-events"
+    },
+    {
+      "path": "./libs/server-domain-portfolio-command-handlers"
+    },
+    {
+      "path": "./libs/server-domain-portfolio-commands"
+    },
+    {
+      "path": "./apps/processor-portfolio-events"
+    },
+    {
+      "path": "./libs/server-domain-portfolio-aggregates"
     }
   ]
 }

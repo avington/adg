@@ -9,19 +9,13 @@
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo"
   },
   "include": ["src/**/*.ts"],
-  "exclude": [
-    "out-tsc",
-    "dist",
-    "jest.config.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts",
-    "eslint.config.js",
-    "eslint.config.cjs",
-    "eslint.config.mjs"
-  ],
+  "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
   "references": [
     {
-      "path": "../../libs/global-read-models/tsconfig.lib.json"
+      "path": "../../libs/server-domain-portfolio-events/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-shared-bullmq/tsconfig.lib.json"
     }
   ]
 }

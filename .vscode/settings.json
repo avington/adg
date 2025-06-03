@@ -1,4 +1,11 @@
 {
-  "cSpell.words": ["bullmq", "reddis", "uidotdev", "usehooks", "uuidv"],
+  "cSpell.words": [
+    "bullmq",
+    "redis",
+    "uidotdev",
+    "upserting",
+    "usehooks",
+    "uuidv"
+  ],
   "nxConsole.generateAiAgentRules": true
 }
