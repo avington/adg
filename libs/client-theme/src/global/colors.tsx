@@ -293,6 +293,15 @@ const GlobalColors = createGlobalStyle`
         --color-blue-grey-700: #455a64;
         --color-blue-grey-800: #37474f;
         --color-blue-grey-900: #263238;
+
+        --color-white: #ffffff;
+        --color-black: #000000;
+        --color-primary-text: var(--color-grey-900);
+        --color-secondary-text: var(--color-grey-700);
+        --color-divider: var(--color-grey-300);
+        --color-background: var(--color-grey-50);
+        --color-surface: var(--color-white);
+        --color-error: var(--color-red-500);
     }
 `;
 

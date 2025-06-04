@@ -14,8 +14,8 @@ const GlobalResetStyle = createGlobalStyle`
         height: 100%;
         width: 100%;
         font-family: inherit;
-        background: #fff;
-        color: inherit;
+        background: var(--color-grey-50);
+        color: var(--color-grey-900);
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
