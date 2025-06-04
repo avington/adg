@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { HeadingContainer, LargeDollar } from '@adg/client-components';
 
 const StyledAllHoldingsTotalsPanel = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto 1fr;
   grid-template-areas:
     'total total total'
@@ -10,33 +11,40 @@ const StyledAllHoldingsTotalsPanel = styled.div`
   gap: 1rem;
 `;
 
-const StyledTotal = styled.div`
-  grid-area: total;
-  font-size: 2.5rem;
-  font-weight: bold;
-`;
-const StyledCash = styled.div`
-  grid-area: cash;
-  font-size: 1.2rem;
-  color: green;
-`;
-const StyledDayChange = styled.div`
-  grid-area: day;
-  font-size: 1.2rem;
-  color: blue;
-`;
-const StyledUnrealized = styled.div`
-  grid-area: unrealized;
-  font-size: 1.2rem;
-  color: orange;
-`;
+/*
+ * AllHoldingsTotalsPanel component displays the total value of all holdings,
+ * cash, day change, and unrealized gains in a grid layout.
+ */
 export function AllHoldingsTotalsPanel() {
   return (
     <StyledAllHoldingsTotalsPanel>
-      <StyledTotal>$999,999</StyledTotal>
-      <StyledCash>Cash Holdings: $10,000</StyledCash>
-      <StyledDayChange>Day Change: +$500</StyledDayChange>
-      <StyledUnrealized>Unrealized Gains: +$2,000</StyledUnrealized>
+      <LargeDollar value={999999} decimals={0} />
+      <HeadingContainer
+        gridArea="cash"
+        label="Cash"
+        value={60000}
+        colorize={false}
+        showDollar={true}
+        decimals={0}
+      />
+      <HeadingContainer
+        gridArea="day"
+        label="Day Change"
+        value={600000}
+        percentage={1.1}
+        colorize={true}
+        showDollar={true}
+        decimals={0}
+      />
+      <HeadingContainer
+        gridArea="unrealized"
+        label="Unrealized Gains"
+        value={12345}
+        percentage={15.1}
+        colorize={true}
+        showDollar={true}
+        decimals={0}
+      />
     </StyledAllHoldingsTotalsPanel>
   );
 }
