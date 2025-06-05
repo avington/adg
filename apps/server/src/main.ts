@@ -63,6 +63,7 @@ async function start() {
   // Route for event store connections
   app.use('/api/v1/user', userRouter(eventStore, eventBus));
   app.use('/api/v1/portfolio', portfolioRouter(eventStore, eventBus));
+  app.use('/api/v1/lots', userRouter(eventStore, eventBus));
 
   // Example: create a BullMQ queue instance (replace with your actual queue)
   const userEventsQueue = new Queue(QueueNames.DOMAIN_EVENTS, {

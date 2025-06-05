@@ -1,7 +1,6 @@
 import { UpdatePortfolioCommand } from '@adg/server-domain-portfolio-commands';
 import { PortfolioAggregate } from '@adg/server-domain-portfolio-aggregates';
-import { IEventStore } from '@adg/server-shared-kernel';
-import { IEventBus } from '@adg/server-shared-kernel';
+import { IEventStore, IEventBus } from '@adg/server-shared-kernel';
 
 export class UpdatePortfolioCommandHandler {
   constructor(
