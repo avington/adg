@@ -86,6 +86,24 @@
     },
     {
       "path": "./libs/server-domain-portfolio-aggregates"
+    },
+    {
+      "path": "./libs/server-domain-lot-aggregates"
+    },
+    {
+      "path": "./libs/server-domain-lot-command-handlers"
+    },
+    {
+      "path": "./libs/server-domain-lot-commands"
+    },
+    {
+      "path": "./libs/server-domain-lot-events"
+    },
+    {
+      "path": "./processor-lot-events"
+    },
+    {
+      "path": "./apps/processor-lot-events"
     }
   ]
 }

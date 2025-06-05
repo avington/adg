@@ -1,23 +1,23 @@
-import { CreatePortfolioCommand } from '@adg/server-domain-portfolio-commands';
-import { PortfolioAggregate } from '@adg/server-domain-portfolio-aggregates';
 import { IEventStore, IEventBus } from '@adg/server-shared-kernel';
+import { LotAggregate } from '@adg/server-domain-lot-aggregates';
+import { CreateLotCommand } from '@adg/server-domain-lot-commands';
 
-export class CreatePortfolioCommandHandler {
+export class CreateLotCommandHandler {
   constructor(
     private readonly eventStore: IEventStore,
     private readonly eventBus: IEventBus
   ) {}
 
-  async execute(command: CreatePortfolioCommand): Promise<void> {
-    // 1. Load the UserAggregate from the EventStore
+  async execute(command: CreateLotCommand): Promise<void> {
+    // 1. Load the LotAggregate from the EventStore
     const events = await this.eventStore.getEventsForAggregate(
       command.aggregateId
     );
-    const aggregate = new PortfolioAggregate(command.aggregateId);
+    const aggregate = new LotAggregate(command.aggregateId);
     aggregate.loadFromHistory(events);
 
     // 2. Call the appropriate method on the aggregate
-    aggregate.createPortfolio(command.payload);
+    aggregate.createLot(command.payload);
 
     // 3. Save the new events from the aggregate back to the EventStore
     const uncommittedEvents = aggregate.uncommittedEvents;

@@ -1,6 +1,6 @@
 import { Command } from '@adg/server-shared-kernel';
 
-export interface UpdatePortfolioNamePayload {
+export interface UpdatePortfolioPayload {
   portfolioId: string;
   userId: string;
   name: string;
@@ -10,11 +10,11 @@ export interface UpdatePortfolioNamePayload {
   lastUpdatedBy?: string;
 }
 
-export class UpdatePortfolioCommand extends Command<UpdatePortfolioNamePayload> {
+export class UpdatePortfolioCommand extends Command<UpdatePortfolioPayload> {
   constructor(
     id: string,
     aggregateId: string,
-    payload: UpdatePortfolioNamePayload,
+    payload: UpdatePortfolioPayload,
     timestamp: Date = new Date()
   ) {
     super(id, 'UpdatePortfolioCommand', timestamp, aggregateId, payload);

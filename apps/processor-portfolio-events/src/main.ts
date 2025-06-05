@@ -16,10 +16,10 @@ async function main() {
   const mongoClient = new MongoClient(MONGO_URI);
   await mongoClient.connect();
   const db = mongoClient.db(DB_NAME);
-  const usersCollection = db.collection('users');
+
   const portfoliosCollection = db.collection('portfolios');
 
-  // Set up BullMQ Worker for user events
+  // Set up BullMQ Worker for portfolio events
   const worker = new Worker(
     QueueNames.DOMAIN_EVENTS,
     async (job) => {
@@ -36,7 +36,7 @@ async function main() {
       if (name === 'PortfolioUpdatedEvent') {
         await handlePortfolioUpdatedEvent(
           data as PortfolioUpdatedEvent,
-          usersCollection
+          portfoliosCollection
         );
       }
     },
