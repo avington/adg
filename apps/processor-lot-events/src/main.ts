@@ -22,6 +22,7 @@ async function main() {
     QueueNames.DOMAIN_EVENTS,
     async (job) => {
       const { name, data } = job;
+      console.log(`Processing job ${job.id} of type ${name}`);
       // Handle LotCreatedEvent
       if (name === 'LotCreatedEvent') {
         await handleLotCreatedEvent(data as LotCreatedEvent, lotsCollection);

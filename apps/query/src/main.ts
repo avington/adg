@@ -10,8 +10,10 @@ import path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { userTypeDefs } from './graphql/types/user-types';
+import { portfolioTypeDefs } from './graphql/types/portfolio-types';
+import { lotTypeDef } from './graphql/types/lot-types';
 
-const typeDefs = [userTypeDefs];
+const typeDefs = [userTypeDefs, portfolioTypeDefs, lotTypeDef];
 
 // Loads all resolver files (*.resolvers.ts or *.resolvers.js) in this directory and subdirectories
 const resolversArray = loadFilesSync(

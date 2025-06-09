@@ -3,6 +3,12 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/client-feature-lots"
+    },
+    {
+      "path": "../../libs/client-feature-holdings"
+    },
+    {
       "path": "../../libs/client-feature-portfolio"
     },
     {
