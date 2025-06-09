@@ -4,6 +4,12 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/server-domain-lot-events"
+    },
+    {
+      "path": "../../libs/server-shared-bullmq"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {

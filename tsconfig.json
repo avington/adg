@@ -100,9 +100,6 @@
       "path": "./libs/server-domain-lot-events"
     },
     {
-      "path": "./processor-lot-events"
-    },
-    {
       "path": "./apps/processor-lot-events"
     }
   ]

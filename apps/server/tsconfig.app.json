@@ -18,13 +18,19 @@
       "path": "../../libs/server-domain-user-command-handlers/tsconfig.lib.json"
     },
     {
-      "path": "../../libs/global-models/tsconfig.lib.json"
-    },
-    {
       "path": "../../libs/server-domain-portfolio-commands/tsconfig.lib.json"
     },
     {
       "path": "../../libs/server-domain-portfolio-command-handlers/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-domain-lot-commands/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-domain-lot-command-handlers/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/global-models/tsconfig.lib.json"
     },
     {
       "path": "../../libs/server-shared-bullmq/tsconfig.lib.json"

@@ -24,6 +24,24 @@
               "server"
             ],
             "target": "serve"
+          },
+          {
+            "projects": [
+              "@adg/processor-lot-events"
+            ],
+            "target": "serve"
+          },
+          {
+            "projects": [
+              "@adg/processor-portfolio-events"
+            ],
+            "target": "serve"
+          },
+          {
+            "projects": [
+              "processor-user-events"
+            ],
+            "target": "serve"
           }
         ],
         "outputs": []

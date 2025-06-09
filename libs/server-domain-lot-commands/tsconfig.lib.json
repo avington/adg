@@ -11,5 +11,12 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "references": []
+  "references": [
+    {
+      "path": "../server-shared-kernel/tsconfig.lib.json"
+    },
+    {
+      "path": "../global-models/tsconfig.lib.json"
+    }
+  ]
 }

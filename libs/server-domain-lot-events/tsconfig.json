@@ -4,6 +4,12 @@
   "include": [],
   "references": [
     {
+      "path": "../global-models"
+    },
+    {
+      "path": "../server-shared-kernel"
+    },
+    {
       "path": "./tsconfig.lib.json"
     }
   ]

@@ -15,5 +15,13 @@
     "jest.config.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts"
+  ],
+  "references": [
+    {
+      "path": "../../libs/server-domain-lot-events/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-shared-bullmq/tsconfig.lib.json"
+    }
   ]
 }
