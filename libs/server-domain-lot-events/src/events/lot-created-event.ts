@@ -1,5 +1,5 @@
 import { Event } from '@adg/server-shared-kernel';
-import { HoldingPeriodsType, TransactionType } from '@adg/global-models';
+import { TransactionType } from '@adg/global-models';
 
 export interface LotCreatedPayload {
   lotId?: string;

@@ -10,13 +10,19 @@
       "path": "../../libs/server-domain-user-command-handlers"
     },
     {
-      "path": "../../libs/global-models"
-    },
-    {
       "path": "../../libs/server-domain-portfolio-commands"
     },
     {
       "path": "../../libs/server-domain-portfolio-command-handlers"
+    },
+    {
+      "path": "../../libs/server-domain-lot-commands"
+    },
+    {
+      "path": "../../libs/server-domain-lot-command-handlers"
+    },
+    {
+      "path": "../../libs/global-models"
     },
     {
       "path": "../../libs/server-shared-bullmq"

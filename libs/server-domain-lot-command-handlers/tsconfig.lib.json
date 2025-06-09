@@ -11,5 +11,15 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "references": []
+  "references": [
+    {
+      "path": "../server-domain-lot-commands/tsconfig.lib.json"
+    },
+    {
+      "path": "../server-domain-lot-aggregates/tsconfig.lib.json"
+    },
+    {
+      "path": "../server-shared-kernel/tsconfig.lib.json"
+    }
+  ]
 }

@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../client-components"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

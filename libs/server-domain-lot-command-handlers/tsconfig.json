@@ -4,6 +4,15 @@
   "include": [],
   "references": [
     {
+      "path": "../server-domain-lot-commands"
+    },
+    {
+      "path": "../server-domain-lot-aggregates"
+    },
+    {
+      "path": "../server-shared-kernel"
+    },
+    {
       "path": "./tsconfig.lib.json"
     }
   ]

@@ -4,6 +4,15 @@
   "include": [],
   "references": [
     {
+      "path": "../global-models"
+    },
+    {
+      "path": "../server-domain-lot-events"
+    },
+    {
+      "path": "../server-shared-kernel"
+    },
+    {
       "path": "./tsconfig.lib.json"
     }
   ]
