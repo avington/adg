@@ -101,6 +101,12 @@
     },
     {
       "path": "./apps/processor-lot-events"
+    },
+    {
+      "path": "./libs/client-feature-lots"
+    },
+    {
+      "path": "./libs/client-feature-holdings"
     }
   ]
 }
