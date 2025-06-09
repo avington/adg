@@ -42,6 +42,12 @@
               "processor-user-events"
             ],
             "target": "serve"
+          },
+          {
+            "projects": [
+              "query"
+            ],
+            "target": "serve"
           }
         ],
         "outputs": []

@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "../global-models"
+    },
+    {
       "path": "./tsconfig.lib.json"
     }
   ]

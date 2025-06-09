@@ -35,6 +35,12 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
+      "path": "../../libs/client-feature-lots/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/client-feature-holdings/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/client-feature-portfolio/tsconfig.lib.json"
     },
     {

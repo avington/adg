@@ -1,17 +1,17 @@
 import { Collection, Document } from 'mongodb';
 import { LotCreatedEvent } from '../events/lot-created-event';
-import { v4 as uuidv4 } from 'uuid';
 
 export async function handleLotCreatedEvent(
   event: LotCreatedEvent,
-  portfoliosCollection: Collection<Document>
+  lotCollection: Collection<Document>
 ): Promise<void> {
+  console.log('Handling LotCreatedEvent:', event);
   // Use portfolioId as the unique identifier for idempotency
-  await portfoliosCollection.updateOne(
-    { lotId: uuidv4() },
+  await lotCollection.updateOne(
+    { lotId: event.payload.lotId },
     {
       $setOnInsert: {
-        lotId: uuidv4(),
+        lotId: event.payload.lotId, // <-- Use the event's lotId
         symbol: event.payload.symbol,
         portfolioId: event.payload.portfolioId,
         userId: event.payload.userId,
