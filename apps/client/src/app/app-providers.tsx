@@ -15,7 +15,6 @@ export const AppProviders: React.FC = () => {
 
   useEffect(() => {
     if (credentials?.credential) {
-      console.log(credentials.credential);
       setToken(credentials.credential);
     }
   }, [credentials]);

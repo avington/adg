@@ -30,7 +30,19 @@ export const LotListTable: React.FC = () => {
               <TableCell>$50.00</TableCell>
               <TableCell>
                 <button>Edit</button>
-                <button>Delete</button>
+                <Button
+                  mode={'transparent'}
+                  size="sm"
+                  aria-label="Delete lot"
+                  title="Delete lot"
+                >
+                  <IconTrash
+                    size={16}
+                    aria-hidden="true"
+                    focusable="false"
+                    style={{ color: 'var(--color-red-500)' }}
+                  />
+                </Button>
               </TableCell>
             </TableRow>
             <TableRow>
