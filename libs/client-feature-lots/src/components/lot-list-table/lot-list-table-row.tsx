@@ -6,11 +6,11 @@ export interface LotListTableRowProps {
   onDelete: (lot: LotProjection) => void;
 }
 
-export const LotListTableRow: React.FC<{
-  lot: LotProjection;
-  onEdit: (lot: LotProjection) => void;
-  onDelete: (lot: LotProjection) => void;
-}> = ({ lot, onEdit, onDelete }) => {
+export const LotListTableRow: React.FC<LotListTableRowProps> = ({
+  lot,
+  onEdit,
+  onDelete,
+}) => {
   return (
     <tr>
       <td>{lot.openDate.toLocaleDateString()}</td>

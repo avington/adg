@@ -15,4 +15,3 @@ export const LotListSummaryPanel: React.FC = () => {
   );
 };
 export default LotListSummaryPanel;
-// This component is styled using styled-components and serves as a summary panel for the lot list.

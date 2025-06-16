@@ -9,7 +9,9 @@ import { routerConfig } from './route-config';
 
 export const AppProviders: React.FC = () => {
   const [token, setToken] = useState<string>();
-  axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+  useEffect(() => {
+    axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+  }, []);
   const graphqlUrl = import.meta.env.VITE_GRAPHQL_URL;
   const credentials = useCredentialStore.use.credentials();
 
