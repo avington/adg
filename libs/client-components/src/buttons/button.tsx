@@ -6,7 +6,10 @@ type ButtonMode =
   | 'secondary'
   | 'transparent'
   | 'outlined'
-  | 'white';
+  | 'white'
+  | 'success'
+  | 'error'
+  | 'warning';
 type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,43 +19,67 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const modeStyles = {
   primary: css`
-    background: #2563eb;
-    color: #fff;
+    background: var(--color-blue-700);
+    color: var(--color-white);
     border: none;
     &:hover {
-      background: #1d4ed8;
+      background: var(--color-blue-800);
     }
   `,
   secondary: css`
-    background: #e5e7eb;
-    color: #111827;
+    background: var(--color-grey-200);
+    color: var(--color-grey-900);
     border: none;
     &:hover {
-      background: #d1d5db;
+      background: var(--color-grey-300);
     }
   `,
   transparent: css`
     background: transparent;
-    color: #2563eb;
+    color: var(--color-blue-700);
     border: none;
     &:hover {
-      background: #f3f4f6;
+      background: var(--color-grey-100);
     }
   `,
   outlined: css`
     background: transparent;
-    color: #2563eb;
-    border: 1px solid #2563eb;
+    color: var(--color-blue-700);
+    border: 1px solid var(--color-blue-700);
     &:hover {
-      background: #eff6ff;
+      background: var(--color-blue-50);
     }
   `,
   white: css`
-    background: #fff;
-    color: #111827;
-    border: 1px solid #e5e7eb;
+    background: var(--color-white);
+    color: var(--color-grey-900);
+    border: 1px solid var(--color-grey-200);
     &:hover {
-      background: #f3f4f6;
+      background: var(--color-grey-100);
+    }
+  `,
+  success: css`
+    background: var(--color-green-600);
+    color: var(--color-white);
+    border: none;
+    &:hover {
+      background: var(--color-green-700);
+    }
+  `,
+  error: css`
+    background: var(--color-red-600);
+    color: var(--color-white);
+    border: none;
+    &:hover {
+      background: var(--color-red-700);
+    }
+  `,
+  warning: css`
+    background: var(--color-orange-500);
+    color: var(--color-white);
+    border: none;
+    &:hover {
+      background: var(--color-orange-700);
     }
   `,
 };
@@ -94,7 +121,7 @@ const StyledButton = styled.button<ButtonProps>`
   transition: background 0.2s, color 0.2s, border 0.2s;
   ${(props) => modeStyles[props.mode || 'primary']}
   ${(props) => sizeStyles[props.size || 'md']}
-    &:disabled {
+  &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }

@@ -12,6 +12,7 @@ import bodyParser from 'body-parser';
 import { userTypeDefs } from './graphql/types/user-types';
 import { portfolioTypeDefs } from './graphql/types/portfolio-types';
 import { lotTypeDef } from './graphql/types/lot-types';
+import { googleJwtAuthMiddleware } from '@adg/server-auth';
 
 const typeDefs = [userTypeDefs, portfolioTypeDefs, lotTypeDef];
 
@@ -51,11 +52,18 @@ async function start() {
   app.use(cors({ origin: CLIENT_DOMAIN, credentials: true }));
   app.use(bodyParser.json());
 
+  // Add Google Auth middleware BEFORE Apollo middleware
+  app.use('/graphql', googleJwtAuthMiddleware);
+
   // Mount Apollo Server middleware
   app.use(
     '/graphql',
     expressMiddleware(server, {
-      context: async () => ({ db }),
+      context: async ({
+        req,
+      }: {
+        req: express.Request & { user?: unknown };
+      }) => ({ db, user: req.user }),
     })
   );
 

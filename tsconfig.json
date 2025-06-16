@@ -107,6 +107,9 @@
     },
     {
       "path": "./libs/client-feature-holdings"
+    },
+    {
+      "path": "./libs/client-graphql-data"
     }
   ]
 }

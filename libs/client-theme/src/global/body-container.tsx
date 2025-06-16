@@ -10,7 +10,7 @@ export const BodyContainerStyles = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
   background-color: var(--color-grey-50);
   background-image: linear-gradient(
