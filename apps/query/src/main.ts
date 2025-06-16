@@ -59,8 +59,11 @@ async function start() {
   app.use(
     '/graphql',
     expressMiddleware(server, {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      context: async ({ req }) => ({ db, user: (req as any).user }),
+      context: async ({
+        req,
+      }: {
+        req: express.Request & { user?: unknown };
+      }) => ({ db, user: req.user }),
     })
   );
 
