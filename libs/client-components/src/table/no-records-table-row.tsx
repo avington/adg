@@ -1,8 +1,8 @@
-export interface LotListTableRowProps {
+export interface NoRecordsTableRowProps {
   tableRows: number;
 }
 
-export const NoRecordsTableRow: React.FC<LotListTableRowProps> = ({
+export const NoRecordsTableRow: React.FC<NoRecordsTableRowProps> = ({
   tableRows,
 }) => {
   return (
