@@ -35,12 +35,12 @@ export const LotListTable: React.FC = () => {
                   aria-label="Edit lot"
                   title="Edit lot"
                 >
-                  Edit
+                  <IconEdit size={16} aria-hidden="true" focusable="false" />
                 </Button>
                 <Button
                   mode={'transparent'}
                   size="sm"
-                  aria-label="Delete lot"
+                  aria-label="Edit lot"
                   title="Delete lot"
                 >
                   <IconTrash
@@ -58,11 +58,18 @@ export const LotListTable: React.FC = () => {
               <TableCell>50</TableCell>
               <TableCell>$55.00</TableCell>
               <TableCell>
-                <button>Edit</button>
                 <Button
                   mode={'transparent'}
                   size="sm"
-                  aria-label="Delete lot"
+                  aria-label="Edit lot"
+                  title="Edit lot"
+                >
+                  <IconEdit size={16} aria-hidden="true" focusable="false" />
+                </Button>
+                <Button
+                  mode={'transparent'}
+                  size="sm"
+                  aria-label="Edit lot"
                   title="Delete lot"
                 >
                   <IconTrash
