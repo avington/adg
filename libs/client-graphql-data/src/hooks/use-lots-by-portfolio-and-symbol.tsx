@@ -3,7 +3,7 @@ import { LOTS_BY_PORTFOLIO_AND_SYMBOL } from '../queries/lots-by-portfolio-and-s
 import { LotProjection } from '@adg/server-domain-read-models';
 
 interface LotsByPortfolioAndSymbolData {
-  lotsByPortfolioAndSymbol: LotProjection[];
+  lots: LotProjection[];
 }
 
 export const useLotsByPortfolioAndSymbol = (
