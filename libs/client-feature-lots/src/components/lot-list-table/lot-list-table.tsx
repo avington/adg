@@ -12,9 +12,9 @@ import { IconEdit, IconTrash } from '@tabler/icons-react';
 export const LotListTable: React.FC = () => {
   return (
     <StyledActionTableContainer>
-      <h1>Lot List Table</h1>
       <div>
         <Table>
+          <caption>Lot List Table</caption>
           <TableHeader>
             <TableHeaderCell>Open Date</TableHeaderCell>
             <TableHeaderCell>Buy / Sell</TableHeaderCell>
@@ -79,7 +79,6 @@ export const LotListTable: React.FC = () => {
           </tbody>
         </Table>
       </div>
-      {/* Add your table implementation here */}
     </StyledActionTableContainer>
   );
 };
