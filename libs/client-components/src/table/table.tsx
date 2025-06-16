@@ -9,7 +9,7 @@ const StyledTable = styled.table`
 `;
 
 const StyledThead = styled.thead`
-  background: #f5f5f5;
+  background: var(--color-blue-100);
 `;
 
 const StyledHeaderRow = styled.tr``;
@@ -18,12 +18,12 @@ const StyledHeaderCell = styled.th`
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid var(--color-blue-grey-100);
 `;
 
 const StyledBodyRow = styled.tr`
   &:nth-child(even) {
-    background: #fafafa;
+    background: var(--color-light-blue-50);
   }
 `;
 
