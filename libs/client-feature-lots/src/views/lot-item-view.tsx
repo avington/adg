@@ -1,10 +1,13 @@
+import { StyledHeaderBodyContainer } from '@adg/client-theme';
+import LotListSummaryPanel from '../components/lot-list-summary-panel';
+import LotItemForm from '../components/lot-item-form';
+
 export const LotItemView: React.FC = () => {
   return (
-    <div>
-      <h1>Lot Item View</h1>
-      <p>This is the lot item view component.</p>
-      {/* Add more content or components as needed */}
-    </div>
+    <StyledHeaderBodyContainer>
+      <LotListSummaryPanel />
+      <LotItemForm />
+    </StyledHeaderBodyContainer>
   );
 };
 export default LotItemView;

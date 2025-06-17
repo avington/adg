@@ -1,7 +1,7 @@
 import LotListSummaryPanel from '../components/lot-list-summary-panel';
 import { StyledHeaderBodyContainer } from '@adg/client-theme';
 import { LotListTable } from '../components/lot-list-table/lot-list-table';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useLotsByPortfolioAndSymbol } from '@adg/client-graphql-data';
 import {
   Button,
@@ -23,12 +23,11 @@ const StyledActionRow = styled.div`
 `;
 
 export const LotsListView: React.FC = () => {
+  const navigate = useNavigate();
   const { portfolioId, symbol } = useParams<{
     portfolioId: string;
     symbol: string;
   }>();
-  console.log('portfolioId:', portfolioId);
-  console.log('symbol:', symbol);
 
   const {
     loading,
@@ -40,6 +39,15 @@ export const LotsListView: React.FC = () => {
     console.error('Unexpected error:', error);
   }
 
+  const handleAddLot = () => {
+    navigate(`/portfolio/${portfolioId}/holdings/${symbol}/lots/new`, {
+      state: {
+        portfolioId,
+        symbol,
+      },
+    });
+  };
+
   return (
     <StyledHeaderBodyContainer>
       <LotListSummaryPanel />
@@ -50,7 +58,7 @@ export const LotsListView: React.FC = () => {
         <RenderWhen.If isTrue={!loading && !error}>
           <StyledTableContainer>
             <StyledActionRow>
-              <Button mode={'success'} size={'md'}>
+              <Button mode={'success'} size={'md'} onClick={handleAddLot}>
                 <IconPlus />
                 Add Lot
               </Button>

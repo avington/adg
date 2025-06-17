@@ -3,13 +3,16 @@
   "include": [],
   "references": [
     {
-      "path": "../client-state"
+      "path": "../client-graphql-data"
     },
     {
       "path": "../client-theme"
     },
     {
       "path": "../global-read-models"
+    },
+    {
+      "path": "../global-validations"
     },
     {
       "path": "../client-components"

@@ -1,5 +1,3 @@
-import { LotModel } from './lot.model';
-
 export interface PositionModel {
   costBasis?: number;
   marketValue?: number;
@@ -44,5 +42,4 @@ export interface PositionModel {
   averageCostBasis?: number;
   createdAt: Date;
   updatedAt: Date;
-  lots?: LotModel[];
 }

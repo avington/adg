@@ -1,10 +1,18 @@
 import { ObjectId } from 'mongodb';
 import { LotProjection } from '@adg/server-domain-read-models';
+import { TransactionType } from '@adg/global-validations';
 
 // Define the expected shape of the context if you have it
 interface GraphQLContext {
   db: {
-    collection: (name: string) => any;
+    collection: (name: string) => {
+      findOne: (
+        query: Partial<Record<keyof LotProjection, unknown>>
+      ) => Promise<LotProjection | null>;
+      find: (query: LotFilterType) => {
+        toArray: () => Promise<LotProjection[]>;
+      };
+    };
   };
 }
 
@@ -12,7 +20,7 @@ type LotFilterType = {
   portfolioId?: string;
   symbol?: string;
   userId?: string;
-  transactionType?: string;
+  transactionType?: TransactionType;
 };
 
 interface LotArgs {
@@ -54,10 +62,15 @@ export default {
         lastUpdatedBy: lot.lastUpdatedBy,
       };
     },
-    async lots(_parent: unknown, args: LotsArgs, context: GraphQLContext) {
+    async lots(
+      _parent: unknown,
+      args: LotsArgs & { transactionType?: TransactionType },
+      context: GraphQLContext
+    ) {
       const filter: LotFilterType = {};
       if (args.portfolioId) filter.portfolioId = args.portfolioId;
       if (args.symbol) filter.symbol = args.symbol;
+      if (args.transactionType) filter.transactionType = args.transactionType;
       return (await context.db.collection('lots').find(filter).toArray())
         .map((lot: LotProjection) => {
           const id = lot._id?.toString() ?? lot.lotId;

@@ -4,7 +4,8 @@ import {
   LotCreatedEvent,
   LotUpdatedEvent,
 } from '@adg/server-domain-lot-events';
-import { TransactionType } from '@adg/global-models';
+
+import { LotModel, TransactionType } from '@adg/global-validations';
 
 export interface LotAggregateState {
   lotId?: string;
@@ -24,74 +25,75 @@ export class LotAggregate extends AggregateRoot {
   private state: Partial<LotAggregateState> = {};
 
   // Command handler: create portfolio
-  public createLot(data: {
-    lotId?: string;
-    symbol: string;
-    portfolioId: string;
-    userId?: string;
-    transactionType: TransactionType;
-    shares: number;
-    price?: number;
-    openDate: Date;
-    createdAt?: Date;
-    updatedAt?: Date;
-    lastUpdatedBy?: string;
-  }) {
-    if (this.state.portfolioId) {
-      throw new Error('Portfolio already exists');
+  public createLot(data: LotModel) {
+    if (this.state.lotId) {
+      throw new Error('Lot already exists');
     }
-    const event = new LotCreatedEvent(
-      uuid(),
-      data.lotId ?? uuid(),
-      this.version + 1,
-      {
-        lotId: uuid(),
-        symbol: data.symbol,
-        portfolioId: data.portfolioId,
-        userId: data.userId,
-        transactionType: data.transactionType,
-        shares: data.shares,
-        price: data.price,
-        openDate: data.openDate,
-        createdAt: data.createdAt ?? new Date(),
-        updatedAt: data.updatedAt ?? new Date(),
-        lastUpdatedBy: data.lastUpdatedBy ?? data.userId,
-      }
-    );
+    // Explicitly pick only the expected fields from data
+    const {
+      lotId,
+      symbol,
+      portfolioId,
+      userId,
+      transactionType,
+      shares,
+      price,
+      openDate,
+      createdAt,
+      updatedAt,
+      lastUpdatedBy,
+    } = data;
+
+    const computedLotId = lotId ?? uuid();
+    const event = new LotCreatedEvent(uuid(), computedLotId, this.version + 1, {
+      lotId: computedLotId,
+      symbol,
+      portfolioId,
+      userId,
+      transactionType,
+      shares,
+      price,
+      openDate,
+      createdAt: createdAt ?? new Date(),
+      updatedAt: updatedAt ?? new Date(),
+      lastUpdatedBy: lastUpdatedBy ?? userId,
+    });
     this.apply(event);
   }
 
   // Command handler: update portfolio
-  public updateLot(data: {
-    lotId?: string;
-    symbol: string;
-    portfolioId: string;
-    userId?: string;
-    transactionType: TransactionType;
-    shares: number;
-    price?: number;
-    openDate: Date;
-    createdAt?: Date;
-    lastUpdatedBy?: string;
-  }) {
+  public updateLot(data: LotModel) {
     if (!this.state.lotId) {
       throw new Error('Lot does not exist');
     }
+    // Explicitly pick only the expected fields from data
+    const {
+      lotId,
+      symbol,
+      portfolioId,
+      userId,
+      transactionType,
+      shares,
+      price,
+      openDate,
+      lastUpdatedBy,
+    } = data;
+
     const event = new LotUpdatedEvent(
       uuid(),
-      data.lotId ?? this.state.lotId ?? uuid(),
+      lotId ?? this.state.lotId ?? uuid(),
       this.version + 1,
       {
-        lotId: data.lotId ?? this.state.lotId,
-        symbol: data.symbol ?? this.state.symbol,
-        portfolioId: data.portfolioId ?? this.state.portfolioId,
-        userId: data.userId ?? this.state.userId,
-        transactionType: data.transactionType ?? this.state.transactionType,
-        shares: data.shares ?? this.state.shares,
-        price: data.price ?? this.state.price,
-        openDate: data.openDate ?? this.state.openDate,
+        lotId: lotId ?? this.state.lotId,
+        symbol: symbol ?? this.state.symbol,
+        portfolioId: portfolioId ?? this.state.portfolioId,
+        userId: userId ?? this.state.userId,
+        transactionType: transactionType ?? this.state.transactionType,
+        shares: shares ?? this.state.shares,
+        price: price ?? this.state.price,
+        openDate: openDate ?? this.state.openDate,
         updatedAt: new Date(), // Always update to current date
-        lastUpdatedBy: data.lastUpdatedBy ?? this.state.lastUpdatedBy,
+        lastUpdatedBy: lastUpdatedBy ?? this.state.lastUpdatedBy,
       }
     );
     this.apply(event);

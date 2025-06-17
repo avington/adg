@@ -4,10 +4,10 @@
   "include": [],
   "references": [
     {
-      "path": "../global-models"
+      "path": "../server-shared-kernel"
     },
     {
-      "path": "../server-shared-kernel"
+      "path": "../global-validations"
     },
     {
       "path": "./tsconfig.lib.json"

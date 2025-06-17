@@ -7,7 +7,7 @@
       "path": "../server-shared-kernel"
     },
     {
-      "path": "../global-models"
+      "path": "../global-validations"
     },
     {
       "path": "./tsconfig.lib.json"

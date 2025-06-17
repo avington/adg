@@ -1,4 +1,4 @@
-import { TransactionType } from '@adg/global-models';
+import { TransactionType } from '@adg/global-validations';
 
 export interface LotProjection {
   _id?: string; // MongoDB ObjectId

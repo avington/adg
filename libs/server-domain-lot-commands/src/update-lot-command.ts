@@ -1,24 +1,11 @@
+import { LotModel } from '@adg/global-validations';
 import { Command } from '@adg/server-shared-kernel';
-import { TransactionType } from '@adg/global-models';
 
-export interface UpdateLotPayload {
-  lotId: string;
-  symbol: string;
-  portfolioId: string;
-  userId: string;
-  transactionType: TransactionType;
-  shares: number;
-  price: number;
-  openDate: Date;
-  updatedAt?: Date;
-  lastUpdatedBy?: string;
-}
-
-export class UpdateLotCommand extends Command<UpdateLotPayload> {
+export class UpdateLotCommand extends Command<LotModel> {
   constructor(
     id: string,
     aggregateId: string,
-    payload: UpdateLotPayload,
+    payload: LotModel,
     timestamp: Date = new Date()
   ) {
     super(id, 'UpdateLotCommand', timestamp, aggregateId, payload);

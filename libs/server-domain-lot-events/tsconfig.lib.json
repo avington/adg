@@ -13,10 +13,10 @@
   "include": ["src/**/*.ts"],
   "references": [
     {
-      "path": "../global-models/tsconfig.lib.json"
+      "path": "../server-shared-kernel/tsconfig.lib.json"
     },
     {
-      "path": "../server-shared-kernel/tsconfig.lib.json"
+      "path": "../global-validations/tsconfig.lib.json"
     }
   ]
 }
