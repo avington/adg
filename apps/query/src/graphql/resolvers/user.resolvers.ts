@@ -7,6 +7,7 @@ export default {
       const user = await context.db
         .collection('users')
         .findOne({ _id: new ObjectId(id) });
+      console.log('user', user);
       if (!user) return null;
       return {
         id: user._id?.toString() ?? user.id,

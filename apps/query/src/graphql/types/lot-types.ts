@@ -17,7 +17,7 @@ export const lotTypeDef = gql`
   }
 
   type Query {
-    lots: [Lot!]!
+    lots(portfolioId: String, symbol: String): [Lot!]!
     lot(id: ID!): Lot
   }
 `;

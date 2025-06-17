@@ -1,15 +1,20 @@
 import {
+  NoRecordsTableRow,
+  RenderWhen,
   Table,
-  TableRow,
-  TableCell,
   TableHeader,
   TableHeaderCell,
-  Button,
+  TableRow,
 } from '@adg/client-components';
 import { StyledActionTableContainer } from '@adg/client-theme';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { LotProjection } from '@adg/server-domain-read-models';
+import { LotListTableRow } from './lot-list-table-row';
 
-export const LotListTable: React.FC = () => {
+export interface LotListTableProps {
+  lots: LotProjection[];
+}
+
+export const LotListTable: React.FC<LotListTableProps> = ({ lots }) => {
   return (
     <StyledActionTableContainer>
       <div>
@@ -23,59 +28,23 @@ export const LotListTable: React.FC = () => {
             <TableHeaderCell>Actions</TableHeaderCell>
           </TableHeader>
           <tbody>
-            {[
-              {
-                id: 1,
-                date: '2023-10-01',
-                type: 'Buy',
-                shares: 100,
-                price: '$50.00',
-              },
-              {
-                id: 2,
-                date: '2023-10-02',
-                type: 'Sell',
-                shares: 50,
-                price: '$55.00',
-              },
-              {
-                id: 3,
-                date: '2023-10-03',
-                type: 'Buy',
-                shares: 200,
-                price: '$45.00',
-              },
-            ].map((lot, index) => (
-              <TableRow key={lot.id}>
-                <TableCell>{lot.date}</TableCell>
-                <TableCell>{lot.type}</TableCell>
-                <TableCell>{lot.shares}</TableCell>
-                <TableCell>{lot.price}</TableCell>
-                <TableCell>
-                  <Button
-                    mode={'transparent'}
-                    size="sm"
-                    aria-label="Edit lot"
-                    title="Edit lot"
-                  >
-                    <IconEdit size={16} aria-hidden="true" focusable="false" />
-                  </Button>
-                  <Button
-                    mode={'transparent'}
-                    size="sm"
-                    aria-label="Delete lot"
-                    title="Delete lot"
-                  >
-                    <IconTrash
-                      size={16}
-                      aria-hidden="true"
-                      focusable="false"
-                      style={{ color: 'var(--color-red-500)' }}
-                    />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            <RenderWhen>
+              <RenderWhen.If isTrue={lots.length === 0}>
+                <TableRow>
+                  <NoRecordsTableRow tableSpan={5} />
+                </TableRow>
+              </RenderWhen.If>
+              <RenderWhen.If isTrue={lots.length > 0}>
+                {lots.map((lot) => (
+                  <LotListTableRow
+                    key={lot.lotId}
+                    lot={lot}
+                    onDelete={(item) => console.log('on delete', item)}
+                    onEdit={(item) => console.log('on edit', item)}
+                  />
+                ))}
+              </RenderWhen.If>
+            </RenderWhen>
           </tbody>
         </Table>
       </div>

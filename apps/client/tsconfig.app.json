@@ -44,10 +44,19 @@
       "path": "../../libs/client-feature-portfolio/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/client-auth/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/client-theme/tsconfig.lib.json"
     },
     {
-      "path": "../../libs/client-auth/tsconfig.lib.json"
+      "path": "../../libs/client-state/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/client-graphql-data/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/client-components/tsconfig.lib.json"
     }
   ]
 }

@@ -8,15 +8,9 @@ interface LotsByPortfolioAndSymbolData {
 
 export const useLotsByPortfolioAndSymbol = (
   portfolioId: string,
-  symbol: string,
-  token: string
+  symbol: string
 ): QueryResult<LotsByPortfolioAndSymbolData> => {
   return useQuery<LotsByPortfolioAndSymbolData>(LOTS_BY_PORTFOLIO_AND_SYMBOL, {
     variables: { portfolioId, symbol },
-    context: {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
   });
 };
