@@ -11,6 +11,7 @@
     "@bull-board/express": "^6.9.6",
     "@graphql-tools/load-files": "^7.0.1",
     "@graphql-tools/merge": "^9.0.24",
+    "@hookform/resolvers": "^5.1.1",
     "@react-oauth/google": "^0.12.2",
     "@tabler/icons-react": "^3.34.0",
     "@uidotdev/usehooks": "^2.4.1",

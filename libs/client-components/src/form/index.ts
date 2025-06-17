@@ -4,3 +4,7 @@ export * from './styled-dropdown';
 export * from './styled-radio-button';
 export * from './styled-checkbox';
 export * from './styled-date-input';
+export * from './styled-fieldset';
+export * from './styled-form-control';
+export * from './styled-error';
+export * from './form-action-row';

@@ -1,6 +1,7 @@
+import React from 'react';
 import styled from 'styled-components';
 
-export const StyledDropdown = styled.select`
+const StyledDropdownBase = styled.select`
   width: 100%;
   padding: 8px 12px;
   border: 1px solid var(--color-blue-grey-200);
@@ -61,6 +62,15 @@ export const StyledDropdownOption = styled.option`
     background-color: var(--color-light-blue-50);
   }
 `;
+
+type StyledDropdownProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
+  // ...any custom props you have...
+};
+
+export const StyledDropdown: React.FC<StyledDropdownProps> = (props) => {
+  return <StyledDropdownBase {...props}>{props.children}</StyledDropdownBase>;
+};
+
 // Usage example:
 // <StyledDropdownContainer>
 //   <StyledDropdownLabel htmlFor="exampleDropdown">Select an option</StyledDropdownLabel>
