@@ -30,9 +30,7 @@ export const LotListTable: React.FC<LotListTableProps> = ({ lots }) => {
           <tbody>
             <RenderWhen>
               <RenderWhen.If isTrue={lots.length === 0}>
-                <TableRow>
-                  <NoRecordsTableRow tableSpan={5} />
-                </TableRow>
+                <NoRecordsTableRow tableSpan={5} />
               </RenderWhen.If>
               <RenderWhen.If isTrue={lots.length > 0}>
                 {lots.map((lot) => (

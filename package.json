@@ -31,11 +31,13 @@
     "morgan": "^1.10.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "react-hook-form": "^7.58.1",
     "react-is": "19.0.0",
     "react-router-dom": "7.6.1",
     "recoil": "^0.7.7",
     "styled-components": "5.3.6",
     "uuid": "^11.1.0",
+    "zod": "^3.25.67",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
@@ -110,6 +112,8 @@
     "apps/*",
     "libs/*",
     "libs/server-domain-portfolio-events",
-    "processor-lot-events"
+    "processor-lot-events",
+    "global/validations",
+    "libs/global/*"
   ]
 }

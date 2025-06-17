@@ -110,6 +110,9 @@
     },
     {
       "path": "./libs/client-graphql-data"
+    },
+    {
+      "path": "./libs/global-validations"
     }
   ]
 }

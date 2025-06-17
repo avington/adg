@@ -4,7 +4,8 @@ import {
   LotCreatedEvent,
   LotUpdatedEvent,
 } from '@adg/server-domain-lot-events';
-import { TransactionType } from '@adg/global-models';
+
+import { LotModel, TransactionType } from '@adg/global-validations';
 
 export interface LotAggregateState {
   lotId?: string;
@@ -24,19 +25,7 @@ export class LotAggregate extends AggregateRoot {
   private state: Partial<LotAggregateState> = {};
 
   // Command handler: create portfolio
-  public createLot(data: {
-    lotId?: string;
-    symbol: string;
-    portfolioId: string;
-    userId?: string;
-    transactionType: TransactionType;
-    shares: number;
-    price?: number;
-    openDate: Date;
-    createdAt?: Date;
-    updatedAt?: Date;
-    lastUpdatedBy?: string;
-  }) {
+  public createLot(data: LotModel) {
     if (this.state.portfolioId) {
       throw new Error('Portfolio already exists');
     }
@@ -62,18 +51,7 @@ export class LotAggregate extends AggregateRoot {
   }
 
   // Command handler: update portfolio
-  public updateLot(data: {
-    lotId?: string;
-    symbol: string;
-    portfolioId: string;
-    userId?: string;
-    transactionType: TransactionType;
-    shares: number;
-    price?: number;
-    openDate: Date;
-    createdAt?: Date;
-    lastUpdatedBy?: string;
-  }) {
+  public updateLot(data: LotModel) {
     if (!this.state.lotId) {
       throw new Error('Lot does not exist');
     }

@@ -41,13 +41,16 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
-      "path": "../client-state/tsconfig.lib.json"
+      "path": "../client-graphql-data/tsconfig.lib.json"
     },
     {
       "path": "../client-theme/tsconfig.lib.json"
     },
     {
       "path": "../global-read-models/tsconfig.lib.json"
+    },
+    {
+      "path": "../global-validations/tsconfig.lib.json"
     },
     {
       "path": "../client-components/tsconfig.lib.json"
