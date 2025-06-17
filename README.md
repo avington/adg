@@ -34,6 +34,8 @@ This repository is organized as an Nx workspace and implements an event-sourced 
   Uses Axios to communicate with the backend API, sending authenticated requests. Will eventually use GraphQL for main queries.
 - **Feature Modules:**  
   Implements feature-based code splitting and lazy loading for scalable UI development.
+- **Lots Management:**
+  - **Lot List Table:** View, edit, and delete lots in a responsive table.
 
 ## Development
 
