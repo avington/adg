@@ -1,5 +1,5 @@
 export * from './buttons/button';
-export * from './misc/render-when';
+export * from './misc';
 export * from './typography';
 export * from './table';
 export * from './containers';

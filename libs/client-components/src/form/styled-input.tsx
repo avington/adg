@@ -1,6 +1,7 @@
+import React from 'react';
 import styled from 'styled-components';
 
-export const StyledInput = styled.input`
+const StyledInputElement = styled.input`
   width: 100%;
   padding: 8px 12px;
   border: 1px solid var(--color-blue-grey-200);
@@ -20,3 +21,9 @@ export const StyledInput = styled.input`
     opacity: 1; /* Ensures placeholder is fully opaque */
   }
 `;
+
+type StyledInputProps = React.InputHTMLAttributes<HTMLInputElement>;
+
+export const StyledInput: React.FC<StyledInputProps> = (props) => (
+  <StyledInputElement {...props} />
+);
