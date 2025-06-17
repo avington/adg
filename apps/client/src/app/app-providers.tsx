@@ -8,7 +8,7 @@ import { RouterProvider } from 'react-router-dom';
 import { routerConfig } from './route-config';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
-const graphqlUrl = import.meta.env.VITE_GRAPHQL_URL;
+const graphqlUrl = import.meta.env.VITE_GRAPHQL_API_ENDPOINT || '/graphql';
 
 export const AppProviders: React.FC = () => {
   const [token, setToken] = useState<string>();

@@ -1,4 +1,6 @@
+import { Button, TableRow, TableCell } from '@adg/client-components';
 import { LotProjection } from '@adg/server-domain-read-models';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
 
 export interface LotListTableRowProps {
   lot: LotProjection;
@@ -12,27 +14,33 @@ export const LotListTableRow: React.FC<LotListTableRowProps> = ({
   onDelete,
 }) => {
   return (
-    <tr>
-      <td>{lot.openDate.toLocaleDateString()}</td>
-      <td>{lot.transactionType}</td>
-      <td>{lot.shares}</td>
-      <td>{lot.price ? `$${lot.price.toFixed(2)}` : '-'}</td>
-      <td>
-        <button
+    <TableRow>
+      <TableCell>
+        {lot.openDate ? new Date(lot.openDate).toLocaleDateString() : '-'}
+      </TableCell>
+      <TableCell>{lot.transactionType}</TableCell>
+      <TableCell>{lot.shares}</TableCell>
+      <TableCell>{lot.price ? `$${lot.price.toFixed(2)}` : '-'}</TableCell>
+      <TableCell>
+        <Button
           onClick={() => onEdit(lot)}
           aria-label="Edit lot"
           title="Edit lot"
+          mode={'transparent'}
+          size="sm"
         >
-          Edit
-        </button>
-        <button
+          <IconEdit size={16} />
+        </Button>
+        <Button
           onClick={() => onDelete(lot)}
           aria-label="Delete lot"
           title="Delete lot"
+          mode={'transparent'}
+          size="sm"
         >
-          Delete
-        </button>
-      </td>
-    </tr>
+          <IconTrash size={16} />
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 };

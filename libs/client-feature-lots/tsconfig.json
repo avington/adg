@@ -3,7 +3,13 @@
   "include": [],
   "references": [
     {
+      "path": "../client-state"
+    },
+    {
       "path": "../client-theme"
+    },
+    {
+      "path": "../global-read-models"
     },
     {
       "path": "../client-components"

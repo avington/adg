@@ -12,10 +12,19 @@
       "path": "../../libs/client-feature-portfolio"
     },
     {
+      "path": "../../libs/client-auth"
+    },
+    {
       "path": "../../libs/client-theme"
     },
     {
-      "path": "../../libs/client-auth"
+      "path": "../../libs/client-state"
+    },
+    {
+      "path": "../../libs/client-graphql-data"
+    },
+    {
+      "path": "../../libs/client-components"
     },
     {
       "path": "./tsconfig.app.json"

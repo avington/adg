@@ -6,6 +6,12 @@
       "path": "../global-models"
     },
     {
+      "path": "../client-graphql-data"
+    },
+    {
+      "path": "../global-read-models"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

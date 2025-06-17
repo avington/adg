@@ -15,6 +15,7 @@ export interface GraphQLProviderProps {
 export const GraphQLProvider: React.FC<
   PropsWithChildren<GraphQLProviderProps>
 > = ({ children, uri, token }) => {
+  console.log('GraphQLProvider', { uri, token });
   const httpLink = createHttpLink({
     uri,
   });
