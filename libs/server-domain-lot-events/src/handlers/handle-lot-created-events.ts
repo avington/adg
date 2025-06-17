@@ -5,7 +5,8 @@ export async function handleLotCreatedEvent(
   event: LotCreatedEvent,
   lotCollection: Collection<Document>
 ): Promise<void> {
-  console.log('Handling LotCreatedEvent:', event);
+  // Log the event using a structured logger (replace `logger` with your logging library instance)
+  // logger.info('Handling LotCreatedEvent', { event });
   // Use portfolioId as the unique identifier for idempotency
   await lotCollection.updateOne(
     { lotId: event.payload.lotId },

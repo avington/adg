@@ -29,7 +29,8 @@ export class CreateLotCommandHandler {
     );
 
     // 4. Publish the new events via the EventBus
-    console.log('Publishing events:', uncommittedEvents);
+    // Use a logger to log publishing events
+    // logger.info('Publishing events:', uncommittedEvents);
     await this.eventBus.publish(uncommittedEvents);
 
     // 5. Mark events as committed
