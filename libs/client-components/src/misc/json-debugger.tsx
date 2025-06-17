@@ -1,5 +1,7 @@
+import React from 'react';
+
 export interface JsonDebuggerProps {
-  data: any;
+  data: unknown;
   title?: string;
 }
 

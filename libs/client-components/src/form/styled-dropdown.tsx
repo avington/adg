@@ -104,7 +104,3 @@ export const StyledDropdown: React.FC<StyledDropdownProps> = (props) => {
 //     <StyledDropdownError>Error message here</StyledDropdownError>
 //   </StyledDropdownContainer>
 // </StyledDropdownGroup>
-//   </StyledRadioContainer>
-//     <StyledRadioLabel htmlFor="option2">Option 2</StyledRadioLabel>
-//   </StyledRadioContainer>
-// </StyledRadioGroup>

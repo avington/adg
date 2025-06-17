@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../buttons/button';
 
@@ -10,14 +11,18 @@ export const StyledFormActionRow = styled.div`
   background-color: var(--color-white);
   border-top: 1px solid var(--color-blue-grey-200);
 `;
+interface FormActionRowProps extends React.HTMLAttributes<HTMLDivElement> {
+  onReset?: React.MouseEventHandler<HTMLButtonElement>;
+  onAbort?: React.MouseEventHandler<HTMLButtonElement>;
+}
 
-export const FormActionRow: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const FormActionRow: React.FC<FormActionRowProps> = ({
   onReset,
   onAbort,
-  onSubmit,
+  ...rest
 }) => {
   return (
-    <StyledFormActionRow>
+    <StyledFormActionRow {...rest}>
       <Button mode="outlined" type="reset" onClick={onReset}>
         Reset
       </Button>
