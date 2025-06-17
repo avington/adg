@@ -113,7 +113,6 @@
     "libs/*",
     "libs/server-domain-portfolio-events",
     "processor-lot-events",
-    "global/validations",
     "libs/global/*"
   ]
 }

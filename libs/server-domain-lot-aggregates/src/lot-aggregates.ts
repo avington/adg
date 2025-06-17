@@ -44,24 +44,20 @@ export class LotAggregate extends AggregateRoot {
       lastUpdatedBy,
     } = data;
 
-    const event = new LotCreatedEvent(
-      uuid(),
-      lotId ?? uuid(),
-      this.version + 1,
-      {
-        lotId: uuid(),
-        symbol,
-        portfolioId,
-        userId,
-        transactionType,
-        shares,
-        price,
-        openDate,
-        createdAt: createdAt ?? new Date(),
-        updatedAt: updatedAt ?? new Date(),
-        lastUpdatedBy: lastUpdatedBy ?? userId,
-      }
-    );
+    const computedLotId = lotId ?? uuid();
+    const event = new LotCreatedEvent(uuid(), computedLotId, this.version + 1, {
+      lotId: computedLotId,
+      symbol,
+      portfolioId,
+      userId,
+      transactionType,
+      shares,
+      price,
+      openDate,
+      createdAt: createdAt ?? new Date(),
+      updatedAt: updatedAt ?? new Date(),
+      lastUpdatedBy: lastUpdatedBy ?? userId,
+    });
     this.apply(event);
   }
 

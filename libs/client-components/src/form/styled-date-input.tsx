@@ -78,39 +78,3 @@ export const StyledDateInputOption = styled.option`
 //   </StyledDateInputContainer>
 //   <StyledDateInputError>Date is required</StyledDateInputError>
 // </StyledDateInputGroup>
-// <StyledDateInputContainer>
-//   <StyledDateInputLabel htmlFor="date-input">Select Date</StyledDateInputLabel>
-//   <StyledDateInput id="date-input" placeholder="YYYY-MM-DD" />
-// </StyledDateInputContainer>
-// <StyledDateInputError>Date is required</StyledDateInputError>
-// <StyledDateInputGroup>
-//   <StyledDateInputContainer>
-//     <StyledDateInputLabel htmlFor="date-input">Select Date</StyledDateInputLabel>
-//     <StyledDateInput id="date-input" placeholder="YYYY-MM-DD" />
-//   </StyledDateInputContainer>
-//   <StyledDateInputError>Date is required</StyledDateInputError>
-// </StyledDateInputGroup>
-// <StyledDateInputContainer>
-//   <StyledDateInputLabel htmlFor="date-input">Select Date</StyledDateInputLabel>
-//   <StyledDateInput id="date-input" placeholder="YYYY-MM-DD" />
-// </StyledDateInputContainer>
-// <StyledDateInputError>Date is required</StyledDateInputError>
-// <StyledDateInputGroup>
-//   <StyledDateInputContainer>
-//     <StyledDateInputLabel htmlFor="date-input">Select Date</StyledDateInputLabel>
-//     <StyledDateInput id="date-input" placeholder="YYYY-MM-DD" />
-//   </StyledDateInputContainer>
-//   <StyledDateInputError>Date is required</StyledDateInputError>
-// </StyledDateInputGroup>
-// <StyledDateInputContainer>
-//   <StyledDateInputLabel htmlFor="date-input">Select Date</StyledDateInputLabel>
-//   <StyledDateInput id="date-input" placeholder="YYYY-MM-DD" />
-// </StyledDateInputContainer>
-// <StyledDateInputError>Date is required</StyledDateInputError>
-// <StyledDateInputGroup>
-//   <StyledDateInputContainer>
-//     <StyledDateInputLabel htmlFor="date-input">Select Date</StyledDateInputLabel>
-//     <StyledDateInput id="date-input" placeholder="YYYY-MM-DD" />
-//   </StyledDateInputContainer>
-//   <StyledDateInputError>Date is required</StyledDateInputError>
-// </StyledDateInputGroup>
