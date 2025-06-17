@@ -26,7 +26,7 @@ export class LotAggregate extends AggregateRoot {
 
   // Command handler: create portfolio
   public createLot(data: LotModel) {
-    if (this.state.portfolioId) {
+    if (this.state.lotId) {
       throw new Error('Lot already exists');
     }
     // Explicitly pick only the expected fields from data

@@ -1,5 +1,5 @@
 import { StyledDateInput } from '@adg/client-components';
-import { LotModel, LotValidationSchema } from '@adg/global-validations';
+import { LotModel } from '@adg/global-validations';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 export const LotItemForm: React.FC = () => {
