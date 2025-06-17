@@ -120,10 +120,12 @@ export const LotItemForm: React.FC = () => {
         <FormActionRow onAbort={() => handleCancel()} onReset={() => reset()} />
         {errors.root && <StyledError>{errors.root.message}</StyledError>}
       </StyledFieldset>
-      <JsonDebugger
-        data={{ ...watch(), isValid, errorMessages }}
-        title="Form Data Debugger"
-      />
+      {process.env.NODE_ENV === 'development' && (
+        <JsonDebugger
+          data={{ ...watch(), isValid, errorMessages }}
+          title="Form Data Debugger"
+        />
+      )}
     </form>
   );
 };
