@@ -3,22 +3,7 @@
   "include": [],
   "references": [
     {
-      "path": "../client-graphql-data"
-    },
-    {
-      "path": "../client-data"
-    },
-    {
-      "path": "../client-theme"
-    },
-    {
-      "path": "../global-read-models"
-    },
-    {
       "path": "../global-validations"
-    },
-    {
-      "path": "../client-components"
     },
     {
       "path": "./tsconfig.lib.json"

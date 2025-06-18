@@ -3,6 +3,7 @@ import { StyledHeaderBodyContainer } from '@adg/client-theme';
 import { LotListTable } from '../components/lot-list-table/lot-list-table';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLotsByPortfolioAndSymbol } from '@adg/client-graphql-data';
+import IconAdd from '@mui/icons-material/Add';
 import {
   Button,
   LoadingOverlay,
@@ -11,7 +12,6 @@ import {
 } from '@adg/client-components';
 import { ApolloError } from '@apollo/client';
 import styled from 'styled-components';
-import { IconPlus } from '@tabler/icons-react';
 
 const StyledActionRow = styled.div`
   display: flex;
@@ -52,14 +52,12 @@ export const LotsListView: React.FC = () => {
     <StyledHeaderBodyContainer>
       <LotListSummaryPanel />
       <RenderWhen>
-        <RenderWhen.If isTrue={loading}>
-          <LoadingOverlay />
-        </RenderWhen.If>
+        <LoadingOverlay isLoading={loading} />
         <RenderWhen.If isTrue={!loading && !error}>
           <StyledTableContainer>
             <StyledActionRow>
               <Button mode={'success'} size={'md'} onClick={handleAddLot}>
-                <IconPlus />
+                <IconAdd style={{ marginRight: '0.7rem' }} />
                 Add Lot
               </Button>
             </StyledActionRow>

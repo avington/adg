@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const StyledCheckbox = styled.input.attrs({ type: 'checkbox' })`
+export const StyledCheckbox = styled.input.attrs({ type: 'checkbox' })<
+  React.InputHTMLAttributes<HTMLInputElement>
+>`
   appearance: none;
   width: 20px;
   height: 20px;

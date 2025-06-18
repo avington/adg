@@ -30,7 +30,12 @@ export async function googleJwtAuthMiddleware(
       return res.status(401).json({ message: 'Invalid token payload' });
     }
 
-    console.log('Google user payload:', payload);
+    console.log(
+      'Google user payload:',
+      payload.family_name,
+      payload.given_name,
+      payload.email
+    );
     // Attach user info to request
     const user = mapTokenInfoToUser(payload);
 

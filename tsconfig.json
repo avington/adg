@@ -113,6 +113,9 @@
     },
     {
       "path": "./libs/global-validations"
+    },
+    {
+      "path": "./libs/client-data"
     }
   ]
 }

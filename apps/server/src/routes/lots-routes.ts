@@ -26,9 +26,9 @@ export function lotsRouter(
     googleJwtAuthMiddleware,
     async (req: AuthenticatedRequest, res: Response) => {
       const userId = req.user?.sub ?? '';
+      const lotId = uuidv4(); // Generate a new UUID for the lot
       try {
         const {
-          lotId,
           symbol,
           portfolioId,
           transactionType,
