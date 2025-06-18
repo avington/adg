@@ -1,6 +1,7 @@
 import { Button, TableRow, TableCell } from '@adg/client-components';
 import { LotProjection } from '@adg/server-domain-read-models';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export interface LotListTableRowProps {
   lot: LotProjection;
@@ -29,7 +30,7 @@ export const LotListTableRow: React.FC<LotListTableRowProps> = ({
           mode={'transparent'}
           size="sm"
         >
-          <IconEdit size={16} />
+          <EditIcon />
         </Button>
         <Button
           onClick={() => onDelete(lot)}
@@ -38,7 +39,7 @@ export const LotListTableRow: React.FC<LotListTableRowProps> = ({
           mode={'transparent'}
           size="sm"
         >
-          <IconTrash size={16} />
+          <DeleteIcon />
         </Button>
       </TableCell>
     </TableRow>
