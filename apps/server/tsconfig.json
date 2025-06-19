@@ -22,6 +22,9 @@
       "path": "../../libs/server-domain-lot-command-handlers"
     },
     {
+      "path": "../../libs/global-validations"
+    },
+    {
       "path": "../../libs/global-models"
     },
     {

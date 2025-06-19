@@ -30,7 +30,7 @@ export const LotListTableRow: React.FC<LotListTableRowProps> = ({
           mode={'transparent'}
           size="sm"
         >
-          <EditIcon />
+          <EditIcon fontSize="small" />
         </Button>
         <Button
           onClick={() => onDelete(lot)}
@@ -39,7 +39,7 @@ export const LotListTableRow: React.FC<LotListTableRowProps> = ({
           mode={'transparent'}
           size="sm"
         >
-          <DeleteIcon />
+          <DeleteIcon fontSize="small" />
         </Button>
       </TableCell>
     </TableRow>

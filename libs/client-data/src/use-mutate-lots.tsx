@@ -102,7 +102,7 @@ export const useDeleteLot = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`/api/lots/${lotId}`);
+      await axios.delete(`${VITE_API_BASE_URL}/lots/${lotId}`);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err.response?.data?.message || 'An error occurred');

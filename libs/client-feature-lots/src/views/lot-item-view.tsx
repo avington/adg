@@ -29,7 +29,7 @@ export const LotItemView: React.FC = () => {
   );
 
   const handleCancel = useCallback(() => {
-    navigate(`/portfolio/${portfolioId}/symbol/${symbol}/lots`);
+    navigate(`/portfolio/${portfolioId}/holdings/${symbol}/lots`);
   }, [navigate, portfolioId, symbol]);
 
   return (
