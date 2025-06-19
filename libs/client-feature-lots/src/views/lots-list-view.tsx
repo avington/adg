@@ -52,7 +52,9 @@ export const LotsListView: React.FC = () => {
     <StyledHeaderBodyContainer>
       <LotListSummaryPanel />
       <RenderWhen>
-        <LoadingOverlay isLoading={loading} />
+        <RenderWhen.If isTrue={loading}>
+          <LoadingOverlay isLoading={loading} />
+        </RenderWhen.If>
         <RenderWhen.If isTrue={!loading && !error}>
           <StyledTableContainer>
             <StyledActionRow>

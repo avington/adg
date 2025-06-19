@@ -14,7 +14,7 @@ export const LotItemView: React.FC = () => {
     lotId: string;
   }>();
 
-  const { saveLot, loading, error } = useSaveLot();
+  const { saveLot, loading } = useSaveLot();
 
   const navigate = useNavigate();
   const handleSubmit = useCallback(
@@ -29,7 +29,7 @@ export const LotItemView: React.FC = () => {
   );
 
   const handleCancel = useCallback(() => {
-    navigate(`/portfolio/${portfolioId}/symbol/${symbol}/lots`);
+    navigate(`/portfolio/${portfolioId}/holdings/${symbol}/lots`);
   }, [navigate, portfolioId, symbol]);
 
   return (

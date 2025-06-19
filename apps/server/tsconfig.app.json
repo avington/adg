@@ -30,6 +30,9 @@
       "path": "../../libs/server-domain-lot-command-handlers/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/global-validations/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/global-models/tsconfig.lib.json"
     },
     {

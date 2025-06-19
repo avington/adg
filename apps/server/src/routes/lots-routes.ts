@@ -1,4 +1,5 @@
 import { AuthenticatedRequest } from '@adg/global-models';
+import { LotValidationSchema, validateData } from '@adg/global-validations';
 import { googleJwtAuthMiddleware } from '@adg/server-auth';
 import {
   CreateLotCommandHandler,
@@ -24,6 +25,7 @@ export function lotsRouter(
   lotsRouter.post(
     '/',
     googleJwtAuthMiddleware,
+    validateData(LotValidationSchema),
     async (req: AuthenticatedRequest, res: Response) => {
       const userId = req.user?.sub ?? '';
       const lotId = uuidv4(); // Generate a new UUID for the lot
@@ -64,6 +66,7 @@ export function lotsRouter(
   lotsRouter.put(
     '/',
     googleJwtAuthMiddleware,
+    validateData(LotValidationSchema),
     async (req: AuthenticatedRequest, res: Response) => {
       const userId = req.user?.sub ?? '';
       try {
