@@ -1,9 +1,5 @@
 import { AuthenticatedRequest } from '@adg/global-models';
-import {
-  LotsFormValidationSchema,
-  LotValidationSchema,
-  validateData,
-} from '@adg/global-validations';
+import { LotValidationSchema, validateData } from '@adg/global-validations';
 import { googleJwtAuthMiddleware } from '@adg/server-auth';
 import {
   CreateLotCommandHandler,

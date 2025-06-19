@@ -14,7 +14,7 @@ export const LotItemView: React.FC = () => {
     lotId: string;
   }>();
 
-  const { saveLot, loading, error } = useSaveLot();
+  const { saveLot, loading } = useSaveLot();
 
   const navigate = useNavigate();
   const handleSubmit = useCallback(
