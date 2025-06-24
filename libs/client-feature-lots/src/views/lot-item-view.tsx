@@ -31,9 +31,8 @@ export const LotItemView: React.FC = () => {
   );
 
   const handleCancel = useCallback(() => {
-    showWarning('Lot creation cancelled');
     navigate(`/portfolio/${portfolioId}/holdings/${symbol}/lots`);
-  }, [navigate, portfolioId, symbol, showWarning]);
+  }, [navigate, portfolioId, symbol]);
 
   return (
     <StyledHeaderBodyContainer>
