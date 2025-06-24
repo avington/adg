@@ -11,6 +11,9 @@ import {
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
 const DB_NAME = process.env.READ_MODEL_DB_NAME || 'read-model';
 async function main() {
+  // Import chalk dynamically to avoid issues with ESM and CommonJS
+  const chalk = (await import('chalk')).default;
+
   // connect to MongoDB
   const mongoClient = new MongoClient(MONGO_URI);
   await mongoClient.connect();
@@ -22,7 +25,9 @@ async function main() {
     QueueNames.DOMAIN_EVENTS,
     async (job) => {
       const { name, data } = job;
-      console.log(`Processing job ${job.id} of type ${name}`);
+      console.log('name:', name);
+      console.log('data:', data);
+
       // Handle LotCreatedEvent
       if (name === 'LotCreatedEvent') {
         await handleLotCreatedEvent(data as LotCreatedEvent, lotsCollection);
@@ -36,15 +41,24 @@ async function main() {
     { connection: redisConnection }
   );
 
-  worker.on('completed', (job) => {
-    console.log(`Processed job ${job.id} of type ${job.name}`);
+  worker.on('completed', async (job) => {
+    const chalk = (await import('chalk')).default;
+    console.log(chalk.blue(`Processed job ${job.id} of type ${job.name}`));
   });
 
-  worker.on('failed', (job, err) => {
-    console.error(`Failed job ${job?.id} of type ${job?.name}:`, err);
+  worker.on('failed', async (job, err) => {
+    const chalk = (await import('chalk')).default;
+    console.error(
+      chalk.red(`Failed job ${job?.id} of type ${job?.name}:`),
+      err
+    );
   });
 
-  console.log('Lot event processor worker started and listening for events...');
+  console.log(
+    chalk.blueBright(
+      'Lot event processor worker started and listening for events...'
+    )
+  );
 }
 main().catch((err) => {
   console.error('Failed to start lot event processor:', err);

@@ -5,15 +5,16 @@ import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import LotItemForm from '../components/lot-item-form';
 import LotListSummaryPanel from '../components/lot-list-summary-panel';
-import { LoadingOverlay } from '@adg/client-components';
+import { LoadingOverlay, useToaster } from '@adg/client-components';
 
 export const LotItemView: React.FC = () => {
-  const { portfolioId, symbol, lotId } = useParams<{
+  const { portfolioId, symbol } = useParams<{
     portfolioId: string;
     symbol: string;
     lotId: string;
   }>();
 
+  const { showSuccess, showWarning } = useToaster();
   const { saveLot, loading } = useSaveLot();
 
   const navigate = useNavigate();
@@ -22,10 +23,11 @@ export const LotItemView: React.FC = () => {
       console.log('Form submitted with data:', data);
       // Handle form submission logic here
       saveLot(data, () => {
+        showSuccess('Lot created successfully');
         navigate(`/portfolio/${portfolioId}/holdings/${symbol}/lots`);
       });
     },
-    [navigate, portfolioId, saveLot, symbol]
+    [navigate, portfolioId, saveLot, symbol, showSuccess]
   );
 
   const handleCancel = useCallback(() => {
