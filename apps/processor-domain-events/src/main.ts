@@ -121,6 +121,13 @@ async function main() {
     process.exit(0);
   });
 
+  process.on('SIGTERM', async () => {
+    console.log(chalk.yellow('Shutting down worker (SIGTERM)...'));
+    await worker.close();
+    await mongoClient.close();
+    process.exit(0);
+  });
+
   console.log(
     chalk.blueBright(
       '🚀 Unified domain events processor started and listening for all events...'
