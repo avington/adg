@@ -1,0 +1,61 @@
+{
+  "name": "processor-domain-events",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/processor-domain-events/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/processor-domain-events",
+        "main": "apps/processor-domain-events/src/main.ts",
+        "tsConfig": "apps/processor-domain-events/tsconfig.app.json",
+        "webpackConfig": "apps/processor-domain-events/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/processor-domain-events/src/environments/environment.ts",
+              "with": "apps/processor-domain-events/src/environments/environment.development.ts"
+            }
+          ]
+        },
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/processor-domain-events/src/environments/environment.ts",
+              "with": "apps/processor-domain-events/src/environments/environment.production.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "processor-domain-events:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "processor-domain-events:build:development"
+        },
+        "production": {
+          "buildTarget": "processor-domain-events:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}
