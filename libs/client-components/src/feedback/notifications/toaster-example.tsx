@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToasterProvider } from './toater-provider';
+import { ToasterProvider } from './toaster-provider';
 import { useToaster } from './use-toaster';
 
 // Example component demonstrating how to use the toaster
