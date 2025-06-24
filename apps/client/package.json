@@ -27,19 +27,7 @@
           },
           {
             "projects": [
-              "@adg/processor-lot-events"
-            ],
-            "target": "serve"
-          },
-          {
-            "projects": [
-              "@adg/processor-portfolio-events"
-            ],
-            "target": "serve"
-          },
-          {
-            "projects": [
-              "processor-user-events"
+              "processor-domain-events"
             ],
             "target": "serve"
           },
