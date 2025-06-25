@@ -29,8 +29,8 @@ export const PortfolioListTableRow: React.FC<PortfolioListTableRowProps> = ({
         <StyledActionCell>
           <Button
             onClick={() => onEdit(portfolio)}
-            aria-label="Edit lot"
-            title="Edit lot"
+            aria-label="Edit portfolio"
+            title="Edit portfolio"
             mode={'transparent'}
             size="sm"
           >
@@ -38,8 +38,8 @@ export const PortfolioListTableRow: React.FC<PortfolioListTableRowProps> = ({
           </Button>
           <Button
             onClick={() => onDelete(portfolio)}
-            aria-label="Delete lot"
-            title="Delete lot"
+            aria-label="Delete portfolio"
+            title="Delete portfolio"
             mode={'transparent'}
             size="sm"
           >

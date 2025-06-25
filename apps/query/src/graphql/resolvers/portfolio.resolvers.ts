@@ -2,6 +2,7 @@ import { ObjectId } from 'mongodb';
 import { PortfolioProjection } from '@adg/server-domain-read-models';
 import { UserModel } from '@adg/global-models';
 import type { Db } from 'mongodb';
+import { AuthenticationError } from 'apollo-server-errors';
 
 // Define the GraphQL context type
 interface GraphQLContext {
@@ -27,7 +28,7 @@ export default {
       // Filter by authenticated user's sub property
       const userSub = context.user?.sub;
       if (!userSub) {
-        throw new Error('User not authenticated');
+        throw new AuthenticationError('User not authenticated');
       }
 
       const portfolio = (await context.db.collection('portfolios').findOne({
@@ -37,6 +38,7 @@ export default {
       if (!portfolio) return null;
       return {
         id: portfolio._id?.toString() ?? portfolio.id,
+        portfolioId: portfolio.portfolioId?.toString() ?? null,
         name: portfolio.name,
         description: portfolio.description,
         userId: portfolio.userId,
@@ -66,6 +68,7 @@ export default {
         .toArray()) as unknown as PortfolioProjection[];
       return portfolios.map((portfolio: PortfolioProjection) => ({
         id: portfolio._id?.toString() ?? portfolio.id,
+        portfolioId: portfolio.portfolioId?.toString() ?? null,
         name: portfolio.name,
         description: portfolio.description,
         userId: portfolio.userId,

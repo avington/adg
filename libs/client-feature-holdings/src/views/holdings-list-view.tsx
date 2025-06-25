@@ -11,7 +11,11 @@ export const HoldingsListView: React.FC = () => {
   const { portfolioId } = useParams<{
     portfolioId: string;
   }>();
-  return <StyledHeaderBodyContainer></StyledHeaderBodyContainer>;
+  return (
+    <StyledHeaderBodyContainer>
+      <p>No holdings to display yet.</p>
+    </StyledHeaderBodyContainer>
+  );
 };
 
 export default HoldingsListView;

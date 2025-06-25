@@ -40,8 +40,17 @@ export const PortfolioListContainer: React.FC = () => {
         <RenderWhen.If isTrue={loading}>
           <LoadingOverlay isLoading={loading} />
         </RenderWhen.If>
+        <RenderWhen.If isTrue={!!error}>
+          <div style={{ color: 'red', padding: '1rem' }}>
+            Failed to load portfolios. Please try again later.
+          </div>
+        </RenderWhen.If>
         <RenderWhen.If isTrue={!loading && !error}>
-          <PortfolioListTable portfolios={portfolioData?.portfolios} />
+          <PortfolioListTable
+            portfolios={portfolioData?.portfolios}
+            onDelete={(item) => console.log('delete', item)}
+            onEdit={(item) => console.log('edit', item)}
+          />
         </RenderWhen.If>
       </RenderWhen>
     </StyledTableContainer>
