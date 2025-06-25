@@ -1,0 +1,52 @@
+import { Button, TableCell, TableRow } from '@adg/client-components';
+import { PortfolioProjection } from '@adg/server-domain-read-models';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import styled from 'styled-components';
+
+export interface PortfolioListTableRowProps {
+  portfolio: PortfolioProjection;
+  onEdit: (portfolio: PortfolioProjection) => void;
+  onDelete: (portfolio: PortfolioProjection) => void;
+}
+
+export const StyledActionCell = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+export const PortfolioListTableRow: React.FC<PortfolioListTableRowProps> = ({
+  portfolio,
+  onEdit,
+  onDelete,
+}) => {
+  return (
+    <TableRow>
+      <TableCell>{portfolio.name}</TableCell>
+      <TableCell>
+        <StyledActionCell>
+          <Button
+            onClick={() => onEdit(portfolio)}
+            aria-label="Edit lot"
+            title="Edit lot"
+            mode={'transparent'}
+            size="sm"
+          >
+            <EditIcon fontSize="small" />
+          </Button>
+          <Button
+            onClick={() => onDelete(portfolio)}
+            aria-label="Delete lot"
+            title="Delete lot"
+            mode={'transparent'}
+            size="sm"
+          >
+            <DeleteIcon fontSize="small" />
+          </Button>
+        </StyledActionCell>
+      </TableCell>
+    </TableRow>
+  );
+};

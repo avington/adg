@@ -1,11 +1,17 @@
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  Button,
+  LoadingOverlay,
+  RenderWhen,
+  StyledTableContainer,
+} from '@adg/client-components';
+import { StyledHeaderBodyContainer } from '@adg/client-theme';
+
 export const HoldingsListView: React.FC = () => {
-  return (
-    <div>
-      <h1>HOldings List View</h1>
-      <p>This is the holdings list view component.</p>
-      {/* Add more content or components as needed */}
-    </div>
-  );
+  const { portfolioId } = useParams<{
+    portfolioId: string;
+  }>();
+  return <StyledHeaderBodyContainer></StyledHeaderBodyContainer>;
 };
 
 export default HoldingsListView;

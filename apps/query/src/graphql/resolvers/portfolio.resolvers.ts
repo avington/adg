@@ -1,12 +1,39 @@
 import { ObjectId } from 'mongodb';
 import { PortfolioProjection } from '@adg/server-domain-read-models';
+import { UserModel } from '@adg/global-models';
+import type { Db } from 'mongodb';
+
+// Define the GraphQL context type
+interface GraphQLContext {
+  db: Db;
+  user?: UserModel;
+}
+
+// Define resolver argument types
+interface PortfolioArgs {
+  id: string;
+}
+
+// For portfolios query with no arguments currently, but extensible for future filters
+type PortfoliosArgs = Record<string, never>;
 
 export default {
   Query: {
-    async portfolio(_parent: any, { id }: { id: string }, context: any) {
-      const portfolio = (await context.db
-        .collection('portfolios')
-        .findOne({ _id: new ObjectId(id) })) as PortfolioProjection | null;
+    async portfolio(
+      _parent: unknown,
+      { id }: PortfolioArgs,
+      context: GraphQLContext
+    ) {
+      // Filter by authenticated user's sub property
+      const userSub = context.user?.sub;
+      if (!userSub) {
+        throw new Error('User not authenticated');
+      }
+
+      const portfolio = (await context.db.collection('portfolios').findOne({
+        _id: new ObjectId(id),
+        userId: userSub,
+      })) as PortfolioProjection | null;
       if (!portfolio) return null;
       return {
         id: portfolio._id?.toString() ?? portfolio.id,
@@ -22,11 +49,21 @@ export default {
         // Add other fields as needed
       };
     },
-    async portfolios(_parent: any, _args: any, context: any) {
-      const portfolios = await context.db
+    async portfolios(
+      _parent: unknown,
+      _args: PortfoliosArgs,
+      context: GraphQLContext
+    ) {
+      // Filter by authenticated user's sub property
+      const userSub = context.user?.sub;
+      if (!userSub) {
+        throw new Error('User not authenticated');
+      }
+
+      const portfolios = (await context.db
         .collection('portfolios')
-        .find()
-        .toArray();
+        .find({ userId: userSub })
+        .toArray()) as unknown as PortfolioProjection[];
       return portfolios.map((portfolio: PortfolioProjection) => ({
         id: portfolio._id?.toString() ?? portfolio.id,
         name: portfolio.name,
