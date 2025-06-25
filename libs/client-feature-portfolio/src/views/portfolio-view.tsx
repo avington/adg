@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import AllHoldingsHeader from '../components/portfolios/all-holdings-header/all-holdings-header';
+import { PortfolioListContainer } from '../components/portfolios/portfolio-list/portfolio-list-container';
 
 const StyledPortfolioView = styled.div`
   display: grid;
@@ -17,7 +18,9 @@ export const PortfolioView = () => {
       <div style={{ gridArea: 'header' }}>
         <AllHoldingsHeader />
       </div>
-      <div style={{ gridArea: 'content' }}></div>
+      <div style={{ gridArea: 'content' }}>
+        <PortfolioListContainer />
+      </div>
     </StyledPortfolioView>
   );
 };

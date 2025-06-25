@@ -1,26 +1,17 @@
-import LotListSummaryPanel from '../components/lot-list-summary-panel';
-import { StyledHeaderBodyContainer } from '@adg/client-theme';
-import { LotListTable } from '../components/lot-list-table/lot-list-table';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useLotsByPortfolioAndSymbol } from '@adg/client-graphql-data';
-import IconAdd from '@mui/icons-material/Add';
 import {
   Button,
   LoadingOverlay,
   RenderWhen,
+  StyledActionRow,
   StyledTableContainer,
 } from '@adg/client-components';
+import { useLotsByPortfolioAndSymbol } from '@adg/client-graphql-data';
+import { StyledHeaderBodyContainer } from '@adg/client-theme';
 import { ApolloError } from '@apollo/client';
-import styled from 'styled-components';
-
-const StyledActionRow = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: end;
-  align-items: center;
-  margin-bottom: 16px;
-  height: 48px;
-`;
+import IconAdd from '@mui/icons-material/Add';
+import { useNavigate, useParams } from 'react-router-dom';
+import LotListSummaryPanel from '../components/lot-list-summary-panel';
+import { LotListTable } from '../components/lot-list-table/lot-list-table';
 
 export const LotsListView: React.FC = () => {
   const navigate = useNavigate();
