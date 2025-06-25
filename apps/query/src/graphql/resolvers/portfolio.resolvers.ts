@@ -59,7 +59,7 @@ export default {
       // Filter by authenticated user's sub property
       const userSub = context.user?.sub;
       if (!userSub) {
-        throw new Error('User not authenticated');
+        throw new AuthenticationError('User not authenticated');
       }
 
       const portfolios = (await context.db
