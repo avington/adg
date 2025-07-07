@@ -10,8 +10,8 @@ $env:BYPASS_AUTH = "true"
 
 # Start the query server
 Write-Host "Starting query server..." -ForegroundColor Cyan
-nx serve query
-
 Write-Host ""
 Write-Host "GraphQL Playground will be available at: http://localhost:4000/graphql" -ForegroundColor Green
 Write-Host "No authentication token required!" -ForegroundColor Green
+
+nx serve query
