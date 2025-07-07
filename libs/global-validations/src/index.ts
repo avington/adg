@@ -1,3 +1,2 @@
+export * from './lots-validation';
 export * from './validation-helpers';
-export * from './lots-validation.js';
-export * from './middleware';

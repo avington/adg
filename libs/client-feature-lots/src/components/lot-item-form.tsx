@@ -1,6 +1,5 @@
 import {
   FormActionRow,
-  JsonDebugger,
   StyledDateInput,
   StyledDropdown,
   StyledError,
@@ -47,19 +46,14 @@ export const LotItemForm: React.FC<LotItemFormProps> = ({
   const {
     register,
     handleSubmit,
-    watch,
     reset,
 
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<LotModel>({
     mode: 'onBlur',
     resolver: zodResolver(LotValidationSchema),
     defaultValues: defaultValues,
   });
-
-  const errorMessages = Object.values(errors).find(
-    (error) => error.message
-  )?.message;
 
   return (
     <form onSubmit={handleSubmit(onSubmitClicked)}>
