@@ -3,6 +3,18 @@
   "include": [],
   "references": [
     {
+      "path": "../client-theme"
+    },
+    {
+      "path": "../client-hooks"
+    },
+    {
+      "path": "../global-read-models"
+    },
+    {
+      "path": "../client-graphql-data"
+    },
+    {
       "path": "../client-components"
     },
     {

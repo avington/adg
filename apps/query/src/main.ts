@@ -26,12 +26,26 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
 const DB_NAME = process.env.READ_MODEL_DB_NAME || 'readmodel';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN || 'http://localhost:4200';
+// Set BYPASS_AUTH=true in your environment to skip authentication for development/testing
+const BYPASS_AUTH = process.env.BYPASS_AUTH === 'true';
 
 async function start() {
   // Connect to MongoDB
   const client = new MongoClient(MONGO_URI);
   await client.connect();
   const db = client.db(DB_NAME);
+
+  // Log authentication status
+  if (BYPASS_AUTH) {
+    console.log('⚠️  Authentication is BYPASSED for development/testing');
+    console.log(
+      '⚠️  GraphQL Playground will work without authentication tokens'
+    );
+  } else {
+    console.log(
+      '🔒 Authentication is REQUIRED - tokens needed for GraphQL requests'
+    );
+  }
 
   // Create Apollo Server
   const server = new ApolloServer<{ db: Db }>({

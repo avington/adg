@@ -47,6 +47,28 @@ This repository is organized as an Nx workspace and implements an event-sourced 
   - Start the GraphQL query API: `nx serve query`
   - Start the frontend: `nx serve client`
 
+### Authentication Bypass for Development
+
+For development and testing purposes, you can bypass the Google OAuth authentication by setting the `BYPASS_AUTH` environment variable to `true`. This is useful for:
+
+- Testing GraphQL Playground without needing authentication tokens
+- Local development when you don't want to set up Google OAuth
+- Automated testing scenarios
+
+**To enable authentication bypass:**
+
+1. Set the environment variable: `BYPASS_AUTH=true`
+2. Start your services (query server, etc.)
+3. Access GraphQL Playground at `http://localhost:4000/graphql` without authentication
+
+**Warning:** Never use `BYPASS_AUTH=true` in production environments. This feature should only be used for development and testing.
+
+When authentication is bypassed, a mock user is automatically created with:
+
+- Email: `dev@example.com`
+- Name: `Development User`
+- Sub: `dev-user-123`
+
 ---
 
 For more details, see the individual library and app README files.
