@@ -82,7 +82,12 @@ export const Modal: React.FC<ModalProps> = ({
     (backdropStyles, item) =>
       item && (
         <animated.div style={backdropStyles}>
-          <StyledModalContainer onClick={handleBackdropClick}>
+          <StyledModalContainer
+            onClick={handleBackdropClick}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={title ? 'modal-title' : undefined}
+          >
             {modalTransition(
               (modalStyles, modalItem) =>
                 modalItem && (
@@ -93,7 +98,9 @@ export const Modal: React.FC<ModalProps> = ({
                       {(title || showCloseButton) && (
                         <StyledModalHeader>
                           {title && (
-                            <StyledModalTitle>{title}</StyledModalTitle>
+                            <StyledModalTitle id="modal-title">
+                              {title}
+                            </StyledModalTitle>
                           )}
                           {showCloseButton && (
                             <IconButton

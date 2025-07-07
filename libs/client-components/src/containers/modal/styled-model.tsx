@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import React from 'react';
 
-interface ModalContainerProps {
+interface ModalContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-  children?: React.ReactNode;
 }
 
 interface ModalContentProps {
@@ -42,7 +41,9 @@ export const StyledModalHeader = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const StyledModalTitle = styled.h2`
+export const StyledModalTitle = styled.div.attrs(() => ({}))<
+  React.HTMLAttributes<HTMLDivElement>
+>`
   margin: 0;
   font-size: 1.5rem;
   color: var(--color-text-primary);

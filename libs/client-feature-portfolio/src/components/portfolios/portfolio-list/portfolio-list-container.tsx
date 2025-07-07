@@ -1,25 +1,23 @@
 import {
   Button,
+  LoadingOverlay,
+  Modal,
+  RenderWhen,
   StyledActionRow,
   StyledTableContainer,
   useToaster,
-  RenderWhen,
-  LoadingOverlay,
-  Modal,
-  useModal,
 } from '@adg/client-components';
-import IconAdd from '@mui/icons-material/Add';
-import { useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAllPortfolios } from '@adg/client-graphql-data';
-import { PortfolioProjection } from '@adg/server-domain-read-models';
-import PortfolioListTable from './portfolio-list-table';
 import { useBoolean } from '@adg/client-hooks';
+import IconAdd from '@mui/icons-material/Add';
+import { useCallback } from 'react';
 import { PortfolioModalContainer } from '../portfolio-item/portfolio-modal-container';
+import PortfolioListTable from './portfolio-list-table';
+import { PortfolioModel } from '@adg/global-models';
 
 export const PortfolioListContainer: React.FC = () => {
   const toaster = useToaster();
-  const navigate = useNavigate();
+
   const { setTrue: open, setFalse: close, value: isOpen } = useBoolean();
 
   const { loading, error, data: portfolioData } = useAllPortfolios();
@@ -27,6 +25,13 @@ export const PortfolioListContainer: React.FC = () => {
   const handleAddPortfolio = useCallback(() => {
     open();
   }, [open]);
+
+  const handleSavePortfolio = (portfolio: PortfolioModel) => {
+    console.log('save', portfolio);
+    toaster.showSuccess(
+      `Portfolio ${portfolio.name} has been saved successfully.`
+    );
+  };
 
   return (
     <>
@@ -61,7 +66,7 @@ export const PortfolioListContainer: React.FC = () => {
         title="Portfolio Actions"
         showCloseButton={true}
       >
-        <PortfolioModalContainer />
+        <PortfolioModalContainer save={handleSavePortfolio} />
       </Modal>
     </>
   );
