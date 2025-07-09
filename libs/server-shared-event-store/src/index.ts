@@ -64,6 +64,11 @@ export class MongoEventStore<E extends IEvent = IEvent>
 
     // Set version for each event
     if (docs.length > 0) {
+      // Assign incremental version numbers starting from expectedVersion + 1
+      let version = expectedVersion + 1;
+      for (const doc of docs) {
+        doc.version = version++;
+      }
       await this.eventsCollection.insertMany(docs);
     }
   }

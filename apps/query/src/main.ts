@@ -22,9 +22,7 @@ const __dirname = dirname(__filename);
 const typeDefs = [userTypeDefs, portfolioTypeDefs, lotTypeDef];
 
 // Loads all resolver files (*.resolvers.ts or *.resolvers.js) in this directory and subdirectories
-const resolversArray = loadFilesSync(
-  join(__dirname, './**/*.resolvers.{ts,js}')
-);
+const resolversArray = loadFilesSync(join(__dirname, './**/*.resolvers.js'));
 const resolvers = mergeResolvers(resolversArray);
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
