@@ -1,7 +1,7 @@
 import { PortfolioCreateModel } from '@adg/global-validations';
 import { PortfolioModalForm } from './portfolio-modal-form';
 import { useCreatePortfolio } from '@adg/client-data';
-import { Toaster, useToaster } from '@adg/client-components';
+import { useToaster } from '@adg/client-components';
 
 export interface PortfolioModalContainerProps {
   close?: () => void;
@@ -32,7 +32,6 @@ export const PortfolioModalContainer = ({
 
   const save = async (portfolio: PortfolioCreateModel) => {
     await createPortfolio(portfolio);
-    console.log('save', portfolio);
   };
 
   return (
