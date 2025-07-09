@@ -27,11 +27,11 @@ export const useCreatePortfolio = ({
       if (onSuccess) {
         onSuccess(response.data);
       }
-    } catch (error) {
-      console.error('Error creating portfolio:', error);
-      setError(axios.isAxiosError(error) ? error.message : 'Unknown error');
+    } catch (err) {
+      console.error('Error creating portfolio:', err);
+      setError(axios.isAxiosError(err) ? err.message : 'Unknown error');
       if (onError) {
-        onError(axios.isAxiosError(error) ? error.message : 'Unknown error');
+        onError(axios.isAxiosError(err) ? err.message : 'Unknown error');
       }
     } finally {
       setFalse();
