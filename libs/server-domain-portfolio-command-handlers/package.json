@@ -1,5 +1,6 @@
 {
   "name": "@adg/server-domain-portfolio-command-handlers",
+  "type": "module",
   "version": "0.0.1",
   "private": true,
   "main": "./dist/index.js",
@@ -15,6 +16,9 @@
     }
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@adg/server-domain-portfolio-commands": "*",
+    "@adg/server-domain-portfolio-aggregates": "*",
+    "@adg/server-shared-kernel": "*"
   }
 }

@@ -44,6 +44,7 @@ export class MongoEventStore<E extends IEvent = IEvent>
       .limit(1)
       .next();
 
+    // If no events exist, treat as version -1
     const currentVersion = latestEvent ? latestEvent.version : -1;
     if (currentVersion !== expectedVersion) {
       throw new Error(
@@ -61,11 +62,18 @@ export class MongoEventStore<E extends IEvent = IEvent>
       aggregateType,
     }));
 
+    // Set version for each event
     if (docs.length > 0) {
+      // Assign incremental version numbers starting from expectedVersion + 1
+      let version = expectedVersion + 1;
+      for (const doc of docs) {
+        doc.version = version++;
+      }
       await this.eventsCollection.insertMany(docs);
     }
   }
 
+  // Retrieves all events for a specific aggregate, ordered by version
   async getEventsForAggregate(aggregateId: string): Promise<E[]> {
     if (!this.eventsCollection) {
       throw new Error('MongoEventStore: Not connected');
@@ -83,6 +91,7 @@ export class MongoEventStore<E extends IEvent = IEvent>
     })) as unknown as E[];
   }
 
+  // disconnects from the MongoDB server
   async disconnect() {
     await this.client?.close();
   }

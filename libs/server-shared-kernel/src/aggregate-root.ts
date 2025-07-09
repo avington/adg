@@ -1,4 +1,4 @@
-import { IEvent } from './event';
+import { IEvent } from './event.js';
 
 export abstract class AggregateRoot<E extends IEvent = IEvent> {
   public readonly aggregateId: string;

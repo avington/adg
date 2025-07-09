@@ -1,2 +1,2 @@
-export * from './create-portfolio-command';
-export * from './update-portfolio-command';
+export * from './create-portfolio-command.js';
+export * from './update-portfolio-command.js';

@@ -1,5 +1,5 @@
 import { Collection, Document } from 'mongodb';
-import { PortfolioUpdatedEvent } from '../events/portfolio-updated-event';
+import { PortfolioUpdatedEvent } from '../events/portfolio-updated-event.js';
 
 /**
  * Handles a PortfolioUpdatedEvent and updates the portfolio read model.

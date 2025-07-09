@@ -1,5 +1,5 @@
 import { Worker, WorkerOptions } from 'bullmq';
-import { redisConnection } from './reddis-connection';
+import { redisConnection } from './reddis-connection.js';
 
 // Utility to create a BullMQ Worker
 export function createWorker<T = any>(

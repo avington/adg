@@ -1,5 +1,5 @@
 import { Collection, Document } from 'mongodb';
-import { PortfolioCreatedEvent } from '../events/portfolio-created-event';
+import { PortfolioCreatedEvent } from '../events/portfolio-created-event.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function handlePortfolioCreatedEvent(

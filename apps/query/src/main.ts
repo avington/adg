@@ -6,20 +6,23 @@ import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeResolvers } from '@graphql-tools/merge';
 import type { Db } from 'mongodb';
 import { MongoClient } from 'mongodb';
-import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { userTypeDefs } from './graphql/types/user-types';
-import { portfolioTypeDefs } from './graphql/types/portfolio-types';
-import { lotTypeDef } from './graphql/types/lot-types';
+import { userTypeDefs } from './graphql/types/user-types.js';
+import { portfolioTypeDefs } from './graphql/types/portfolio-types.js';
+import { lotTypeDef } from './graphql/types/lot-types.js';
 import { googleJwtAuthMiddleware } from '@adg/server-auth';
+
+// ES module equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const typeDefs = [userTypeDefs, portfolioTypeDefs, lotTypeDef];
 
 // Loads all resolver files (*.resolvers.ts or *.resolvers.js) in this directory and subdirectories
-const resolversArray = loadFilesSync(
-  path.join(__dirname, './**/*.resolvers.{ts,js}')
-);
+const resolversArray = loadFilesSync(join(__dirname, './**/*.resolvers.js'));
 const resolvers = mergeResolvers(resolversArray);
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
