@@ -4,6 +4,7 @@ import { useTransition, animated } from 'react-spring';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import {
+  ModalWidth,
   StyledModalContainer,
   StyledModalContent,
   StyledModalHeader,
@@ -18,6 +19,7 @@ export interface ModalProps {
   closeOnBackdropClick?: boolean;
   closeOnEscape?: boolean;
   showCloseButton?: boolean;
+  modalWidth?: ModalWidth;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -28,6 +30,7 @@ export const Modal: React.FC<ModalProps> = ({
   closeOnBackdropClick = true,
   closeOnEscape = true,
   showCloseButton = true,
+  modalWidth = 'medium', // Add default value
 }) => {
   // Animation transitions for backdrop
   const backdropTransition = useTransition(isOpen, {
@@ -94,6 +97,7 @@ export const Modal: React.FC<ModalProps> = ({
                   <animated.div style={modalStyles}>
                     <StyledModalContent
                       onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                      modalWidth={modalWidth} // Add this line
                     >
                       {(title || showCloseButton) && (
                         <StyledModalHeader>

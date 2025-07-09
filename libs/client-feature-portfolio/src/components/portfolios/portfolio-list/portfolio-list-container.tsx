@@ -13,7 +13,7 @@ import IconAdd from '@mui/icons-material/Add';
 import { useCallback } from 'react';
 import { PortfolioModalContainer } from '../portfolio-item/portfolio-modal-container';
 import PortfolioListTable from './portfolio-list-table';
-import { PortfolioModel } from '@adg/global-models';
+import { PortfolioCreateModel } from '@adg/global-validations';
 
 export const PortfolioListContainer: React.FC = () => {
   const toaster = useToaster();
@@ -26,7 +26,7 @@ export const PortfolioListContainer: React.FC = () => {
     open();
   }, [open]);
 
-  const handleSavePortfolio = (portfolio: PortfolioModel) => {
+  const handleSavePortfolio = (portfolio: PortfolioCreateModel) => {
     console.log('save', portfolio);
     toaster.showSuccess(
       `Portfolio ${portfolio.name} has been saved successfully.`
@@ -63,10 +63,11 @@ export const PortfolioListContainer: React.FC = () => {
       <Modal
         isOpen={isOpen}
         onClose={close}
-        title="Portfolio Actions"
+        title="Create Portfolio"
         showCloseButton={true}
+        modalWidth="wide"
       >
-        <PortfolioModalContainer save={handleSavePortfolio} />
+        <PortfolioModalContainer close={close} />
       </Modal>
     </>
   );

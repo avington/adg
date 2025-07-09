@@ -53,7 +53,10 @@
       "path": "../client-graphql-data/tsconfig.lib.json"
     },
     {
-      "path": "../global-models/tsconfig.lib.json"
+      "path": "../client-data/tsconfig.lib.json"
+    },
+    {
+      "path": "../global-validations/tsconfig.lib.json"
     },
     {
       "path": "../client-components/tsconfig.lib.json"

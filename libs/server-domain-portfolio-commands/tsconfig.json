@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "../global-validations"
+    },
+    {
       "path": "../server-shared-kernel"
     },
     {

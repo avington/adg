@@ -15,7 +15,10 @@
       "path": "../client-graphql-data"
     },
     {
-      "path": "../global-models"
+      "path": "../client-data"
+    },
+    {
+      "path": "../global-validations"
     },
     {
       "path": "../client-components"

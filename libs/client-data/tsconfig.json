@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../client-hooks"
+    },
+    {
       "path": "../global-validations"
     },
     {
