@@ -1,4 +1,5 @@
 import { AuthenticatedRequest } from '@adg/global-models';
+import { PortfolioCreateSchema, validateData } from '@adg/global-validations';
 import { googleJwtAuthMiddleware } from '@adg/server-auth';
 import {
   CreatePortfolioCommandHandler,
@@ -24,29 +25,34 @@ export function portfolioRouter(
   portfolioRouter.post(
     '/',
     googleJwtAuthMiddleware,
+    validateData(PortfolioCreateSchema),
     async (req: AuthenticatedRequest, res: Response) => {
       const userId = req.user?.sub ?? '';
+      const portfolioId = uuidv4(); // Generate a new UUID for the portfolio
+
+      if (!userId) {
+        res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ error: 'User not authenticated' });
+        return;
+      }
+
       try {
-        const {
-          portfolioId,
-          name,
-          description,
-          isActive,
-          createdAt,
-          lastUpdatedBy,
-        } = req.body;
+        const { name, description } = req.body;
         const command = new CreatePortfolioCommand(uuidv4(), portfolioId, {
           portfolioId,
-          userId,
+          userId, // Now guaranteed to be a string
           name,
           description,
-          isActive,
-          createdAt,
-          lastUpdatedBy,
+          isActive: true,
+          createdAt: new Date(),
+          lastUpdatedBy: userId,
         });
         const handler = new CreatePortfolioCommandHandler(eventStore, eventBus);
         await handler.execute(command);
-        res.status(StatusCodes.CREATED).json({ message: 'Portfolio created' });
+        res
+          .status(StatusCodes.CREATED)
+          .json({ message: 'Portfolio created', portfolioId, name });
       } catch (err) {
         res
           .status(StatusCodes.BAD_REQUEST)
@@ -69,19 +75,15 @@ export function portfolioRouter(
           updatedAt,
           lastUpdatedBy,
         } = req.body;
-        const command = new UpdatePortfolioCommand(
-          crypto.randomUUID(),
+        const command = new UpdatePortfolioCommand(uuidv4(), portfolioId, {
           portfolioId,
-          {
-            portfolioId,
-            userId,
-            name,
-            description,
-            isActive,
-            updatedAt,
-            lastUpdatedBy,
-          }
-        );
+          userId,
+          name,
+          description,
+          isActive,
+          updatedAt,
+          lastUpdatedBy,
+        });
         const handler = new UpdatePortfolioCommandHandler(eventStore, eventBus);
         await handler.execute(command);
         res.status(StatusCodes.ACCEPTED).json({ message: 'Portfolio updated' });

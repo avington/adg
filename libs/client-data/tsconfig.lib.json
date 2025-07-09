@@ -41,6 +41,9 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
+      "path": "../client-hooks/tsconfig.lib.json"
+    },
+    {
       "path": "../global-validations/tsconfig.lib.json"
     }
   ]

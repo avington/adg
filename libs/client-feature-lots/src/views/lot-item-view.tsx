@@ -14,7 +14,7 @@ export const LotItemView: React.FC = () => {
     lotId: string;
   }>();
 
-  const { showSuccess, showWarning } = useToaster();
+  const { showSuccess } = useToaster();
   const { saveLot, loading } = useSaveLot();
 
   const navigate = useNavigate();

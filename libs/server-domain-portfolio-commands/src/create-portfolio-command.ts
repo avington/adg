@@ -1,20 +1,11 @@
 import { Command } from '@adg/server-shared-kernel';
+import { PortfolioCreateInternalModel } from '@adg/global-validations';
 
-export interface CreatePortfolioPayload {
-  portfolioId: string;
-  userId: string;
-  name: string;
-  description?: string;
-  isActive?: boolean;
-  createdAt?: Date;
-  lastUpdatedBy?: string;
-}
-
-export class CreatePortfolioCommand extends Command<CreatePortfolioPayload> {
+export class CreatePortfolioCommand extends Command<PortfolioCreateInternalModel> {
   constructor(
     id: string,
     aggregateId: string,
-    payload: CreatePortfolioPayload,
+    payload: PortfolioCreateInternalModel,
     timestamp: Date = new Date()
   ) {
     super(id, 'CreatePortfolioCommand', timestamp, aggregateId, payload);

@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import React from 'react';
 
+export type ModalWidth = 'wide' | 'medium' | 'thin';
+
 interface ModalContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  modalWidth?: ModalWidth;
 }
 
 interface ModalContentProps {
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   children?: React.ReactNode;
+  modalWidth?: ModalWidth;
 }
 
 export const StyledModalContainer = styled.div<ModalContainerProps>`
@@ -23,15 +27,75 @@ export const StyledModalContainer = styled.div<ModalContainerProps>`
   z-index: 1000;
 `;
 
-export const StyledModalContent = styled.div<ModalContentProps>`
+export const StyledModalContent = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'modalWidth',
+})<ModalContentProps>`
   background-color: white;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
+
+  /* Width variants with responsive design */
+  ${({ modalWidth = 'medium' }) => {
+    switch (modalWidth) {
+      case 'thin':
+        return `
+          width: 90vw;
+          max-width: 400px;
+          
+          @media (max-width: 768px) {
+            width: 95vw;
+            max-width: 320px;
+          }
+          
+          @media (max-width: 480px) {
+            width: 95vw;
+            max-width: 280px;
+            padding: 1rem;
+          }
+        `;
+      case 'wide':
+        return `
+          width: 95vw;
+          max-width: 800px;
+          
+          @media (max-width: 1024px) {
+            width: 90vw;
+            max-width: 700px;
+          }
+          
+          @media (max-width: 768px) {
+            width: 95vw;
+            max-width: 600px;
+          }
+          
+          @media (max-width: 480px) {
+            width: 95vw;
+            max-width: none;
+            padding: 1rem;
+          }
+        `;
+      case 'medium':
+      default:
+        return `
+          width: 90vw;
+          max-width: 500px;
+          
+          @media (max-width: 768px) {
+            width: 95vw;
+            max-width: 400px;
+          }
+          
+          @media (max-width: 480px) {
+            width: 95vw;
+            max-width: 320px;
+            padding: 1rem;
+          }
+        `;
+    }
+  }}
 `;
 
 export const StyledModalHeader = styled.div`

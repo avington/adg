@@ -11,7 +11,8 @@ export const StyledFormActionRow = styled.div`
   background-color: var(--color-white);
   border-top: 1px solid var(--color-blue-grey-200);
 `;
-interface FormActionRowProps extends React.HTMLAttributes<HTMLDivElement> {
+interface FormActionRowProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onReset' | 'onAbort'> {
   onReset?: React.MouseEventHandler<HTMLButtonElement>;
   onAbort?: React.MouseEventHandler<HTMLButtonElement>;
 }

@@ -37,8 +37,6 @@ export function lotsRouter(
           shares,
           price,
           openDate,
-          createdAt,
-          lastUpdatedBy,
         } = req.body;
         const command = new CreateLotCommand(uuidv4(), lotId, {
           lotId,
@@ -49,8 +47,8 @@ export function lotsRouter(
           shares,
           price,
           openDate: new Date(openDate),
-          createdAt: new Date(createdAt),
-          lastUpdatedBy,
+          createdAt: new Date(),
+          lastUpdatedBy: userId,
         });
         const handler = new CreateLotCommandHandler(eventStore, eventBus);
         await handler.execute(command);

@@ -5,7 +5,6 @@ import {
   RenderWhen,
   StyledActionRow,
   StyledTableContainer,
-  useToaster,
 } from '@adg/client-components';
 import { useAllPortfolios } from '@adg/client-graphql-data';
 import { useBoolean } from '@adg/client-hooks';
@@ -13,11 +12,8 @@ import IconAdd from '@mui/icons-material/Add';
 import { useCallback } from 'react';
 import { PortfolioModalContainer } from '../portfolio-item/portfolio-modal-container';
 import PortfolioListTable from './portfolio-list-table';
-import { PortfolioModel } from '@adg/global-models';
 
 export const PortfolioListContainer: React.FC = () => {
-  const toaster = useToaster();
-
   const { setTrue: open, setFalse: close, value: isOpen } = useBoolean();
 
   const { loading, error, data: portfolioData } = useAllPortfolios();
@@ -25,13 +21,6 @@ export const PortfolioListContainer: React.FC = () => {
   const handleAddPortfolio = useCallback(() => {
     open();
   }, [open]);
-
-  const handleSavePortfolio = (portfolio: PortfolioModel) => {
-    console.log('save', portfolio);
-    toaster.showSuccess(
-      `Portfolio ${portfolio.name} has been saved successfully.`
-    );
-  };
 
   return (
     <>
@@ -63,10 +52,11 @@ export const PortfolioListContainer: React.FC = () => {
       <Modal
         isOpen={isOpen}
         onClose={close}
-        title="Portfolio Actions"
+        title="Create Portfolio"
         showCloseButton={true}
+        modalWidth="wide"
       >
-        <PortfolioModalContainer save={handleSavePortfolio} />
+        <PortfolioModalContainer close={close} />
       </Modal>
     </>
   );

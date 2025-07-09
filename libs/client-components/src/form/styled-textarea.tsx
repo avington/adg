@@ -1,6 +1,9 @@
+import React from 'react';
 import styled from 'styled-components';
 
-export const StyledTextarea = styled.textarea`
+type StyledTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+export const StyledTextarea = styled.textarea<StyledTextareaProps>`
   width: 100%;
   height: 100%;
   padding: 0.5rem;
@@ -15,6 +18,7 @@ export const StyledTextarea = styled.textarea`
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 `;
+
 export const StyledTextareaLabel = styled.label`
   display: block;
   margin-bottom: 0.5rem;
