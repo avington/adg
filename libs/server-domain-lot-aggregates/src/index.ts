@@ -1,1 +1,1 @@
-export * from './lot-aggregates';
+export * from './lot-aggregates.js';

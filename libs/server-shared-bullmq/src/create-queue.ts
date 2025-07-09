@@ -1,5 +1,5 @@
 import { Queue, QueueOptions } from 'bullmq';
-import { redisConnection } from './reddis-connection';
+import { redisConnection } from './reddis-connection.js';
 
 // Utility to create a BullMQ Queue
 export function createQueue<T = any>(

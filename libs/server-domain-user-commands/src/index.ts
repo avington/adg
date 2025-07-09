@@ -1,2 +1,2 @@
-export * from './create-user-command';
-export * from './update-user-name-command';
+export * from './create-user-command.js';
+export * from './update-user-name-command.js';

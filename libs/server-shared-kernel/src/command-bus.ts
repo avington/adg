@@ -1,4 +1,4 @@
-import { ICommand } from './command';
+import { ICommand } from './command.js';
 
 export interface ICommandBus<C extends ICommand = ICommand> {
   /**

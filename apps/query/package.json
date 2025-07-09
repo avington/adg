@@ -15,7 +15,7 @@
           "platform": "node",
           "outputPath": "apps/query/dist",
           "format": [
-            "cjs"
+            "esm"
           ],
           "bundle": false,
           "main": "apps/query/src/main.ts",
@@ -68,5 +68,6 @@
         }
       }
     }
-  }
+  },
+  "type": "module"
 }

@@ -1,5 +1,5 @@
 import { Collection, Document } from 'mongodb';
-import { LotCreatedEvent } from '../events/lot-created-event';
+import { LotCreatedEvent } from '../events/lot-created-event.js';
 
 export async function handleLotCreatedEvent(
   event: LotCreatedEvent,

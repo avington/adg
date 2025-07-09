@@ -1,1 +1,1 @@
-export * from './user-aggregates';
+export * from './user-aggregates.js';

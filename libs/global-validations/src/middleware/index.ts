@@ -1,1 +1,1 @@
-export * from './zod-validation';
+export * from './zod-validation.js';

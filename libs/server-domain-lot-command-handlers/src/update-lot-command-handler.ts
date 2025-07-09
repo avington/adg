@@ -1,5 +1,5 @@
 import { IEventBus, IEventStore } from '@adg/server-shared-kernel';
-import { UpdateLotCommand } from '../../server-domain-lot-commands/src/update-lot-command';
+import { UpdateLotCommand } from '@adg/server-domain-lot-commands';
 import { LotAggregate } from '@adg/server-domain-lot-aggregates';
 
 export class UpdateLotCommandHandler {

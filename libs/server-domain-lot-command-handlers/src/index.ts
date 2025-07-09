@@ -1,2 +1,2 @@
-export * from './create-lot-command-handler';
-export * from './update-lot-command-handler';
+export * from './create-lot-command-handler.js';
+export * from './update-lot-command-handler.js';

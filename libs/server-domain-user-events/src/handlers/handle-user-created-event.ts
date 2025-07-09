@@ -1,5 +1,5 @@
 import type { Collection, Document } from 'mongodb';
-import type { UserCreatedEvent } from '../events/user-created-event';
+import type { UserCreatedEvent } from '../events/user-created-event.js';
 
 /**
  * Handles a UserCreatedEvent and updates/inserts into the user read model.

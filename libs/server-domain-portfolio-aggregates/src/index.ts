@@ -1,1 +1,1 @@
-export * from './portfolio-aggregates';
+export * from './portfolio-aggregates.js';

@@ -70,9 +70,6 @@
       "path": "./apps/query"
     },
     {
-      "path": "./apps/processor-user-events"
-    },
-    {
       "path": "./libs/server-domain-portfolio-events"
     },
     {
@@ -80,9 +77,6 @@
     },
     {
       "path": "./libs/server-domain-portfolio-commands"
-    },
-    {
-      "path": "./apps/processor-portfolio-events"
     },
     {
       "path": "./libs/server-domain-portfolio-aggregates"
@@ -98,9 +92,6 @@
     },
     {
       "path": "./libs/server-domain-lot-events"
-    },
-    {
-      "path": "./apps/processor-lot-events"
     },
     {
       "path": "./libs/client-feature-lots"
