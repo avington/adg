@@ -5,7 +5,6 @@ import {
   RenderWhen,
   StyledActionRow,
   StyledTableContainer,
-  useToaster,
 } from '@adg/client-components';
 import { useAllPortfolios } from '@adg/client-graphql-data';
 import { useBoolean } from '@adg/client-hooks';
@@ -13,11 +12,8 @@ import IconAdd from '@mui/icons-material/Add';
 import { useCallback } from 'react';
 import { PortfolioModalContainer } from '../portfolio-item/portfolio-modal-container';
 import PortfolioListTable from './portfolio-list-table';
-import { PortfolioCreateModel } from '@adg/global-validations';
 
 export const PortfolioListContainer: React.FC = () => {
-  const toaster = useToaster();
-
   const { setTrue: open, setFalse: close, value: isOpen } = useBoolean();
 
   const { loading, error, data: portfolioData } = useAllPortfolios();
