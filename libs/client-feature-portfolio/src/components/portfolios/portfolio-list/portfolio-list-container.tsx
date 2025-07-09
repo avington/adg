@@ -26,13 +26,6 @@ export const PortfolioListContainer: React.FC = () => {
     open();
   }, [open]);
 
-  const handleSavePortfolio = (portfolio: PortfolioCreateModel) => {
-    console.log('save', portfolio);
-    toaster.showSuccess(
-      `Portfolio ${portfolio.name} has been saved successfully.`
-    );
-  };
-
   return (
     <>
       <StyledTableContainer>
