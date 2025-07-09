@@ -75,19 +75,15 @@ export function portfolioRouter(
           updatedAt,
           lastUpdatedBy,
         } = req.body;
-        const command = new UpdatePortfolioCommand(
-          crypto.randomUUID(),
+        const command = new UpdatePortfolioCommand(uuidv4(), portfolioId, {
           portfolioId,
-          {
-            portfolioId,
-            userId,
-            name,
-            description,
-            isActive,
-            updatedAt,
-            lastUpdatedBy,
-          }
-        );
+          userId,
+          name,
+          description,
+          isActive,
+          updatedAt,
+          lastUpdatedBy,
+        });
         const handler = new UpdatePortfolioCommandHandler(eventStore, eventBus);
         await handler.execute(command);
         res.status(StatusCodes.ACCEPTED).json({ message: 'Portfolio updated' });

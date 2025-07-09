@@ -33,7 +33,6 @@ export const PortfolioModalContainer = ({
   const save = async (portfolio: PortfolioCreateModel) => {
     await createPortfolio(portfolio);
     console.log('save', portfolio);
-    close?.();
   };
 
   return (
