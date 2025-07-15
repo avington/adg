@@ -18,6 +18,15 @@
       "path": "../../libs/server-domain-user-command-handlers/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/server-shared-fmp/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-domain-position-commands/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-domain-position-command-handlers/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/server-domain-portfolio-commands/tsconfig.lib.json"
     },
     {

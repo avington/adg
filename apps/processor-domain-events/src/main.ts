@@ -18,6 +18,8 @@ import {
   PortfolioUpdatedEvent,
 } from '@adg/server-domain-portfolio-events';
 
+import { PositionCreatedEvent } from '@adg/server-domain-position-events';
+
 // User events
 import {
   handleUserCreatedEvent,
@@ -46,6 +48,7 @@ async function main() {
     | LotUpdatedEvent
     | PortfolioCreatedEvent
     | PortfolioUpdatedEvent
+    | PositionCreatedEvent
     | UserCreatedEvent;
 
   const eventHandlers: Record<string, (data: EventData) => Promise<void>> = {

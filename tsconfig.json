@@ -110,6 +110,21 @@
     },
     {
       "path": "./apps/processor-domain-events"
+    },
+    {
+      "path": "./libs/server-shared-fmp"
+    },
+    {
+      "path": "./libs/server-domain-position-command-handlers"
+    },
+    {
+      "path": "./libs/server-domain-position-aggregates"
+    },
+    {
+      "path": "./libs/server-domain-position-commands"
+    },
+    {
+      "path": "./libs/server-domain-position-events"
     }
   ]
 }

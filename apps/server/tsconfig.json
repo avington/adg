@@ -10,6 +10,15 @@
       "path": "../../libs/server-domain-user-command-handlers"
     },
     {
+      "path": "../../libs/server-shared-fmp"
+    },
+    {
+      "path": "../../libs/server-domain-position-commands"
+    },
+    {
+      "path": "../../libs/server-domain-position-command-handlers"
+    },
+    {
       "path": "../../libs/server-domain-portfolio-commands"
     },
     {
