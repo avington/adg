@@ -2,7 +2,7 @@ import { z } from 'zod';
 import {
   priceToNumberRequired,
   priceNumberToIntegerRequired,
-} from './validation-helpers.js';
+} from '../validation-helpers.js';
 
 export const LotValidationSchema = z.object({
   lotId: z.string().optional(),

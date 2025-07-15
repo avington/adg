@@ -1,4 +1,4 @@
-import { PositionModel } from './position.model';
+import { PositionModel } from './position.model.js';
 
 export interface PortfolioModel {
   id?: string;

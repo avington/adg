@@ -108,4 +108,16 @@ export class PortfolioAggregate extends AggregateRoot {
   public getState(): Partial<PortfolioAggregateState> {
     return { ...this.state };
   }
+
+  public isOwnedBy(userId: string): boolean {
+    return this.state.userId === userId;
+  }
+
+  public isActive(): boolean {
+    return this.state.isActive === true;
+  }
+
+  public canAcceptNewPositions(): boolean {
+    return this.isActive() && this.state.portfolioId !== undefined;
+  }
 }

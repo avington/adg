@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../server-shared-kernel"
+    },
+    {
+      "path": "../server-domain-portfolio-aggregates"
+    },
+    {
+      "path": "../server-domain-position-aggregates"
+    },
+    {
+      "path": "../server-domain-position-commands"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}
