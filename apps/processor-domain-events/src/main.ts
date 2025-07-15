@@ -18,7 +18,10 @@ import {
   PortfolioUpdatedEvent,
 } from '@adg/server-domain-portfolio-events';
 
-import { PositionCreatedEvent } from '@adg/server-domain-position-events';
+import {
+  PositionCreatedEvent,
+  handlePositionCreatedEvent,
+} from '@adg/server-domain-position-events';
 
 // User events
 import {
@@ -42,6 +45,7 @@ async function main() {
   // Collections for each domain
   const lotsCollection = db.collection('lots');
   const portfoliosCollection = db.collection('portfolios');
+  const positionsOverviewsCollection = db.collection('positionOverviews');
   const usersCollection = db.collection('users'); // Define event handlers mapping
   type EventData =
     | LotCreatedEvent
@@ -68,6 +72,11 @@ async function main() {
       ),
     UserCreatedEvent: (data) =>
       handleUserCreatedEvent(data as UserCreatedEvent, usersCollection),
+    PositionCreatedEvent: (data) =>
+      handlePositionCreatedEvent(
+        data as PositionCreatedEvent,
+        positionsOverviewsCollection
+      ),
   };
 
   // Set up unified BullMQ Worker for all domain events

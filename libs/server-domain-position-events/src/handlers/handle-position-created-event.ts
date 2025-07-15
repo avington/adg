@@ -1,5 +1,5 @@
 import { Collection, Document } from 'mongodb';
-import { PositionCreatedEvent } from 'src/events/position-created-event';
+import { PositionCreatedEvent } from '../events/position-created-event.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function handlePositionCreatedEvent(
@@ -18,6 +18,7 @@ export async function handlePositionCreatedEvent(
         summary: { ...event.payload.summary },
         stockQuote: { ...event.payload.stockQuote },
       },
-    }
+    },
+    { upsert: true }
   );
 }
