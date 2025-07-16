@@ -11,7 +11,11 @@ export const HoldingsListView: React.FC = () => {
       <div>
         <HoldingBreadcrumbs />
       </div>
-      <div>table</div>
+      {/* TODO: Replace with actual holdings table */}
+      <div>
+        {/* Example placeholder: */}
+        <span>Holdings table will be displayed here.</span>
+      </div>
     </StyledHeaderBodyContainer>
   );
 };
