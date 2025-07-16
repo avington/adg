@@ -21,6 +21,9 @@
       "path": "../../libs/server-domain-user-events/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/server-domain-position-events/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/server-domain-portfolio-events/tsconfig.lib.json"
     },
     {
