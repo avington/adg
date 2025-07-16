@@ -1,11 +1,6 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import {
-  Button,
-  LoadingOverlay,
-  RenderWhen,
-  StyledTableContainer,
-} from '@adg/client-components';
 import { StyledHeaderBodyContainer } from '@adg/client-theme';
+import { useParams } from 'react-router-dom';
+import HoldingBreadcrumbs from '../components/holding-breadcrumbs';
 
 export const HoldingsListView: React.FC = () => {
   const { portfolioId } = useParams<{
@@ -13,7 +8,10 @@ export const HoldingsListView: React.FC = () => {
   }>();
   return (
     <StyledHeaderBodyContainer>
-      <p>No holdings to display yet.</p>
+      <div>
+        <HoldingBreadcrumbs />
+      </div>
+      <div>table</div>
     </StyledHeaderBodyContainer>
   );
 };

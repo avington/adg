@@ -7,6 +7,9 @@
       "path": "../../libs/server-domain-user-events"
     },
     {
+      "path": "../../libs/server-domain-position-events"
+    },
+    {
       "path": "../../libs/server-domain-portfolio-events"
     },
     {

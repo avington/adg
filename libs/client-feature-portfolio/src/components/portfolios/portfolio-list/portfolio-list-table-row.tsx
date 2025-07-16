@@ -1,7 +1,13 @@
-import { Button, TableCell, TableRow } from '@adg/client-components';
+import {
+  Button,
+  StyledNameLink,
+  TableCell,
+  TableRow,
+} from '@adg/client-components';
 import { PortfolioProjection } from '@adg/server-domain-read-models';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 export interface PortfolioListTableRowProps {
@@ -22,9 +28,22 @@ export const PortfolioListTableRow: React.FC<PortfolioListTableRowProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const navigate = useNavigate();
+
+  const handleNameClick = () => {
+    navigate(`/portfolio/${portfolio.portfolioId}/holdings`);
+  };
+
   return (
     <TableRow>
-      <TableCell>{portfolio.name}</TableCell>
+      <TableCell>
+        <StyledNameLink
+          onClick={handleNameClick}
+          aria-label={`View holdings for ${portfolio.name}`}
+        >
+          {portfolio.name}
+        </StyledNameLink>
+      </TableCell>
       <TableCell>
         <StyledActionCell>
           <Button
