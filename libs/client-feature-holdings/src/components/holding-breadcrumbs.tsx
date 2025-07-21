@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useSpring, animated, config } from 'react-spring';
-import styled from 'styled-components';
-import { KeyboardArrowDown, ChevronRight } from '@mui/icons-material';
 import {
   DropdownContainer,
   DropdownMenu,
   DropdownTrigger,
+  LoadingOverlay,
 } from '@adg/client-components';
+import { ChevronRight, KeyboardArrowDown } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { config, useSpring } from 'react-spring';
+import styled from 'styled-components';
+import { useAllPortfolios } from '@adg/client-graphql-data';
 
 // Fake portfolio data - replace with real data later
 const FAKE_PORTFOLIOS = [
@@ -23,6 +25,7 @@ const BreadcrumbContainer = styled.nav<{
   'aria-label'?: string;
   children?: React.ReactNode;
 }>`
+  position: relative;
   display: flex;
   align-items: center;
   padding: 1rem 0;
@@ -69,8 +72,8 @@ const DropdownItem = styled(Link)`
 `;
 
 const CurrentPortfolio = styled.span`
-  color: #333;
-  font-weight: 500;
+  color: var(--color-blue-grey-900);
+  font-weight: 700;
 `;
 
 export interface HoldingBreadcrumbsProps {
@@ -82,9 +85,20 @@ export const HoldingBreadcrumbs: React.FC<HoldingBreadcrumbsProps> = ({
 }) => {
   const { portfolioId } = useParams<{ portfolioId: string }>();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { loading, error, data: portfolioData, refetch } = useAllPortfolios();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if (error?.message) {
+      console.error('Error fetching portfolios:', error.message);
+    }
+  }, [error]);
 
   // Find current portfolio name
-  const currentPortfolio = FAKE_PORTFOLIOS.find(
+  const currentPortfolio = (portfolioData?.portfolios ?? []).find(
     (p) => p.portfolioId === portfolioId
   );
 
@@ -122,12 +136,14 @@ export const HoldingBreadcrumbs: React.FC<HoldingBreadcrumbsProps> = ({
       }
     };
   }, [isDropdownOpen]);
+  console.log('Current Portfolio:', portfolioData?.portfolios);
 
   return (
     <BreadcrumbContainer
       className={className}
       aria-label="Breadcrumb navigation"
     >
+      <LoadingOverlay isLoading={loading} />
       {/* Root link */}
       <BreadcrumbLink to="/portfolio">Portfolios</BreadcrumbLink>
 
@@ -155,7 +171,7 @@ export const HoldingBreadcrumbs: React.FC<HoldingBreadcrumbsProps> = ({
 
         {isDropdownOpen && (
           <DropdownMenu style={dropdownAnimation}>
-            {FAKE_PORTFOLIOS.map((portfolio) => (
+            {(portfolioData?.portfolios ?? []).map((portfolio) => (
               <DropdownItem
                 key={portfolio.portfolioId}
                 to={`/portfolio/${portfolio.portfolioId}/holdings`}
