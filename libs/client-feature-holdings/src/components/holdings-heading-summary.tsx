@@ -1,5 +1,5 @@
 import { HeadingContainer } from '@adg/client-components';
-import { StyledHoldingsHeadingSummary } from './styled-holdings-heading-sumamry';
+import { StyledHoldingsHeadingSummary } from './styled-holdings-heading-summary';
 
 export const HoldingsHeadingSummary: React.FC = () => {
   return (
