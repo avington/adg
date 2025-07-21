@@ -45,6 +45,9 @@
       "path": "../client-theme/tsconfig.lib.json"
     },
     {
+      "path": "../client-graphql-data/tsconfig.lib.json"
+    },
+    {
       "path": "../client-components/tsconfig.lib.json"
     }
   ]

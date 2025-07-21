@@ -6,6 +6,9 @@
       "path": "../client-theme"
     },
     {
+      "path": "../client-graphql-data"
+    },
+    {
       "path": "../client-components"
     },
     {
