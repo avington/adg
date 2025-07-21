@@ -127,7 +127,6 @@ export const HoldingBreadcrumbs: React.FC<HoldingBreadcrumbsProps> = ({
       }
     };
   }, [isDropdownOpen]);
-  console.log('Current Portfolio:', portfolioData?.portfolios);
 
   return (
     <BreadcrumbContainer
