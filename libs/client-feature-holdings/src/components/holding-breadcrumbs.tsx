@@ -11,15 +11,6 @@ import { config, useSpring } from 'react-spring';
 import styled from 'styled-components';
 import { useAllPortfolios } from '@adg/client-graphql-data';
 
-// Fake portfolio data - replace with real data later
-const FAKE_PORTFOLIOS = [
-  { portfolioId: '1', name: 'Growth Portfolio' },
-  { portfolioId: '2', name: 'Value Portfolio' },
-  { portfolioId: '3', name: 'Dividend Portfolio' },
-  { portfolioId: '4', name: 'Tech Stocks' },
-  { portfolioId: '5', name: 'International Portfolio' },
-];
-
 const BreadcrumbContainer = styled.nav<{
   className?: string;
   'aria-label'?: string;
@@ -136,7 +127,6 @@ export const HoldingBreadcrumbs: React.FC<HoldingBreadcrumbsProps> = ({
       }
     };
   }, [isDropdownOpen]);
-  console.log('Current Portfolio:', portfolioData?.portfolios);
 
   return (
     <BreadcrumbContainer
