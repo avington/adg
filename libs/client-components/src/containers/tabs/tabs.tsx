@@ -22,7 +22,9 @@ export const Tabs: React.FC<TabsProps> = ({
   defaultActiveTab,
   onTabChange,
 }) => {
-  const [activeTab, setActiveTab] = useState(defaultActiveTab || tabs[0]?.id);
+  const [activeTab, setActiveTab] = useState(
+    defaultActiveTab || tabs[0]?.id || ''
+  );
 
   const activeTabContent = tabs.find((tab) => tab.id === activeTab)?.content;
 
@@ -48,6 +50,7 @@ export const Tabs: React.FC<TabsProps> = ({
           return (
             <TabButton
               key={tab.id}
+              id={`tab-${tab.id}`}
               $isActive={isTabActive}
               onClick={() => handleTabClick(tab.id)}
               role="tab"
