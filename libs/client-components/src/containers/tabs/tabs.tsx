@@ -32,8 +32,9 @@ export const Tabs: React.FC<TabsProps> = ({
     opacity: 1,
     transform: 'translateY(0px)',
     from: { opacity: 0, transform: 'translateY(10px)' },
-    reset: true,
     config: config.gentle,
+    // Animation will reset when activeTab changes
+    key: activeTab,
   });
 
   const handleTabClick = (tabId: string) => {
