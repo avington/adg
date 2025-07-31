@@ -6,6 +6,15 @@
       "path": "../client-theme"
     },
     {
+      "path": "../client-hooks"
+    },
+    {
+      "path": "../client-data"
+    },
+    {
+      "path": "../global-validations"
+    },
+    {
       "path": "../client-graphql-data"
     },
     {

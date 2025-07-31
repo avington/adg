@@ -1,12 +1,12 @@
 import { StockQuoteModel } from '../fmp/stock-quote.js';
-import { SymbolSearchModel } from '../fmp/symbol-search.js';
+import { CompanyProfileModel } from '../fmp/company-profile.js';
 
 export interface PositionOverviewModel {
   positionId: string;
   portfolioId: string;
   userId: string;
   symbol: string;
-  summary: SymbolSearchModel;
+  summary: CompanyProfileModel;
   stockQuote: StockQuoteModel;
   createdAt: Date;
   updatedAt: Date;

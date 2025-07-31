@@ -10,6 +10,7 @@ export * from './portfolios/position.model.js';
 // fmp (Financial Modeling Prep)
 export * from './fmp/symbol-search.js';
 export * from './fmp/stock-quote.js';
+export * from './fmp/company-profile.js';
 
 // Positions
 export * from './positions/position-overview.js';

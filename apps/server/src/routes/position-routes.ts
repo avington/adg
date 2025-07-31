@@ -8,7 +8,7 @@ import { CreatePositionCommandHandler } from '@adg/server-domain-position-comman
 import { CreatePositionCommand } from '@adg/server-domain-position-commands';
 import { BullMqEventBus } from '@adg/server-shared-event-bus-bullmq';
 import { MongoEventStore } from '@adg/server-shared-event-store';
-import { getQuote, searchSymbol } from '@adg/server-shared-fmp';
+import { getQuote, searchSymbol, getProfile } from '@adg/server-shared-fmp';
 import { Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,6 +25,7 @@ export function positionsRouter(
     validateData(PositionCreateSchema),
     async (req: AuthenticatedRequest, res: Response) => {
       const userId = req.user?.sub ?? '';
+
       if (!userId) {
         return res
           .status(StatusCodes.UNAUTHORIZED)
@@ -33,12 +34,22 @@ export function positionsRouter(
 
       try {
         const { portfolioId, symbol } = req.body;
+        console.log('portfolioId:', portfolioId);
+        console.log('symbol:', symbol);
 
         // External API validation (symbol exists)
-        const [summary, stockQuote] = await Promise.all([
-          searchSymbol(symbol),
-          getQuote(symbol),
-        ]);
+        let summary, stockQuote;
+        try {
+          [summary, stockQuote] = await Promise.all([
+            getProfile(symbol),
+            getQuote(symbol),
+          ]);
+        } catch (apiError) {
+          console.error('Error fetching symbol or quote:', apiError);
+          return res
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .json({ error: 'Failed to fetch symbol or quote' });
+        }
 
         if (!summary) {
           return res
@@ -100,6 +111,7 @@ export function positionsRouter(
         } else {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             error: 'Failed to create position',
+            errorMessage,
           });
         }
       }

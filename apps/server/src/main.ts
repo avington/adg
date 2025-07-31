@@ -17,6 +17,7 @@ import { Queue } from 'bullmq';
 import { QueueNames, redisConnection } from '@adg/server-shared-bullmq';
 import { portfolioRouter } from './routes/portfolio-routes';
 import { lotsRouter } from './routes/lots-routes';
+import { positionsRouter } from './routes/position-routes';
 
 const clientDomain = process.env.CLIENT_DOMAIN || 'http://localhost:3000';
 const app = express();
@@ -65,6 +66,7 @@ async function start() {
   app.use('/api/v1/user', userRouter(eventStore, eventBus));
   app.use('/api/v1/portfolios', portfolioRouter(eventStore, eventBus));
   app.use('/api/v1/lots', lotsRouter(eventStore, eventBus));
+  app.use('/api/v1/positions', positionsRouter(eventStore, eventBus));
 
   // Example: create a BullMQ queue instance (replace with your actual queue)
   const userEventsQueue = new Queue(QueueNames.DOMAIN_EVENTS, {
