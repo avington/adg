@@ -37,13 +37,15 @@ export function positionsRouter(
       try {
         const { portfolioId, symbol } = req.body;
         // External API validation (symbol exists)
-        let summary: CompanyProfileModel | null,
-          stockQuote: StockQuoteModel | null;
+        let summary: CompanyProfileModel | null = null;
+        let stockQuote: StockQuoteModel | null = null;
         try {
-          [summary, stockQuote] = await Promise.all([
+          const [profileResult, quoteResult] = await Promise.all([
             getProfile(symbol),
             getQuote(symbol),
           ]);
+          summary = profileResult;
+          stockQuote = quoteResult;
         } catch (apiError) {
           console.error('Error fetching symbol or quote:', { error: apiError });
           return res
