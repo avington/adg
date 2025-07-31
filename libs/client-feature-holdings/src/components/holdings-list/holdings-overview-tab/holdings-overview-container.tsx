@@ -24,13 +24,18 @@ export const HoldingsOverviewContainer: React.FC = () => {
   }, [setTrue]);
 
   const handleAddHolding = useCallback(
-    async ({ portfolioId, symbol }: PositionCreateRequestModel) => {
+    async ({ symbol }: PositionCreateRequestModel) => {
+      if (!portfolioId) {
+        // Optionally show an error or handle this case
+        showError('Portfolio ID is missing.');
+        return;
+      }
       await addHolding({
         symbol,
         portfolioId,
       });
     },
-    [addHolding, portfolioId]
+    [addHolding, portfolioId, showError]
   );
 
   useEffect(() => {
