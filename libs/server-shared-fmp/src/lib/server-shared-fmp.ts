@@ -28,7 +28,9 @@ export const getProfile = async (
       symbol: symbol,
     },
   });
-  return response.data?.[0] ?? null; // Assuming the first item is the profile we want
+  return Array.isArray(response.data) && response.data.length > 0
+    ? response.data[0]
+    : null; // Safely return the first profile or null
 };
 
 export async function getQuote(
@@ -38,7 +40,10 @@ export async function getQuote(
     params: {
       apikey: FMP_API_KEY,
       symbol: symbol,
-    },
+  if (Array.isArray(response.data) && response.data.length > 0) {
+    return response.data[0];
+  }
+  return null; // Response structure did not match expectations
   });
   return response.data?.[0] ?? null; // Assuming the first item is the quote we want
 }

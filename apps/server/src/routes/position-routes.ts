@@ -8,11 +8,10 @@ import { CreatePositionCommandHandler } from '@adg/server-domain-position-comman
 import { CreatePositionCommand } from '@adg/server-domain-position-commands';
 import { BullMqEventBus } from '@adg/server-shared-event-bus-bullmq';
 import { MongoEventStore } from '@adg/server-shared-event-store';
-import { getQuote, searchSymbol, getProfile } from '@adg/server-shared-fmp';
+import { getProfile, getQuote } from '@adg/server-shared-fmp';
 import { Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
-import logger from '@adg/server-shared-logger';
 
 export function positionsRouter(
   eventStore: MongoEventStore,
@@ -35,8 +34,6 @@ export function positionsRouter(
 
       try {
         const { portfolioId, symbol } = req.body;
-        // For production, consider using a proper logging library instead of console.log
-        // Example: logger.info(`portfolioId: ${portfolioId}, symbol: ${symbol}`);
         // External API validation (symbol exists)
         let summary, stockQuote;
         try {
@@ -45,7 +42,7 @@ export function positionsRouter(
             getQuote(symbol),
           ]);
         } catch (apiError) {
-          logger.error('Error fetching symbol or quote:', { error: apiError });
+          console.error('Error fetching symbol or quote:', { error: apiError });
           return res
             .status(StatusCodes.INTERNAL_SERVER_ERROR)
             .json({ error: 'Failed to fetch symbol or quote' });
