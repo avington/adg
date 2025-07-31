@@ -45,7 +45,7 @@ async function main() {
   // Collections for each domain
   const lotsCollection = db.collection('lots');
   const portfoliosCollection = db.collection('portfolios');
-  const positionsOverviewsCollection = db.collection('positionOverviews');
+  const positionsOverviewsCollection = db.collection('position-overviews');
   const usersCollection = db.collection('users'); // Define event handlers mapping
   type EventData =
     | LotCreatedEvent

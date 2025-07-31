@@ -12,6 +12,7 @@ import { useMutateAddHolding } from '@adg/client-data';
 import { useBoolean } from '@adg/client-hooks';
 import { AddHoldingModal } from '../common/add-holding-modal';
 import { PositionCreateRequestModel } from '@adg/global-validations';
+import { HoldingsOverViewTable } from './holdings-overview-table';
 
 export const HoldingsOverviewContainer: React.FC = () => {
   const { addHolding, loading, errorMessage } = useMutateAddHolding();
@@ -50,7 +51,7 @@ export const HoldingsOverviewContainer: React.FC = () => {
       <StyledTableContainer>
         <LoadingOverlay isLoading={loading} />
         <HoldingsListActionRow onAddHolding={handleAddHoldingModalOpen} />
-        <div>table</div>
+        <HoldingsOverViewTable />
       </StyledTableContainer>
       <RenderWhen>
         <RenderWhen.If isTrue={open}>
