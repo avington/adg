@@ -108,7 +108,7 @@ export function positionsRouter(
         } else {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             error: 'Failed to create position',
-            errorMessage,
+            // Do not expose internal error details to clients
           });
         }
       }
