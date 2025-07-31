@@ -19,6 +19,11 @@ export async function searchSymbol(symbol: string): Promise<SymbolSearchModel> {
   return response.data;
 }
 
+/**
+ * Retrieves the company profile for the given symbol.
+ * The FMP API returns an array of profiles; this function returns the first profile in the array,
+ * or null if no profiles are found. This behavior matches the API contract expectations.
+ */
 export async function getProfile(
   symbol: string
 ): Promise<CompanyProfileModel | null> {

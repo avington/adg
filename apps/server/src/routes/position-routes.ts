@@ -1,6 +1,8 @@
 import {
   AuthenticatedRequest,
+  CompanyProfileModel,
   PositionOverviewModel,
+  StockQuoteModel,
 } from '@adg/global-models';
 import { PositionCreateSchema, validateData } from '@adg/global-validations';
 import { googleJwtAuthMiddleware } from '@adg/server-auth';
@@ -35,7 +37,8 @@ export function positionsRouter(
       try {
         const { portfolioId, symbol } = req.body;
         // External API validation (symbol exists)
-        let summary, stockQuote;
+        let summary: CompanyProfileModel | null,
+          stockQuote: StockQuoteModel | null;
         try {
           [summary, stockQuote] = await Promise.all([
             getProfile(symbol),

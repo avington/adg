@@ -5,6 +5,7 @@ import {
   StyledFieldsetLegend,
   StyledFormControl,
   StyledInput,
+  useToaster,
 } from '@adg/client-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -33,6 +34,8 @@ export const AddHoldingModal: React.FC<AddHoldingModalProps> = ({
       defaultValues: { symbol: '', portfolioId: portfolioId },
     });
 
+  const { showError, showSuccess } = useToaster();
+
   useEffect(() => {
     if (portfolioId !== undefined) {
       setValue('portfolioId', portfolioId);
@@ -42,9 +45,16 @@ export const AddHoldingModal: React.FC<AddHoldingModalProps> = ({
   return (
     <Modal title="Add Holding" onClose={onClose} isOpen={isOpen}>
       <form
-        onSubmit={handleSubmit((data) => {
-          onAdd(data);
-          onClose();
+        onSubmit={handleSubmit(async (data) => {
+          try {
+            await onAdd(data);
+            showSuccess('Holding added successfully');
+            onClose();
+          } catch (error) {
+            // Optionally, display an error message to the user here
+            console.error('Failed to add holding:', error);
+            showError('Failed to add holding');
+          }
         })}
       >
         <StyledFieldset>
