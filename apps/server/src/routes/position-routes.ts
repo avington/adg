@@ -1,6 +1,8 @@
 import {
   AuthenticatedRequest,
+  CompanyProfileModel,
   PositionOverviewModel,
+  StockQuoteModel,
 } from '@adg/global-models';
 import { PositionCreateSchema, validateData } from '@adg/global-validations';
 import { googleJwtAuthMiddleware } from '@adg/server-auth';
@@ -8,7 +10,7 @@ import { CreatePositionCommandHandler } from '@adg/server-domain-position-comman
 import { CreatePositionCommand } from '@adg/server-domain-position-commands';
 import { BullMqEventBus } from '@adg/server-shared-event-bus-bullmq';
 import { MongoEventStore } from '@adg/server-shared-event-store';
-import { getQuote, searchSymbol } from '@adg/server-shared-fmp';
+import { getProfile, getQuote } from '@adg/server-shared-fmp';
 import { Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,6 +27,7 @@ export function positionsRouter(
     validateData(PositionCreateSchema),
     async (req: AuthenticatedRequest, res: Response) => {
       const userId = req.user?.sub ?? '';
+
       if (!userId) {
         return res
           .status(StatusCodes.UNAUTHORIZED)
@@ -33,12 +36,22 @@ export function positionsRouter(
 
       try {
         const { portfolioId, symbol } = req.body;
-
         // External API validation (symbol exists)
-        const [summary, stockQuote] = await Promise.all([
-          searchSymbol(symbol),
-          getQuote(symbol),
-        ]);
+        let summary: CompanyProfileModel | null = null;
+        let stockQuote: StockQuoteModel | null = null;
+        try {
+          const [profileResult, quoteResult] = await Promise.all([
+            getProfile(symbol),
+            getQuote(symbol),
+          ]);
+          summary = profileResult;
+          stockQuote = quoteResult;
+        } catch (apiError) {
+          console.error('Error fetching symbol or quote:', { error: apiError });
+          return res
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .json({ error: 'Failed to fetch symbol or quote' });
+        }
 
         if (!summary) {
           return res
@@ -100,6 +113,7 @@ export function positionsRouter(
         } else {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             error: 'Failed to create position',
+            // Do not expose internal error details to clients
           });
         }
       }

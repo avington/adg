@@ -1,21 +1,24 @@
 import { Tabs } from '@adg/client-components';
+import { HoldingsOverviewContainer } from './holdings-overview-tab/holdings-overview-container';
+import { HoldingFundamentalsContainer } from './holdings-fundamentals-tab/holdings-fundamentals-container';
+import { HoldingsPerformanceContainer } from './holdings-performance-tab/holdings-performance-container';
 
 export const HoldingsListContainer: React.FC = () => {
   const tabData = [
     {
       id: 'tab1',
       label: 'Overview',
-      content: <div>Overview content here</div>,
+      content: <HoldingsOverviewContainer />,
     },
     {
       id: 'tab2',
       label: 'Performance',
-      content: <div>Performance content here</div>,
+      content: <HoldingsPerformanceContainer />,
     },
     {
       id: 'tab3',
       label: 'Fundamentals',
-      content: <div>Fundamentals content here</div>,
+      content: <HoldingFundamentalsContainer />,
     },
   ];
   return <Tabs tabs={tabData} />;
