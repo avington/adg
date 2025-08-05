@@ -137,3 +137,5 @@ export const Button: React.FC<ButtonProps> = ({
     {children}
   </StyledButton>
 );
+
+// Removed duplicate local Button declaration to resolve naming conflict.
