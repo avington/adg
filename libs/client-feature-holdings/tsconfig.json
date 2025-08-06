@@ -12,6 +12,9 @@
       "path": "../client-data"
     },
     {
+      "path": "../global-read-models"
+    },
+    {
       "path": "../global-validations"
     },
     {

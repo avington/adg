@@ -2,7 +2,6 @@ import { RenderWhen } from '@adg/client-components';
 import { useUserStore } from '@adg/client-state';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { PropsWithChildren } from 'react';
-import AuthenticationStatusButton from '../authentication-status-button/authentication-status-button';
 import { NotLoggedIn } from '../not-logged-in';
 
 export interface AuthenticationProviderProps {
