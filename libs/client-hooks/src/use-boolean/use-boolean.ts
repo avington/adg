@@ -1,6 +1,6 @@
 import { useState, useCallback, Dispatch, SetStateAction } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+ 
 export interface UseBooleanReturn {
   value: boolean;
   setValue: Dispatch<SetStateAction<boolean>>;

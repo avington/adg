@@ -1,4 +1,3 @@
-import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { getColor } from '../../utils/get-color';
 import { toDollar } from '../../utils/to-dollar';

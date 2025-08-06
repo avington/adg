@@ -51,6 +51,9 @@
       "path": "../client-data/tsconfig.lib.json"
     },
     {
+      "path": "../global-read-models/tsconfig.lib.json"
+    },
+    {
       "path": "../global-validations/tsconfig.lib.json"
     },
     {
