@@ -9,7 +9,7 @@
  * @returns The calculated price
  */
 export const calculatedPrice = (bid: number, ask: number) => {
-  if (bid && ask) {
+  if (bid != null && ask != null) {
     return (bid + ask) / 2;
   }
   return bid || ask || 0;
