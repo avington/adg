@@ -8,9 +8,21 @@
  * @param ask - The ask price
  * @returns The calculated price
  */
-export const calculatedPrice = (bid: number, ask: number) => {
-  if (bid != null && ask != null) {
-    return (bid + ask) / 2;
+export const calculatedPrice = (
+  bid: number | null | undefined,
+  ask: number | null | undefined
+): number => {
+  const hasBid = typeof bid === 'number';
+  const hasAsk = typeof ask === 'number';
+
+  if (hasBid && hasAsk) {
+    return ((bid as number) + (ask as number)) / 2;
   }
-  return bid || ask || 0;
+  if (hasBid) {
+    return bid as number;
+  }
+  if (hasAsk) {
+    return ask as number;
+  }
+  return 0;
 };

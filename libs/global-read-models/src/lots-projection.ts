@@ -17,6 +17,13 @@ export interface LotProjection {
 export interface LotsProjection {
   lots: LotProjection[];
   totalCount: number;
+  /**
+   * The average price per share across all lots.
+   * Calculated as the total cost divided by the total number of shares.
+   */
   averagePrice: number;
+  /**
+   * The total number of shares aggregated from all lots.
+   */
   totalShares: number;
 }
