@@ -1,5 +1,5 @@
 import { UserModel } from '@adg/global-models';
-import { PositionOverviewProjection } from '@adg/server-domain-read-models';
+import { PositionOverviewProjection } from '@adg/global-read-models';
 import { AuthenticationError } from 'apollo-server-errors';
 import type { Db } from 'mongodb';
 

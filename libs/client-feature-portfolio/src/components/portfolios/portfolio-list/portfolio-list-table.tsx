@@ -1,4 +1,4 @@
-import { PortfolioProjection } from '@adg/server-domain-read-models';
+import { PortfolioProjection } from '@adg/global-read-models';
 import { StyledActionTableContainer } from '@adg/client-theme';
 import {
   NoRecordsTableRow,

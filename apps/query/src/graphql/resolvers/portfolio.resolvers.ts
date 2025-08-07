@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { PortfolioProjection } from '@adg/server-domain-read-models';
+import { PortfolioProjection } from '@adg/global-read-models';
 import { UserModel } from '@adg/global-models';
 import type { Db } from 'mongodb';
 import { AuthenticationError } from 'apollo-server-errors';

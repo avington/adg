@@ -1,5 +1,5 @@
 import { Button, TableRow, TableCell } from '@adg/client-components';
-import { LotProjection } from '@adg/server-domain-read-models';
+import { LotProjection } from '@adg/global-read-models';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
