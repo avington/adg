@@ -25,7 +25,16 @@ export const calculateDollarCostAvg = (
   );
 
   for (const lot of sortedLots) {
-    const lotPrice = lot.price ?? 0;
+    if (lot.price === null || lot.price === undefined) {
+      throw new Error(
+        `Lot price is missing for lot ID: ${
+          lot.lotId ?? 'unknown'
+        }, transaction on ${lot.openDate} (type: ${
+          lot.transactionType
+        }, shares: ${lot.shares})`
+      );
+    }
+    const lotPrice = lot.price;
 
     if (lot.transactionType === 'BUY') {
       // Add to position
@@ -35,6 +44,17 @@ export const calculateDollarCostAvg = (
       // Recalculate average price
       runningAveragePrice = totalShares > 0 ? totalCost / totalShares : 0;
     } else if (lot.transactionType === 'SELL') {
+      // Prevent overselling
+      if (lot.shares > totalShares) {
+        throw new Error(
+          `Sell transaction exceeds available shares. Attempted to sell ${
+            lot.shares
+          } shares, but only ${totalShares} available (lot ID: ${
+            lot.lotId ?? 'unknown'
+          }, date: ${lot.openDate}).`
+        );
+      }
+
       // Calculate realized gains for this sell transaction
       const sellValue = lotPrice * lot.shares;
       const costBasis = runningAveragePrice * lot.shares;
@@ -45,7 +65,7 @@ export const calculateDollarCostAvg = (
       totalShares -= lot.shares;
 
       // Ensure we don't go negative due to rounding errors
-      if (totalShares <= 0) {
+      if (totalShares === 0) {
         totalShares = 0;
         totalCost = 0;
         runningAveragePrice = 0;
@@ -55,14 +75,12 @@ export const calculateDollarCostAvg = (
     }
   }
 
-  // Final average price calculation
-  const averagePrice = totalShares > 0 ? totalCost / totalShares : 0;
-
+  // Use the running average price directly
   return {
     portfolioId,
     positionId,
     totalShares,
-    averagePrice,
+    averagePrice: runningAveragePrice,
     realizedGains,
   };
 };
