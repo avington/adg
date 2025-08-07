@@ -16,13 +16,13 @@ export const calculatedPrice = (
   const hasAsk = typeof ask === 'number';
 
   if (hasBid && hasAsk) {
-    return ((bid as number) + (ask as number)) / 2;
+    return (bid + ask) / 2;
   }
   if (hasBid) {
-    return bid as number;
+    return bid;
   }
   if (hasAsk) {
-    return ask as number;
+    return ask;
   }
   return 0;
 };
