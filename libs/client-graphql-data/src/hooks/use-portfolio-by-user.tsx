@@ -1,5 +1,5 @@
 import { useQuery, QueryResult } from '@apollo/client';
-import { PortfolioProjection } from '@adg/server-domain-read-models';
+import { PortfolioProjection } from '@adg/global-read-models';
 import { PORTFOLIO_BY_USER } from '../queries';
 
 export interface PortfolioByUserData {

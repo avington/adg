@@ -1,6 +1,6 @@
 import { useQuery, QueryResult } from '@apollo/client';
 import { LOTS_BY_PORTFOLIO_AND_SYMBOL } from '../queries/lots-by-portfolio-and-symbol';
-import { LotProjection } from '@adg/server-domain-read-models';
+import { LotProjection } from '@adg/global-read-models';
 
 interface LotsByPortfolioAndSymbolData {
   lots: LotProjection[];

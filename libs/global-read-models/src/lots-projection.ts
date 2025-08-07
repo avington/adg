@@ -17,4 +17,6 @@ export interface LotProjection {
 export interface LotsProjection {
   lots: LotProjection[];
   totalCount: number;
+  averagePrice: number;
+  totalShares: number;
 }

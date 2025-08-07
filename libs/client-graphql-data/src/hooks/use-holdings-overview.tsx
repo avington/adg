@@ -1,5 +1,5 @@
 import { useQuery, QueryResult } from '@apollo/client';
-import { PositionOverviewProjection } from '@adg/server-domain-read-models';
+import { PositionOverviewProjection } from '@adg/global-read-models';
 import {
   POSITION_OVERVIEWS,
   POSITION_OVERVIEW,

@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@adg/client-components';
 import { StyledActionTableContainer } from '@adg/client-theme';
-import { LotProjection } from '@adg/server-domain-read-models';
+import { LotProjection } from '@adg/global-read-models';
 import { LotListTableRow } from './lot-list-table-row';
 
 export interface LotListTableProps {

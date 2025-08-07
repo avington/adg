@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { UserProjection } from '@adg/server-domain-read-models';
+import { UserProjection } from '@adg/global-read-models';
 
 export default {
   Query: {

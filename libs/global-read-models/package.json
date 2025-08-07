@@ -1,5 +1,5 @@
 {
-  "name": "@adg/server-domain-read-models",
+  "name": "@adg/global-read-models",
   "version": "0.0.1",
   "private": true,
   "main": "./dist/index.js",

@@ -4,7 +4,7 @@ import {
   TableCell,
   TableRow,
 } from '@adg/client-components';
-import { PortfolioProjection } from '@adg/server-domain-read-models';
+import { PortfolioProjection } from '@adg/global-read-models';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';

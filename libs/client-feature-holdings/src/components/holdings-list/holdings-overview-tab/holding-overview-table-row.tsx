@@ -1,5 +1,5 @@
 import { MenuButton, TableCell, TableRow } from '@adg/client-components';
-import { PositionOverviewProjection } from '@adg/server-domain-read-models';
+import { PositionOverviewProjection } from '@adg/global-read-models';
 import { useNavigate } from 'react-router-dom';
 
 export interface HoldingsOverViewTableProps {

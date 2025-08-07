@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { LotProjection } from '@adg/server-domain-read-models';
+import { LotProjection } from '@adg/global-read-models';
 import { TransactionType } from '@adg/global-validations';
 
 // Define the expected shape of the context if you have it
