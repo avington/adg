@@ -1,2 +1,2 @@
-export * from './dollar-cost-avg.js';
+export * from './calculate-dollar-cost-avg.js';
 export * from './calculated-price.js';

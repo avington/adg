@@ -14,3 +14,4 @@ export * from './fmp/company-profile.js';
 
 // Positions
 export * from './positions/position-overview.js';
+export * from './positions/position-lots.js';
