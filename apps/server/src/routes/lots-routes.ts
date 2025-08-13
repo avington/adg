@@ -106,3 +106,6 @@ export function lotsRouter(
 
   return lotsRouter;
 }
+
+// Add a one-time debug (maybe in server bootstrap instead)
+console.log('[server] READ_MODEL_DB_NAME =', process.env.READ_MODEL_DB_NAME);
