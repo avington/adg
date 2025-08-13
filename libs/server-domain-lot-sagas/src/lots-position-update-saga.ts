@@ -11,6 +11,13 @@ import {
   LotDoc,
 } from '@adg/global-models';
 import { Collection } from 'mongodb';
+import winston from 'winston';
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [new winston.transports.Console()],
+});
 
 export class LotPositionUpdateSaga {
   constructor(
@@ -41,7 +48,7 @@ export class LotPositionUpdateSaga {
   ): Promise<void> {
     const { portfolioId, symbol } = event.payload;
 
-    console.log('[LotPositionUpdateSaga] Looking up position overview', {
+    logger.info('[LotPositionUpdateSaga] Looking up position overview', {
       portfolioId,
       symbol,
       dbEnv: process.env.READ_MODEL_DB_NAME,
@@ -51,7 +58,7 @@ export class LotPositionUpdateSaga {
       symbol: symbol.toUpperCase(),
     });
     if (!positionOverview) {
-      console.warn('[LotPositionUpdateSaga] Not found', {
+      logger.warn('[LotPositionUpdateSaga] Not found', {
         portfolioId,
         symbol,
       });
@@ -69,7 +76,7 @@ export class LotPositionUpdateSaga {
       positionOverview.positionId
     );
 
-    console.log(
+    logger.info(
       `[LotPositionUpdateSaga] Computed lots for ${portfolioId}:${symbol} -> totalShares=${positionLots.totalShares}, avg=${positionLots.averagePrice}, realized=${positionLots.realizedGains}`
     );
 
@@ -92,8 +99,8 @@ export class LotPositionUpdateSaga {
       .toArray();
 
     if (lotDocuments.length === 0) {
-      console.warn(
-        `[LotPositionUpdateSaga] No lots found for ${portfolioId}:${symbol} (case-insensitive)`
+      logger.warn(
+        `[LotPositionUpdateSaga] No lots found for portfolio '${portfolioId}' and symbol '${symbol}'.`
       );
     }
 
@@ -137,6 +144,4 @@ export class LotPositionUpdateSaga {
       }
     );
   }
-
-  // Removed unused updatePositionLots method to resolve the error.
 }

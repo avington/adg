@@ -18,9 +18,13 @@ export class EventBus implements IEventBus {
       const handlers = this.eventHandlers.get(eventType) ?? [];
 
       await Promise.all(
-        handlers.map((handler) =>
+        handlers.map((handler, idx) =>
           handler(event).catch((error) => {
-            console.error(`Error in event handler for ${eventType}:`, error);
+            const handlerName = handler.name || '<anonymous>';
+            console.error(
+              `Error in event handler for ${eventType} (handler #${idx}, function: ${handlerName}):`,
+              error
+            );
           })
         )
       );
