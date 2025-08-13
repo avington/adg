@@ -4,6 +4,12 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/global-models"
+    },
+    {
+      "path": "../../libs/server-domain-lot-sagas"
+    },
+    {
       "path": "../../libs/server-domain-user-events"
     },
     {
@@ -14,6 +20,9 @@
     },
     {
       "path": "../../libs/server-domain-lot-events"
+    },
+    {
+      "path": "../../libs/server-shared-kernel"
     },
     {
       "path": "../../libs/server-shared-bullmq"

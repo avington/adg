@@ -18,6 +18,12 @@
   ],
   "references": [
     {
+      "path": "../../libs/global-models/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-domain-lot-sagas/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/server-domain-user-events/tsconfig.lib.json"
     },
     {
@@ -28,6 +34,9 @@
     },
     {
       "path": "../../libs/server-domain-lot-events/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-shared-kernel/tsconfig.lib.json"
     },
     {
       "path": "../../libs/server-shared-bullmq/tsconfig.lib.json"

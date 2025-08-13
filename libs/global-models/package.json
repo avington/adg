@@ -34,7 +34,6 @@
     }
   },
   "dependencies": {
-    "express": "^4.18.2",
     "@swc/helpers": "^0.5.3"
   }
 }

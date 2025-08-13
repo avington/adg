@@ -5,7 +5,7 @@
     "rootDir": "src",
     "outDir": "dist",
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "forceConsistentCasingInFileNames": true,
@@ -14,11 +14,19 @@
   "include": ["src/**/*.ts"],
   "references": [
     {
+      "path": "../global-models/tsconfig.lib.json"
+    },
+    {
       "path": "../global-validations/tsconfig.lib.json"
     },
     {
-      "path": "../global-models/tsconfig.lib.json"
+      "path": "../global-formulas/tsconfig.lib.json"
+    },
+    {
+      "path": "../server-domain-lot-events/tsconfig.lib.json"
+    },
+    {
+      "path": "../server-shared-kernel/tsconfig.lib.json"
     }
-  ],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  ]
 }

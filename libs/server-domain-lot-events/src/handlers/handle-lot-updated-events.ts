@@ -1,28 +1,28 @@
-import { Collection, Document } from 'mongodb';
+import { Collection } from 'mongodb';
 import { LotUpdatedEvent } from '../events/lot-updated-event.js';
+import type { LotDoc } from '@adg/global-models';
 
 /**
- * Handles a LotUpdatedEvent and updates the portfolio read model.
- * Ensures idempotency by upserting based on portfolioId.
+ * Handles a LotUpdatedEvent and updates the read model.
+ * Ensures idempotency by upserting based on lotId.
  */
 export async function handleLotUpdatedEvent(
   event: LotUpdatedEvent,
-  portfoliosCollection: Collection<Document>
+  lotCollection: Collection<LotDoc>
 ): Promise<void> {
-  // Use lotId as the unique identifier for idempotency
-  await portfoliosCollection.updateOne(
+  await lotCollection.updateOne(
     { lotId: event.payload.lotId },
     {
       $set: {
-        symbol: event.payload.symbol,
+        symbol: event.payload.symbol.toUpperCase(),
         portfolioId: event.payload.portfolioId,
         userId: event.payload.userId,
         transactionType: event.payload.transactionType,
         shares: event.payload.shares,
-        price: event.payload.price,
+        price: event.payload.price !== undefined ? event.payload.price : 0,
         openDate: event.payload.openDate,
         updatedAt: new Date(),
-        lastUpdatedBy: event.payload.lastUpdatedBy || event.payload.userId, // Default to userId if not provided
+        lastUpdatedBy: event.payload.lastUpdatedBy || event.payload.userId,
       },
     },
     { upsert: true }

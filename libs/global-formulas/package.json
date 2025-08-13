@@ -37,6 +37,8 @@
     ]
   },
   "dependencies": {
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.11",
+    "@adg/global-models": "0.0.1",
+    "@adg/global-validations": "0.0.1"
   }
 }

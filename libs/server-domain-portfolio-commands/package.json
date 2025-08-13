@@ -16,6 +16,8 @@
     }
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@adg/server-shared-kernel": "0.0.1",
+    "@adg/global-validations": "0.0.1"
   }
 }
