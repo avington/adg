@@ -1,7 +1,8 @@
 {
-  "name": "@adg/server-domain-position-commands",
+  "name": "@adg/server-domain-lot-sagas",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,12 +15,18 @@
       "default": "./dist/index.js"
     }
   },
+  "nx": {
+    "tags": [
+      "npm:private"
+    ]
+  },
   "dependencies": {
     "tslib": "^2.3.0",
     "@adg/server-shared-kernel": "0.0.1",
-    "@adg/global-models": "0.0.1"
-  },
-  "nx": {
-    "name": "@adg/server-domain-position-commands"
+    "@adg/server-domain-lot-events": "0.0.1",
+    "@adg/global-formulas": "0.0.1",
+    "@adg/global-validations": "0.0.1",
+    "@adg/global-models": "0.0.1",
+    "mongodb": "^6.16.0"
   }
 }

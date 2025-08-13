@@ -1,5 +1,6 @@
 import { StockQuoteModel } from '../fmp/stock-quote.js';
 import { CompanyProfileModel } from '../fmp/company-profile.js';
+import { PositionLotsModel } from './position-lots.js';
 
 export interface PositionOverviewModel {
   positionId: string;
@@ -8,6 +9,7 @@ export interface PositionOverviewModel {
   symbol: string;
   summary: CompanyProfileModel;
   stockQuote: StockQuoteModel;
+  lots?: PositionLotsModel; // Add this property
   createdAt: Date;
   updatedAt: Date;
 }

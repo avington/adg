@@ -16,7 +16,11 @@
     }
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@adg/server-domain-portfolio-aggregates": "0.0.1",
+    "@adg/server-domain-position-aggregates": "0.0.1",
+    "@adg/server-domain-position-commands": "0.0.1",
+    "@adg/server-shared-kernel": "0.0.1"
   },
   "nx": {
     "name": "@adg/server-domain-position-command-handlers"

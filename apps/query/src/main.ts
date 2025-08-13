@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import morgan from 'morgan';
 import { ApolloServer } from '@apollo/server';
@@ -32,7 +33,13 @@ const resolversArray = loadFilesSync(join(__dirname, './**/*.resolvers.js'));
 const resolvers = mergeResolvers(resolversArray);
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
-const DB_NAME = process.env.READ_MODEL_DB_NAME || 'readmodel';
+const DB_NAME = process.env.READ_MODEL_DB_NAME || 'adg_read_model_db';
+console.log(
+  '[query] READ_MODEL_DB_NAME =',
+  process.env.READ_MODEL_DB_NAME,
+  ' -> using',
+  DB_NAME
+);
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN || 'http://localhost:4200';
 // Set BYPASS_AUTH=true in your environment to skip authentication for development/testing

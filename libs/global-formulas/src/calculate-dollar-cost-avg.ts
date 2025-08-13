@@ -1,5 +1,5 @@
-import { LotModel, TransactionType } from '@adg/global-validations';
 import { PositionLotsModel } from '@adg/global-models';
+import { LotModel } from '@adg/global-validations';
 
 /**
  * Calculate the dollar cost average of a list of lots and return position summary.

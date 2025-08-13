@@ -38,9 +38,10 @@ export function lotsRouter(
           price,
           openDate,
         } = req.body;
+        const upperSymbol = symbol.toUpperCase();
         const command = new CreateLotCommand(uuidv4(), lotId, {
           lotId,
-          symbol,
+          symbol: upperSymbol,
           portfolioId,
           userId,
           transactionType,
@@ -79,9 +80,10 @@ export function lotsRouter(
           updatedAt,
           lastUpdatedBy,
         } = req.body;
+        const upperSymbol = symbol.toUpperCase();
         const command = new UpdateLotCommand(uuidv4(), lotId, {
           lotId,
-          symbol,
+          symbol: upperSymbol,
           portfolioId,
           userId,
           transactionType,
@@ -104,3 +106,6 @@ export function lotsRouter(
 
   return lotsRouter;
 }
+
+// Add a one-time debug (maybe in server bootstrap instead)
+console.log('[server] READ_MODEL_DB_NAME =', process.env.READ_MODEL_DB_NAME);
