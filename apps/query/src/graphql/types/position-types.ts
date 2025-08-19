@@ -36,6 +36,16 @@ export const positionTypeDefs = gql`
     timestamp: Float!
   }
 
+  type PositionLots {
+    portfolioId: String!
+    positionId: String!
+    totalShares: Float!
+    averagePrice: Float!
+    realizedGains: Float!
+    unrealizedGains: Float
+    costBasis: Float
+  }
+
   type PositionOverview {
     id: ID!
     positionId: String!
@@ -43,10 +53,15 @@ export const positionTypeDefs = gql`
     symbol: String!
     summary: CompanySummary!
     stockQuote: StockQuote!
+    lots: PositionLots
   }
 
   extend type Query {
     positionOverviews(portfolioId: String!): [PositionOverview!]!
     positionOverview(positionId: String!): PositionOverview
+    positionOverviewByUserPositionSymbol(
+      positionId: String!
+      symbol: String!
+    ): PositionOverview
   }
 `;

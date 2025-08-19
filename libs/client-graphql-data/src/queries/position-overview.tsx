@@ -40,6 +40,13 @@ export const POSITION_OVERVIEWS = gql`
         previousClose
         timestamp
       }
+      lots {
+        portfolioId
+        positionId
+        totalShares
+        averagePrice
+        realizedGains
+      }
     }
   }
 `;
@@ -83,6 +90,70 @@ export const POSITION_OVERVIEW = gql`
         open
         previousClose
         timestamp
+      }
+      lots {
+        portfolioId
+        positionId
+        totalShares
+        averagePrice
+        realizedGains
+      }
+    }
+  }
+`;
+
+export const POSITION_OVERVIEW_BY_USER_POSITION_SYMBOL = gql`
+  query PositionOverviewByUserPositionSymbol(
+    $positionId: String!
+    $symbol: String!
+  ) {
+    positionOverviewByUserPositionSymbol(
+      positionId: $positionId
+      symbol: $symbol
+    ) {
+      id
+      positionId
+      portfolioId
+      symbol
+      summary {
+        symbol
+        price
+        marketCap
+        lastDividend
+        range
+        change
+        changePercentage
+        volume
+        averageVolume
+        companyName
+        currency
+        exchangeFullName
+        exchange
+        industry
+      }
+      stockQuote {
+        price
+        changePercentage
+        change
+        volume
+        dayLow
+        dayHigh
+        yearHigh
+        yearLow
+        marketCap
+        priceAvg50
+        priceAvg200
+        exchange
+        open
+        previousClose
+        timestamp
+      }
+      lots {
+        portfolioId
+        positionId
+        totalShares
+        averagePrice
+        realizedGains
       }
     }
   }
