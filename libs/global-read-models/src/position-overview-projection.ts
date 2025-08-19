@@ -36,4 +36,13 @@ export interface PositionOverviewProjection {
     previousClose: number;
     timestamp: number;
   };
+  lots?: {
+    portfolioId: string;
+    positionId: string;
+    totalShares: number;
+    averagePrice: number;
+    realizedGains: number;
+    unrealizedGains: number;
+    costBasis: number;
+  };
 }

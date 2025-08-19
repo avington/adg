@@ -106,3 +106,8 @@ export function lotsRouter(
 
   return lotsRouter;
 }
+
+// TODO: Use a proper logger if needed, or remove debug statements before production deployment.
+// Example using a logger (uncomment if you have a logger):
+// import { logger } from '@adg/server-logger';
+// logger.info(`[server] READ_MODEL_DB_NAME = ${process.env.READ_MODEL_DB_NAME}`);

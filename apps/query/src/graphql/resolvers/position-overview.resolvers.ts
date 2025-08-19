@@ -9,13 +9,18 @@ interface GraphQLContext {
   user?: UserModel;
 }
 
-// Define resolver argument types
 interface PositionOverviewArgs {
   positionId: string;
 }
 
 interface PositionOverviewsArgs {
   portfolioId: string;
+}
+
+// UPDATED: remove userId from args
+interface PositionOverviewByUserPositionSymbolArgs {
+  positionId: string;
+  symbol: string;
 }
 
 export default {
@@ -25,11 +30,8 @@ export default {
       { positionId }: PositionOverviewArgs,
       context: GraphQLContext
     ) {
-      // Filter by authenticated user's sub property
       const userSub = context.user?.sub;
-      if (!userSub) {
-        throw new AuthenticationError('User not authenticated');
-      }
+      if (!userSub) throw new AuthenticationError('User not authenticated');
 
       const position = (await context.db
         .collection('position-overviews')
@@ -47,6 +49,7 @@ export default {
         symbol: position.symbol,
         summary: position.summary,
         stockQuote: position.stockQuote,
+        lots: position.lots,
       };
     },
 
@@ -55,28 +58,53 @@ export default {
       { portfolioId }: PositionOverviewsArgs,
       context: GraphQLContext
     ) {
-      // Filter by authenticated user's sub property
       const userSub = context.user?.sub;
-      if (!userSub) {
-        throw new AuthenticationError('User not authenticated');
-      }
+      if (!userSub) throw new AuthenticationError('User not authenticated');
 
       const positions = (await context.db
         .collection('position-overviews')
-        .find({
-          portfolioId,
-          userId: userSub,
-        })
+        .find({ portfolioId, userId: userSub })
         .toArray()) as unknown as PositionOverviewProjection[];
 
-      return positions.map((position: PositionOverviewProjection) => ({
+      return positions.map((position) => ({
         id: position._id?.toString() ?? position.positionId,
         positionId: position.positionId,
         portfolioId: position.portfolioId,
         symbol: position.symbol,
-        summary: position.summary,
-        stockQuote: position.stockQuote,
+        summary: { ...position.summary },
+        stockQuote: { ...position.stockQuote },
+        lots: position.lots ? { ...position.lots } : undefined,
       }));
+    },
+
+    // UPDATED: derive userId from auth context only
+    async positionOverviewByUserPositionSymbol(
+      _parent: unknown,
+      { positionId, symbol }: PositionOverviewByUserPositionSymbolArgs,
+      context: GraphQLContext
+    ) {
+      const authSub = context.user?.sub;
+      if (!authSub) throw new AuthenticationError('User not authenticated');
+
+      const position = (await context.db
+        .collection('position-overviews')
+        .findOne({
+          userId: authSub,
+          positionId,
+          symbol,
+        })) as PositionOverviewProjection | null;
+
+      if (!position) return null;
+
+      return {
+        id: position._id?.toString() ?? position.positionId,
+        positionId: position.positionId,
+        portfolioId: position.portfolioId,
+        symbol: position.symbol,
+        summary: { ...position.summary },
+        stockQuote: { ...position.stockQuote },
+        lots: position.lots ? { ...position.lots } : undefined,
+      };
     },
   },
 };
