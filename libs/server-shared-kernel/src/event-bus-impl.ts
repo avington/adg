@@ -35,10 +35,8 @@ export class EventBus implements IEventBus {
     if (!this.eventHandlers.has(eventType)) {
       this.eventHandlers.set(eventType, []);
     }
-    const handlers = this.eventHandlers.get(eventType);
-    if (handlers) {
-      handlers.push(handler as EventHandler);
-    }
+    const handlers = this.eventHandlers.get(eventType)!;
+    handlers.push(handler as EventHandler);
   }
 
   unsubscribe<T = unknown>(eventType: string, handler: EventHandler<T>): void {

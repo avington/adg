@@ -46,6 +46,8 @@ export const POSITION_OVERVIEWS = gql`
         totalShares
         averagePrice
         realizedGains
+        unrealizedGains
+        costBasis
       }
     }
   }
@@ -97,6 +99,8 @@ export const POSITION_OVERVIEW = gql`
         totalShares
         averagePrice
         realizedGains
+        unrealizedGains
+        costBasis
       }
     }
   }
@@ -154,6 +158,8 @@ export const POSITION_OVERVIEW_BY_USER_POSITION_SYMBOL = gql`
         totalShares
         averagePrice
         realizedGains
+        unrealizedGains
+        costBasis
       }
     }
   }

@@ -36,7 +36,7 @@ export interface PositionOverviewProjection {
     previousClose: number;
     timestamp: number;
   };
-  lots: {
+  lots?: {
     portfolioId: string;
     positionId: string;
     totalShares: number;
@@ -44,6 +44,5 @@ export interface PositionOverviewProjection {
     realizedGains: number;
     unrealizedGains: number;
     costBasis: number;
-    // Add any other fields related to lots here
   };
 }

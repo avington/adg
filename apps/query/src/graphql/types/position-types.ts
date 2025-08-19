@@ -42,8 +42,8 @@ export const positionTypeDefs = gql`
     totalShares: Float!
     averagePrice: Float!
     realizedGains: Float!
-    unrealizedGains: Float
-    costBasis: Float
+    unrealizedGains: Float!
+    costBasis: Float!
   }
 
   type PositionOverview {

@@ -49,24 +49,24 @@ export const LotListSummaryPanel: React.FC = () => {
       <HeadingContainer
         gridArea="totalShares"
         label="Total Shares"
-        value={holding?.lots.totalShares ?? 0}
+        value={holding?.lots?.totalShares ?? 0}
       />
       <HeadingContainer
         gridArea="averagePrice"
         label="$ Cost Average"
-        value={holding?.lots.averagePrice ?? 0}
+        value={holding?.lots?.averagePrice ?? 0}
         showDollar
       />
       <HeadingContainer
         gridArea="realizedGains"
         label="Realized Gains"
-        value={holding?.lots.realizedGains ?? 0}
+        value={holding?.lots?.realizedGains ?? 0}
         showDollar
       />
       <HeadingContainer
         gridArea="unrealizedGains"
         label="Unrealized Gains"
-        value={holding?.lots.unrealizedGains ?? 0}
+        value={holding?.lots?.unrealizedGains ?? 0}
         showDollar
       />
     </StyledLotListSummaryPanel>

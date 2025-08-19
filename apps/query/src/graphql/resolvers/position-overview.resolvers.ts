@@ -73,7 +73,7 @@ export default {
         symbol: position.symbol,
         summary: { ...position.summary },
         stockQuote: { ...position.stockQuote },
-        lots: { ...position.lots },
+        lots: position.lots ? { ...position.lots } : undefined,
       }));
     },
 
@@ -103,7 +103,7 @@ export default {
         symbol: position.symbol,
         summary: { ...position.summary },
         stockQuote: { ...position.stockQuote },
-        lots: { ...position.lots },
+        lots: position.lots ? { ...position.lots } : undefined,
       };
     },
   },
