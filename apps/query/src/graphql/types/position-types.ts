@@ -63,5 +63,6 @@ export const positionTypeDefs = gql`
       positionId: String!
       symbol: String!
     ): PositionOverview
+    userSymbols: [String!]! # NEW
   }
 `;

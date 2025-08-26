@@ -23,6 +23,25 @@ interface PositionOverviewByUserPositionSymbolArgs {
   symbol: string;
 }
 
+// Helper to normalize lots ensuring non-nullable GraphQL fields are satisfied
+function normalizeLots(position: PositionOverviewProjection) {
+  const l = position.lots;
+  if (!l) return undefined;
+
+  const num = (v: unknown) =>
+    typeof v === 'number' && !Number.isNaN(v) ? v : 0;
+
+  return {
+    portfolioId: l.portfolioId ?? position.portfolioId,
+    positionId: l.positionId ?? position.positionId,
+    totalShares: num(l.totalShares),
+    averagePrice: num(l.averagePrice),
+    realizedGains: num(l.realizedGains),
+    unrealizedGains: num(l.unrealizedGains),
+    costBasis: num(l.costBasis),
+  };
+}
+
 export default {
   Query: {
     async positionOverview(
@@ -49,7 +68,8 @@ export default {
         symbol: position.symbol,
         summary: position.summary,
         stockQuote: position.stockQuote,
-        lots: position.lots,
+        // ensure all required fields in lots are non-null
+        lots: normalizeLots(position),
       };
     },
 
@@ -73,7 +93,8 @@ export default {
         symbol: position.symbol,
         summary: { ...position.summary },
         stockQuote: { ...position.stockQuote },
-        lots: position.lots ? { ...position.lots } : undefined,
+        // ensure all required fields in lots are non-null
+        lots: normalizeLots(position),
       }));
     },
 
@@ -103,8 +124,26 @@ export default {
         symbol: position.symbol,
         summary: { ...position.summary },
         stockQuote: { ...position.stockQuote },
-        lots: position.lots ? { ...position.lots } : undefined,
+        // ensure all required fields in lots are non-null
+        lots: normalizeLots(position),
       };
+    },
+
+    // NEW: distinct symbols for authenticated user
+    async userSymbols(
+      _parent: unknown,
+      _args: unknown,
+      context: GraphQLContext
+    ) {
+      const userSub = context.user?.sub;
+      if (!userSub) throw new AuthenticationError('User not authenticated');
+
+      const symbols = await context.db
+        .collection('position-overviews')
+        .distinct('symbol', { userId: userSub });
+
+      // Optional: sort alphabetically
+      return symbols.sort((a, b) => a.localeCompare(b));
     },
   },
 };
