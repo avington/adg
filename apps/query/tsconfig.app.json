@@ -24,6 +24,9 @@
       "path": "../../libs/server-auth/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/server-shared-fmp/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/global-models/tsconfig.lib.json"
     },
     {

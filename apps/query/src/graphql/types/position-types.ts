@@ -56,6 +56,13 @@ export const positionTypeDefs = gql`
     lots: PositionLots
   }
 
+  type StockQuoteShort {
+    symbol: String!
+    price: Float!
+    change: Float!
+    volume: Float!
+  }
+
   extend type Query {
     positionOverviews(portfolioId: String!): [PositionOverview!]!
     positionOverview(positionId: String!): PositionOverview
@@ -64,5 +71,6 @@ export const positionTypeDefs = gql`
       symbol: String!
     ): PositionOverview
     userSymbols: [String!]! # NEW
+    quotesShort(symbols: [String!]!): [StockQuoteShort!]!
   }
 `;

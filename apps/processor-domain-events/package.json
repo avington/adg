@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "nx": {
+    "name": "processor-domain-events",
     "targets": {
       "build": {
         "executor": "@nx/esbuild:esbuild",
@@ -12,7 +13,7 @@
         "defaultConfiguration": "production",
         "options": {
           "platform": "node",
-          "outputPath": "apps/processor-domain-events/dist",
+          "outputPath": "dist/apps/processor-domain-events",
           "format": [
             "cjs"
           ],
@@ -49,15 +50,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@adg/processor-domain-events:build",
+          "buildTarget": "processor-domain-events:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@adg/processor-domain-events:build:development"
+            "buildTarget": "processor-domain-events:build:development"
           },
           "production": {
-            "buildTarget": "@adg/processor-domain-events:build:production"
+            "buildTarget": "processor-domain-events:build:production"
           }
         }
       },

@@ -52,3 +52,37 @@ export async function getQuote(
   }
   return null; // Response structure did not match expectations
 }
+
+export interface StockQuoteShortModel {
+  symbol: string;
+  price: number;
+  change: number;
+  volume: number;
+}
+
+export async function getShortQuote(
+  symbol: string
+): Promise<StockQuoteShortModel | null> {
+  const response = await axios.get(`${FMP_URL}/quote-short`, {
+    params: {
+      apikey: FMP_API_KEY,
+      symbol,
+    },
+  });
+  const arr = Array.isArray(response.data) ? response.data : [];
+  return arr.length ? (arr[0] as StockQuoteShortModel) : null;
+}
+
+export async function getShortQuotes(
+  symbols: string[]
+): Promise<StockQuoteShortModel[]> {
+  if (!symbols?.length) return [];
+  const response = await axios.get(`${FMP_URL}/quote-short`, {
+    params: {
+      apikey: FMP_API_KEY,
+      symbol: symbols.join(','),
+    },
+  });
+  const arr = Array.isArray(response.data) ? response.data : [];
+  return arr.filter(Boolean) as StockQuoteShortModel[];
+}

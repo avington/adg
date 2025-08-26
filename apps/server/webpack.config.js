@@ -3,7 +3,8 @@ const { join } = require('path');
 
 module.exports = {
   output: {
-    path: join(__dirname, 'dist'),
+    // Write into the workspace dist/apps/server folder
+    path: join(__dirname, '../../dist/apps/server'),
   },
   plugins: [
     new NxAppWebpackPlugin({

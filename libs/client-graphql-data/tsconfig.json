@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../client-state"
+    },
+    {
       "path": "../global-read-models"
     },
     {

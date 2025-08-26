@@ -7,6 +7,9 @@
       "path": "../../libs/server-auth"
     },
     {
+      "path": "../../libs/server-shared-fmp"
+    },
+    {
       "path": "../../libs/global-models"
     },
     {

@@ -13,7 +13,7 @@
         "defaultConfiguration": "production",
         "options": {
           "platform": "node",
-          "outputPath": "apps/query/dist",
+          "outputPath": "dist/apps/query",
           "format": [
             "esm"
           ],
@@ -60,11 +60,6 @@
           "production": {
             "buildTarget": "query:build:production"
           }
-        }
-      },
-      "test": {
-        "options": {
-          "passWithNoTests": true
         }
       }
     }

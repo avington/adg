@@ -1,5 +1,5 @@
 import { RenderWhen, ToasterProvider } from '@adg/client-components';
-import { GraphQLProvider } from '@adg/client-graphql-data';
+import { GraphQLProvider, useRefreshQuotes } from '@adg/client-graphql-data';
 import { useCredentialStore } from '@adg/client-state';
 import { BodyContainer } from '@adg/client-theme';
 import axios from 'axios';
@@ -9,6 +9,11 @@ import { routerConfig } from './route-config';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 const graphqlUrl = import.meta.env.VITE_GRAPHQL_API_ENDPOINT || '/graphql';
+
+const QuotesRefresher: React.FC = () => {
+  useRefreshQuotes();
+  return null;
+};
 
 export const AppProviders: React.FC = () => {
   const [token, setToken] = useState<string>();
@@ -27,6 +32,7 @@ export const AppProviders: React.FC = () => {
         <RenderWhen>
           <RenderWhen.If isTrue={!!token}>
             <GraphQLProvider uri={graphqlUrl} token={token}>
+              <QuotesRefresher />
               <RouterProvider router={routerConfig} />
             </GraphQLProvider>
           </RenderWhen.If>

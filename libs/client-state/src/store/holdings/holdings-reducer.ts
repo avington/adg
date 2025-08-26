@@ -27,26 +27,32 @@ export const holdingsSlice = createSlice({
     ) => {
       const { symbol, positionId, quantity, averageCost, latestPrice } =
         action.payload;
-      state[symbol.toUpperCase()] = {
+      const key = symbol.toUpperCase();
+      const existing = state[key];
+      state[key] = {
         positionId,
         quantity,
         averageCost,
         latestPrice,
+        ...(existing ? {} : {}),
       };
     },
     updatePrice: (
       state,
       action: PayloadAction<{ symbol: string; latestPrice: number }>
     ) => {
-      const { symbol, latestPrice } = action.payload;
-      const key = symbol.toUpperCase();
+      const key = action.payload.symbol.toUpperCase();
       const existing = state[key];
-      if (existing) {
-        existing.latestPrice = latestPrice;
-      }
+      state[key] = {
+        positionId: existing?.positionId ?? '',
+        quantity: existing?.quantity ?? 0,
+        averageCost: existing?.averageCost ?? 0,
+        latestPrice: action.payload.latestPrice,
+      };
     },
     removeHolding: (state, action: PayloadAction<{ symbol: string }>) => {
-      delete state[action.payload.symbol.toUpperCase()];
+      const key = action.payload.symbol.toUpperCase();
+      delete state[key];
     },
     resetHoldings: () => initialState,
   },
