@@ -1,0 +1,39 @@
+/// <reference types="vite/client" />
+
+import {
+  configureStore,
+  createListenerMiddleware,
+  TypedStartListening,
+} from '@reduxjs/toolkit';
+import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
+import { holdingsSlice } from './holdings/holdings-reducer';
+
+// Slice reducers
+const reducer = {
+  holdings: holdingsSlice.reducer,
+};
+
+// Listener middleware (optional – extend as needed)
+const listenerMiddleware = createListenerMiddleware();
+
+// Actual Redux store (was previously a plain object causing the type error)
+export const store = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().prepend(listenerMiddleware.middleware),
+  devTools: import.meta.env.MODE !== 'production',
+});
+
+// Inferred types
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type AppStartListening = TypedStartListening<RootState, AppDispatch>;
+export const startAppListening =
+  listenerMiddleware.startListening as AppStartListening;
+
+// Typed hooks
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export * from './holdings/holdings-selectors';
+export * from './holdings/holdings-reducer';

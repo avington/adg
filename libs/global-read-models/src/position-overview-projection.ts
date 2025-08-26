@@ -3,6 +3,7 @@ export interface PositionOverviewProjection {
   positionId: string;
   portfolioId: string;
   symbol: string;
+  userId?: string;
   summary: {
     symbol: string;
     price: number;
