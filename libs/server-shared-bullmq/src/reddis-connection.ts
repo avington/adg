@@ -9,7 +9,7 @@ export const redisConnection: ConnectionOptions = {
   retryStrategy: (times) => Math.min(1000 + times * 500, 5000),
 
   // recommended for BullMQ/ioredis in workers
-  maxRetriesPerRequest: null as unknown as number,
+  maxRetriesPerRequest: null,
   enableReadyCheck: false,
 
   // fewer noisy hard failures on transient errors

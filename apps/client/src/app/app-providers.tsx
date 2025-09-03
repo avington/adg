@@ -33,7 +33,7 @@ const AllSymbolsSync: React.FC = () => {
 
   const uniqueSymbols = useAppSelector(selectAllUniqueSymbols);
   useEffect(() => {
-    console.log('AllSymbolsSync render, uniqueSymbols:', uniqueSymbols);
+    // You may add a proper logging mechanism here if needed
   }, [uniqueSymbols]);
 
   // refresh quotes for current symbols

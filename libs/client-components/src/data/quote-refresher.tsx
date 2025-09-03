@@ -9,19 +9,14 @@ import {
 } from '@adg/client-state';
 import { useEffect } from 'react';
 
-export interface QuotesRefresherProps {
-  loading: boolean;
-}
-
-export const QuotesRefresher: React.FC<QuotesRefresherProps> = () => {
+export const QuotesRefresher: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, data, error } = useUserHoldingsSymbolsByPortfolio({});
   const allSymbols = useAppSelector(selectAllUniqueSymbols);
-  console.log('QuotesRefresher render, allSymbols:', allSymbols);
 
   useEffect(() => {
     if (data?.userHoldingsSymbolsByPortfolio) {
-      // Trigger a refresh of the quotes
+      // const allSymbols = useAppSelector(selectAllUniqueSymbols);
       dispatch(setAllSymbols(data?.userHoldingsSymbolsByPortfolio ?? []));
     }
   }, [data?.userHoldingsSymbolsByPortfolio, dispatch]);
