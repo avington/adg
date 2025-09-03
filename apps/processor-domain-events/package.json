@@ -51,7 +51,8 @@
         ],
         "options": {
           "buildTarget": "processor-domain-events:build",
-          "runBuildTargetDependencies": false
+          "runBuildTargetDependencies": false,
+          "watch": true
         },
         "configurations": {
           "development": {

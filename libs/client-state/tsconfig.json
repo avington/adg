@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../global-read-models"
+    },
+    {
       "path": "../global-models"
     },
     {

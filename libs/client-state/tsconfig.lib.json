@@ -37,6 +37,9 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
+      "path": "../global-read-models/tsconfig.lib.json"
+    },
+    {
       "path": "../global-models/tsconfig.lib.json"
     }
   ]

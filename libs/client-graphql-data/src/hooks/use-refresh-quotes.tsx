@@ -1,25 +1,19 @@
-import { useEffect } from 'react';
+import { updatePrice, useAppDispatch } from '@adg/client-state';
 import { useLazyQuery } from '@apollo/client';
-import { USER_SYMBOLS } from '../queries/user-symbols';
+import { useEffect } from 'react';
 import { QUOTES_SHORT } from '../queries/quotes-short';
-import { useAppDispatch, updatePrice } from '@adg/client-state';
 
-export const useRefreshQuotes = () => {
+export const useRefreshQuotes = (symbols: string[]) => {
   const dispatch = useAppDispatch();
-  const [loadSymbols, { data: symbolsData }] = useLazyQuery(USER_SYMBOLS);
+
   const [loadQuotes, { data: quotesData, loading, error }] =
     useLazyQuery(QUOTES_SHORT);
 
   useEffect(() => {
-    loadSymbols();
-  }, [loadSymbols]);
-
-  useEffect(() => {
-    const symbols = symbolsData?.userSymbols ?? [];
-    if (symbols.length) {
+    if (symbols?.length) {
       loadQuotes({ variables: { symbols } });
     }
-  }, [symbolsData, loadQuotes]);
+  }, [symbols, loadQuotes]);
 
   useEffect(() => {
     const quotes = quotesData?.quotesShort ?? [];

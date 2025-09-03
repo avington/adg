@@ -129,8 +129,8 @@ export default {
       };
     },
 
-    // NEW: distinct symbols for authenticated user
-    async userSymbols(
+    // NEW: grouped symbols by portfolio with portfolio name
+    async userHoldingsSymbolsByPortfolio(
       _parent: unknown,
       _args: unknown,
       context: GraphQLContext
@@ -138,12 +138,42 @@ export default {
       const userSub = context.user?.sub;
       if (!userSub) throw new AuthenticationError('User not authenticated');
 
-      const symbols = await context.db
+      const results = await context.db
         .collection('position-overviews')
-        .distinct('symbol', { userId: userSub });
+        .aggregate([
+          { $match: { userId: userSub } },
+          {
+            $group: {
+              _id: '$portfolioId',
+              symbols: { $addToSet: { $toUpper: '$symbol' } },
+            },
+          },
+          {
+            $lookup: {
+              from: 'portfolios',
+              localField: '_id',
+              foreignField: 'portfolioId',
+              as: 'portfolio',
+            },
+          },
+          { $unwind: { path: '$portfolio', preserveNullAndEmptyArrays: true } },
+          {
+            $project: {
+              _id: 0,
+              portfolioId: '$_id',
+              portfolioName: '$portfolio.name',
+              symbols: 1,
+            },
+          },
+          { $sort: { portfolioName: 1 } },
+        ])
+        .toArray();
 
-      // Optional: sort alphabetically
-      return symbols.sort((a, b) => a.localeCompare(b));
+      return results.map((r) => ({
+        portfolioId: r.portfolioId,
+        portfolioName: r.portfolioName ?? null,
+        symbols: (r.symbols ?? []).filter(Boolean),
+      }));
     },
   },
 };

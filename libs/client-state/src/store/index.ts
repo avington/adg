@@ -5,12 +5,14 @@ import {
   createListenerMiddleware,
   TypedStartListening,
 } from '@reduxjs/toolkit';
-import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { holdingsSlice } from './holdings/holdings-reducer';
+import { allSymbolsSlice } from './portfolios/all-symbols-reducer';
 
 // Slice reducers
 const reducer = {
   holdings: holdingsSlice.reducer,
+  allSymbols: allSymbolsSlice.reducer,
 };
 
 // Listener middleware (optional – extend as needed)
@@ -35,5 +37,8 @@ export const startAppListening =
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export * from './holdings/holdings-selectors';
 export * from './holdings/holdings-reducer';
+export * from './holdings/holdings-selectors';
+
+export * from './portfolios/all-symbols-reducer';
+export * from './portfolios/all-symbols-selectors';
