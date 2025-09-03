@@ -42,7 +42,8 @@
         "options": {
           "buildTarget": "server:build",
           "runBuildTargetDependencies": false,
-          "inspect": false
+          "inspect": false,
+          "watch": true
         },
         "configurations": {
           "development": {

@@ -1,6 +1,22 @@
-import { RenderWhen, ToasterProvider } from '@adg/client-components';
-import { GraphQLProvider, useRefreshQuotes } from '@adg/client-graphql-data';
-import { useCredentialStore } from '@adg/client-state';
+import {
+  QuotesRefresher,
+  RenderWhen,
+  ToasterProvider,
+} from '@adg/client-components';
+import {
+  GraphQLProvider,
+  useUserHoldingsSymbolsByPortfolio,
+  useRefreshQuotes, // add
+} from '@adg/client-graphql-data';
+import {
+  setAllSymbols,
+  setError,
+  setLoadingState,
+  useAppDispatch,
+  useCredentialStore,
+  useAppSelector,
+  selectAllUniqueSymbols,
+} from '@adg/client-state';
 import { BodyContainer } from '@adg/client-theme';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -10,8 +26,33 @@ import { routerConfig } from './route-config';
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 const graphqlUrl = import.meta.env.VITE_GRAPHQL_API_ENDPOINT || '/graphql';
 
-const QuotesRefresher: React.FC = () => {
-  useRefreshQuotes();
+// NEW: sync GraphQL hook -> Redux
+const AllSymbolsSync: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { portfolios, loading, error } = useUserHoldingsSymbolsByPortfolio();
+
+  const uniqueSymbols = useAppSelector(selectAllUniqueSymbols);
+  useEffect(() => {
+    // You may add a proper logging mechanism here if needed
+  }, [uniqueSymbols]);
+
+  // refresh quotes for current symbols
+  useRefreshQuotes(uniqueSymbols);
+
+  useEffect(() => {
+    if (loading) dispatch(setLoadingState('loading'));
+  }, [loading, dispatch]);
+
+  useEffect(() => {
+    if (error) dispatch(setError(error.message));
+  }, [error, dispatch]);
+
+  useEffect(() => {
+    if (!loading && !error) {
+      dispatch(setAllSymbols(portfolios));
+    }
+  }, [loading, error, portfolios, dispatch]);
+
   return null;
 };
 
@@ -32,7 +73,8 @@ export const AppProviders: React.FC = () => {
         <RenderWhen>
           <RenderWhen.If isTrue={!!token}>
             <GraphQLProvider uri={graphqlUrl} token={token}>
-              <QuotesRefresher />
+              {/* QuotesRefresher removed */}
+              <AllSymbolsSync />
               <RouterProvider router={routerConfig} />
             </GraphQLProvider>
           </RenderWhen.If>

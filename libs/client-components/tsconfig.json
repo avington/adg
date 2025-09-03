@@ -3,6 +3,12 @@
   "include": [],
   "references": [
     {
+      "path": "../client-state"
+    },
+    {
+      "path": "../client-graphql-data"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

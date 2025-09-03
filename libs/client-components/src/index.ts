@@ -6,3 +6,4 @@ export * from './containers';
 export * from './form';
 export * from './feedback';
 export * from './dropdowns';
+export * from './data';

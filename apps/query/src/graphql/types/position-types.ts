@@ -63,6 +63,13 @@ export const positionTypeDefs = gql`
     volume: Float!
   }
 
+  # Grouped holdings by portfolio with symbols
+  type UserHoldingsPortfolio {
+    portfolioId: String!
+    portfolioName: String
+    symbols: [String!]!
+  }
+
   extend type Query {
     positionOverviews(portfolioId: String!): [PositionOverview!]!
     positionOverview(positionId: String!): PositionOverview
@@ -70,7 +77,10 @@ export const positionTypeDefs = gql`
       positionId: String!
       symbol: String!
     ): PositionOverview
-    userSymbols: [String!]! # NEW
+    userSymbols: [String!]!
     quotesShort(symbols: [String!]!): [StockQuoteShort!]!
+
+    # NEW
+    userHoldingsSymbolsByPortfolio: [UserHoldingsPortfolio!]!
   }
 `;
