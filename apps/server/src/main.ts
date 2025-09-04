@@ -1,5 +1,6 @@
 // Description: Main entry point for the server application,
 // setting up middleware, routes, and starting the server.
+import 'dotenv/config';
 import express from 'express';
 import * as path from 'path';
 import cors from 'cors';
@@ -19,15 +20,37 @@ import { portfolioRouter } from './routes/portfolio-routes';
 import { lotsRouter } from './routes/lots-routes';
 import { positionsRouter } from './routes/position-routes';
 
-const clientDomain = process.env.CLIENT_DOMAIN || 'http://localhost:3000';
+// Support multiple origins via comma-separated env; include common dev defaults
+const clientDomains = (
+  process.env.CLIENT_DOMAIN || 'http://localhost:4200,http://localhost:3000'
+)
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
 const app = express();
+const DEBUG_HTTP = process.env.DEBUG_HTTP === 'true';
 
 // Middleware to enable CORS
 app.use(
   cors({
-    origin: clientDomain,
+    origin: (origin, callback) => {
+      // Allow requests without origin (mobile apps, curl) and from whitelisted origins
+      if (!origin || clientDomains.includes(origin))
+        return callback(null, true);
+      return callback(new Error(`CORS blocked from origin: ${origin}`));
+    },
+    credentials: true,
   })
 );
+
+// Very-early request tracer (before JSON parsing or other middleware)
+if (DEBUG_HTTP) {
+  app.use((req, _res, next) => {
+    // Keep it compact to avoid spam
+    console.log(`[HTTP] -> ${req.method} ${req.originalUrl || req.url}`);
+    next();
+  });
+}
 // Middleware for security headers
 app.use(helmet());
 
@@ -50,43 +73,143 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to server!' });
 });
 
+// Simple health endpoint
+app.get('/healthz', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 app.use('/api/v1/auth', googleJwtAuthMiddleware, authRouter);
 
-const eventBus = new BullMqEventBus();
+// Prefer EVENT_STORE_DB, but also support EVENT_STORE_DB_NAME for compatibility
+const EVENT_STORE_DB_NAME =
+  process.env.EVENT_STORE_DB ||
+  process.env.EVENT_STORE_DB_NAME ||
+  'adg_event_store_db';
+
 const eventStore = new MongoEventStore(
   process.env.MONGO_URI || 'mongodb://localhost:27017',
-  process.env.EVENT_STORE_DB || 'adg_event_store_db'
+  EVENT_STORE_DB_NAME
 );
 
 async function start() {
+  // Surface crashes that might be causing restarts without useful logs
+  process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+  });
+  process.on('unhandledRejection', (reason) => {
+    console.error('Unhandled Rejection:', reason);
+  });
+
   // Connect to MongoDB for event store
-  await eventStore.connect();
+  console.log('Initializing event store connection...');
+  try {
+    await eventStore.connect();
+    console.log(`Connected to event store DB: ${EVENT_STORE_DB_NAME}`);
+  } catch (err) {
+    console.error('Failed to connect to MongoDB event store.');
+    console.error(
+      'MONGO_URI:',
+      process.env.MONGO_URI || 'mongodb://localhost:27017'
+    );
+    console.error('EVENT_STORE_DB / EVENT_STORE_DB_NAME:', EVENT_STORE_DB_NAME);
+    console.error(err);
+    // Exit so Nx shows the error instead of silently looping
+    process.exit(1);
+  }
+
+  // Initialize event bus (BullMQ) after DB connect so we can see DB logs first
+  let eventBus: BullMqEventBus;
+  try {
+    eventBus = new BullMqEventBus();
+    console.log('Event bus initialized (BullMQ).');
+  } catch (err) {
+    console.error('Failed to initialize BullMQ event bus:', err);
+    // Exit so Nx shows the error
+    process.exit(1);
+    return; // for type narrowing
+  }
 
   // Route for event store connections
-  app.use('/api/v1/user', userRouter(eventStore, eventBus));
-  app.use('/api/v1/portfolios', portfolioRouter(eventStore, eventBus));
-  app.use('/api/v1/lots', lotsRouter(eventStore, eventBus));
-  app.use('/api/v1/positions', positionsRouter(eventStore, eventBus));
+  const userRoute = '/api/v1/user';
+  const portfolioRoute = '/api/v1/portfolios';
+  const lotsRoute = '/api/v1/lots';
+  const positionsRoute = '/api/v1/positions';
+
+  console.log('Setting up routes...');
+  console.log(`User route: ${userRoute}`);
+  console.log(`Portfolio route: ${portfolioRoute}`);
+  console.log(`Lots route: ${lotsRoute}`);
+  console.log(`Positions route: ${positionsRoute}`);
+
+  app.use(userRoute, userRouter(eventStore, eventBus));
+  app.use(portfolioRoute, portfolioRouter(eventStore, eventBus));
+  app.use(lotsRoute, lotsRouter(eventStore, eventBus));
+  app.use(positionsRoute, positionsRouter(eventStore, eventBus));
 
   // Example: create a BullMQ queue instance (replace with your actual queue)
-  const userEventsQueue = new Queue(QueueNames.DOMAIN_EVENTS, {
-    connection: redisConnection,
-  });
+  let userEventsQueue: Queue | undefined;
+  try {
+    userEventsQueue = new Queue(QueueNames.DOMAIN_EVENTS, {
+      connection: redisConnection,
+    });
+    userEventsQueue.on('error', (e) =>
+      console.error('BullMQ queue error (DOMAIN_EVENTS):', e)
+    );
+  } catch (err) {
+    console.error('Failed to create BullMQ queue (DOMAIN_EVENTS):', err);
+    // Continue without Bull Board if queue cannot be created
+  }
 
   // Set up Bull Board dashboard
   const serverAdapter = new ExpressAdapter();
   serverAdapter.setBasePath('/admin/queues');
-  createBullBoard({
-    queues: [new BullMQAdapter(userEventsQueue)],
-    serverAdapter,
-  });
+  if (userEventsQueue) {
+    createBullBoard({
+      queues: [new BullMQAdapter(userEventsQueue)],
+      serverAdapter,
+    });
+  }
   app.use('/admin/queues', serverAdapter.getRouter());
 
-  const port = process.env.SERVER_PORT || 3333;
-  const server = app.listen(port, () => {
-    console.log(`Listening at http://localhost:${port}/api`);
+  // 404 handler (after all routes)
+  app.use((req, res) => {
+    res.status(404).json({ error: 'Not Found', path: req.path });
+  });
+
+  // Error handler (must have 4 args to be recognized by Express)
+  app.use(
+    (
+      err: unknown,
+      _req: express.Request,
+      res: express.Response,
+      _next: express.NextFunction
+    ) => {
+      // Mark `_next` as used to satisfy lint without changing behavior
+      void _next;
+      console.error('Unhandled error:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  );
+
+  const port = Number(process.env.SERVER_PORT) || 3333;
+  const host = process.env.SERVER_HOST || '0.0.0.0';
+  const server = app.listen(port, host, () => {
+    console.log(
+      `Listening at http://${
+        host === '0.0.0.0' ? 'localhost' : host
+      }:${port}/api`
+    );
   });
   server.on('error', console.error);
+  // Gracefully handle low-level client errors (avoid connection resets without logs)
+  server.on('clientError', (err, socket) => {
+    console.error('HTTP client error:', err);
+    try {
+      socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+    } catch (e) {
+      console.error('Failed to end socket after clientError:', e);
+    }
+  });
 }
 
 start();

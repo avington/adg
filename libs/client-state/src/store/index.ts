@@ -8,11 +8,13 @@ import {
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { holdingsSlice } from './holdings/holdings-reducer';
 import { allSymbolsSlice } from './portfolios/all-symbols-reducer';
+import { quoteSlice } from './portfolios/quotes-reducer';
 
 // Slice reducers
 const reducer = {
   holdings: holdingsSlice.reducer,
   allSymbols: allSymbolsSlice.reducer,
+  quotes: quoteSlice.reducer,
 };
 
 // Listener middleware (optional – extend as needed)
@@ -42,3 +44,6 @@ export * from './holdings/holdings-selectors';
 
 export * from './portfolios/all-symbols-reducer';
 export * from './portfolios/all-symbols-selectors';
+
+export * from './portfolios/quotes-reducer';
+export * from './portfolios/quotes-selectors';

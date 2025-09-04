@@ -1,1 +1,1 @@
-export * from './quote-refresher';
+export * from './quotes-refresher';

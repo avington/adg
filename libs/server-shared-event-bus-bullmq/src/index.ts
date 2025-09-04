@@ -8,6 +8,11 @@ export class BullMqEventBus<E = unknown> implements IEventBus<E> {
 
   constructor(queueName: string = QueueNames.DOMAIN_EVENTS) {
     this.eventQueue = createQueue(queueName);
+    // Basic diagnostics so queue/redis issues are visible in app logs
+    this.eventQueue.on('error', (e) => {
+      // Keep log concise but informative
+      console.error('[BullMqEventBus] queue error:', e?.message || e);
+    });
   }
 
   // Back/forward compatible overloads for both interface variants
@@ -36,6 +41,9 @@ export class BullMqEventBus<E = unknown> implements IEventBus<E> {
     _handler: EventHandler<T>
   ): void {
     // Intentionally not implemented. Use workers/queues to consume events.
+    // Mark params as used for linters without changing behavior
+    void _eventType;
+    void _handler;
   }
 
   unsubscribe<T extends E = E>(
@@ -43,5 +51,7 @@ export class BullMqEventBus<E = unknown> implements IEventBus<E> {
     _handler: EventHandler<T>
   ): void {
     // Intentionally not implemented.
+    void _eventType;
+    void _handler;
   }
 }

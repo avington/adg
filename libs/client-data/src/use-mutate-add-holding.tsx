@@ -15,7 +15,7 @@ export const useMutateAddHolding = (onSuccess?: () => void) => {
     try {
       const response = await axios.post<PositionCreateRequestModel>(
         `${VITE_API_BASE_URL}/positions`,
-        holding
+        { ...holding, symbol: holding.symbol.toUpperCase() }
       );
       setData(response.data);
       if (onSuccess && !!response.data) {

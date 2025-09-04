@@ -52,7 +52,8 @@
         "options": {
           "buildTarget": "query:build",
           "runBuildTargetDependencies": false,
-          "watch": true
+          "watch": true,
+          "inspect": false
         },
         "configurations": {
           "development": {
