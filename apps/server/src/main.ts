@@ -184,8 +184,7 @@ async function start() {
       res: express.Response,
       _next: express.NextFunction
     ) => {
-      // Mark `_next` as used to satisfy lint without changing behavior
-      void _next;
+      // _next is intentionally unused (underscore prefix)
       console.error('Unhandled error:', err);
       res.status(500).json({ error: 'Internal Server Error' });
     }

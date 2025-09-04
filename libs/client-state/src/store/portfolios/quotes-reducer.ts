@@ -11,7 +11,7 @@ export const quoteSlice = createSlice({
   name: 'quotes',
   initialState,
   reducers: {
-    setQuote: (state, action) => {
+    setQuote: (state, action: PayloadAction<QuoteShortItem>) => {
       const { symbol, ...quote } = action.payload;
       state[symbol] = quote;
     },
@@ -23,7 +23,7 @@ export const quoteSlice = createSlice({
       }
       return next;
     },
-    removeQuote: (state, action) => {
+    removeQuote: (state, action: PayloadAction<string>) => {
       delete state[action.payload];
     },
   },
