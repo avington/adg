@@ -5,9 +5,7 @@ import { mapTokenInfoToUser } from '../auth/user-mapper';
 
 const DEBUG_AUTH = process.env.DEBUG_AUTH === 'true';
 // Default to the correct Google Client ID (matches token aud). Allow env override.
-const CLIENT_ID =
-  process.env.GOOGLE_CLIENT_ID ||
-  '847015062567-q6ffv8iom5j67av7o476ukinpg3vseat.apps.googleusercontent.com';
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || 'apps.googleusercontent.com';
 // Allow multiple client IDs for dev/prod or localhost vs deployed (deduped)
 const CLIENT_IDS = Array.from(
   new Set(
