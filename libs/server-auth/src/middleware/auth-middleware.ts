@@ -5,7 +5,12 @@ import { mapTokenInfoToUser } from '../auth/user-mapper';
 
 const DEBUG_AUTH = process.env.DEBUG_AUTH === 'true';
 // Default to the correct Google Client ID (matches token aud). Allow env override.
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || 'apps.googleusercontent.com';
+if (!process.env.GOOGLE_CLIENT_ID) {
+  throw new Error(
+    'GOOGLE_CLIENT_ID environment variable must be set for authentication.'
+  );
+}
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 // Allow multiple client IDs for dev/prod or localhost vs deployed (deduped)
 const CLIENT_IDS = Array.from(
   new Set(
@@ -112,20 +117,24 @@ export async function googleJwtAuthMiddleware(
             payloadJson = Buffer.from(parts[1], 'base64').toString('utf8');
           } catch (bufferErr) {
             console.error(
-              'Failed to decode token payload with base64:',
-              bufferErr
-            );
-            payloadJson = '';
-          }
-          if (payloadJson) {
+          if (
+            payloadJson &&
+            process.env.NODE_ENV === 'development'
+          ) {
             const payload = JSON.parse(payloadJson) as Record<string, unknown>;
             const now = Math.floor(Date.now() / 1000);
+            // Only log non-sensitive fields for debugging
             console.error('Token payload (decoded, unverified):', {
               aud: payload['aud'],
               azp: payload['azp'],
               iss: payload['iss'],
               iat: payload['iat'],
               nbf: payload['nbf'],
+              exp: payload['exp'],
+              now,
+              skew: (Number(payload['iat']) || 0) - now,
+            });
+          }
               exp: payload['exp'],
               now,
               skew: (Number(payload['iat']) || 0) - now,
