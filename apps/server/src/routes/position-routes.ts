@@ -61,8 +61,9 @@ export function positionsRouter(
         const { portfolioId, symbol } = req.body;
         // In dev, allow stubbing external API to avoid intermittent resets
         const DEV_ALLOW_ALL =
-          process.env.DEV_ALLOW_ALL === 'true' ||
-          process.env.BYPASS_DOMAIN_GUARDS === 'true';
+          process.env.NODE_ENV === 'development' &&
+          (process.env.DEV_ALLOW_ALL === 'true' ||
+            process.env.BYPASS_DOMAIN_GUARDS === 'true');
         let summary: CompanyProfileModel | null = null;
         let stockQuote: StockQuoteModel | null = null;
         if (DEV_ALLOW_ALL) {

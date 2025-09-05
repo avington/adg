@@ -37,7 +37,7 @@ app.use(
       // Allow requests without origin (mobile apps, curl) and from whitelisted origins
       if (!origin || clientDomains.includes(origin))
         return callback(null, true);
-      return callback(new Error(`CORS blocked from origin: ${origin}`));
+      return callback(new Error('CORS blocked: origin not allowed'));
     },
     credentials: true,
   })

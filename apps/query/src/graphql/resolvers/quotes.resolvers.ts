@@ -1,6 +1,6 @@
 import type { Db } from 'mongodb';
 import { AuthenticationError } from 'apollo-server-errors';
-import { getShortQuotes } from '@adg/server-shared-fmp';
+import { getShortQuote } from '@adg/server-shared-fmp';
 
 interface GraphQLContext {
   db: Db;
@@ -21,7 +21,18 @@ export default {
         )
       );
       if (!deduped.length) return [];
-      return getShortQuotes(deduped);
+      const results = await Promise.all(
+        deduped.map(async (sym) => {
+          try {
+            return await getShortQuote(sym);
+          } catch (err) {
+            // Log and continue
+            console.error('Error fetching quote for symbol', sym, err);
+            return null;
+          }
+        })
+      );
+      return results.filter(Boolean);
     },
   },
 };

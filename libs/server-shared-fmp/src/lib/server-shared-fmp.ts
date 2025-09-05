@@ -63,26 +63,54 @@ export interface StockQuoteShortModel {
 export async function getShortQuote(
   symbol: string
 ): Promise<StockQuoteShortModel | null> {
-  const response = await axios.get(`${FMP_URL}/quote-short`, {
+  const response = await axios.get(`${FMP_URL}/quote`, {
     params: {
       apikey: FMP_API_KEY,
       symbol,
     },
   });
   const arr = Array.isArray(response.data) ? response.data : [];
-  return arr.length ? (arr[0] as StockQuoteShortModel) : null;
+  if (!arr.length) return null;
+  const first = arr[0] as {
+    symbol: string;
+    price: number;
+    change: number;
+    volume: number;
+  };
+  // Map the full quote to the short model fields we expose
+  return {
+    symbol: first.symbol,
+    price: first.price,
+    change: first.change,
+    volume: first.volume,
+  };
 }
 
 export async function getShortQuotes(
   symbols: string[]
 ): Promise<StockQuoteShortModel[]> {
   if (!symbols?.length) return [];
-  const response = await axios.get(`${FMP_URL}/quote-short`, {
-    params: {
-      apikey: FMP_API_KEY,
-      symbol: symbols.join(','),
-    },
+  console.log('Fetching short quotes for symbols:', symbols);
+  // Use the batch endpoint and the 'symbols' query parameter per FMP docs
+  const url = `${FMP_URL}/batch-quote-short`;
+  const params = {
+    apikey: FMP_API_KEY,
+    symbols: symbols.join(','),
+  } as const;
+  console.log('Requesting batch short quotes:', {
+    url,
+    // Do not log the API key
+    symbols: params.symbols,
   });
+
+  let response;
+  try {
+    response = await axios.get(url, { params });
+  } catch (error) {
+    console.error('Error fetching batch short quotes:', error);
+    return [];
+  }
+  console.log('Received short quotes response:', response.data);
   const arr = Array.isArray(response.data) ? response.data : [];
   return arr.filter(Boolean) as StockQuoteShortModel[];
 }

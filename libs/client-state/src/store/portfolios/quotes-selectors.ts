@@ -9,13 +9,13 @@ export interface PortfolioQuotes {
   quotes: QuoteShortItem[];
 }
 
-export const selectQuote = createSelector(
+export const selectAllQuotes = createSelector(
   (root: RootState) => root.quotes,
   (quotes) => quotes
 );
 
 export const selectQuotesByPortfolio = createSelector(
-  selectQuote,
+  selectAllQuotes,
   selectAllSymbols,
   (quotes, allSymbols) => {
     const symbolList = allSymbols.flatMap((p) => p.symbols);

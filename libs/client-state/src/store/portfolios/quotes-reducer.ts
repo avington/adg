@@ -12,8 +12,8 @@ export const quoteSlice = createSlice({
   initialState,
   reducers: {
     setQuote: (state, action: PayloadAction<QuoteShortItem>) => {
-      const { symbol, ...quote } = action.payload;
-      state[symbol] = quote;
+      const { symbol } = action.payload;
+      state[symbol] = action.payload;
     },
     setQuotes: (state, action: PayloadAction<QuoteShortItem[]>) => {
       // Replace the state with a new map keyed by symbol
