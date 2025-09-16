@@ -19,13 +19,30 @@ export function isMarketOpenNow(): boolean {
     second: '2-digit',
   });
   const parts = etFormatter.formatToParts(now);
-  const getPart = (type: string) =>
-    parts.find((part) => part.type === type)?.value ?? '0';
+  const DatePartTypes = {
+    year: 'year',
+    month: 'month',
+    day: 'day',
+    hour: 'hour',
+    minute: 'minute',
+    second: 'second',
+  } as const;
 
-  const year = getPart('year');
-  const month = getPart('month');
-  const day = getPart('day');
-  const hour = getPart('hour');
+  type DatePartType = keyof typeof DatePartTypes;
+  // Create a string in ISO format and parse it as ET using the timeZone option
+  const etDateString = `${year}-${month}-${day}T${hour}:${minute}:${second}`;
+  const etDate = new Date(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }).format(new Date(etDateString))
+  );
   const minute = getPart('minute');
   const second = getPart('second');
 

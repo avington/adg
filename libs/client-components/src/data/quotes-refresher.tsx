@@ -88,13 +88,23 @@ export const QuotesRefresher: React.FC = () => {
       return Math.floor(min + Math.random() * (max - min));
     };
 
+    // Cache market status and refresh every minute
+    const marketStatusRef = { current: isMarketOpenNow() };
+    let marketStatusTimer: number | undefined;
+
+    const refreshMarketStatus = () => {
+      marketStatusRef.current = isMarketOpenNow();
+      marketStatusTimer = window.setTimeout(refreshMarketStatus, 60_000);
+    };
+    refreshMarketStatus();
+
     // Schedule a fetch for a single symbol
     const schedule = (symbol: string) => {
       const run = async () => {
         // Only fetch quotes during market hours to avoid unnecessary API calls.
         // If the market is closed, skip fetching and reschedule the next refresh.
 
-        if (!isMarketOpenNow()) {
+        if (!marketStatusRef.current) {
           // Reschedule next refresh without fetching
           timersRef.current[symbol] = window.setTimeout(
             () => schedule(symbol),
@@ -135,6 +145,7 @@ export const QuotesRefresher: React.FC = () => {
     return () => {
       clearAllTimers();
       stopPolling?.();
+      if (marketStatusTimer) clearTimeout(marketStatusTimer);
     };
   }, [allSymbols, fetchOne, dispatch, stopPolling]);
 

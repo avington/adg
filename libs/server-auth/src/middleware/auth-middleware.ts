@@ -111,7 +111,7 @@ export async function googleJwtAuthMiddleware(
       if (token) {
         const parts = token.split('.');
         if (parts.length === 3) {
-          let payloadJson: string = '';
+          let payloadJson: string | undefined;
           try {
             // Use 'base64' decoding for broader compatibility
             payloadJson = Buffer.from(parts[1], 'base64').toString('utf8');
