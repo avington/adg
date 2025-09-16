@@ -9,10 +9,8 @@ export interface PortfolioQuotes {
   quotes: QuoteShortItem[];
 }
 
-export const selectAllQuotes = createSelector(
-  (root: RootState) => root.quotes,
-  (quotes) => quotes
-);
+// Plain input selector: avoid identity-return pattern that triggers RTK checks
+export const selectAllQuotes = (root: RootState) => root.quotes;
 
 export const selectQuotesByPortfolio = createSelector(
   selectAllQuotes,

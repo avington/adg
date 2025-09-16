@@ -9,7 +9,12 @@
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
+  "exclude": [
+    "dist",
+    "eslint.config.js",
+    "eslint.config.cjs",
+    "eslint.config.mjs"
+  ],
   "references": [
     {
       "path": "../../libs/server-domain-user-commands/tsconfig.lib.json"

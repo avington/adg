@@ -21,3 +21,4 @@ export * from './lots/lot-doc.js';
 
 // misc
 export * from './misc/loading-state.js';
+export * from './misc/latest-quote.js';
