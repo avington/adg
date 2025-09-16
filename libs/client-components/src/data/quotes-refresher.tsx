@@ -91,7 +91,8 @@ export const QuotesRefresher: React.FC = () => {
     // Schedule a fetch for a single symbol
     const schedule = (symbol: string) => {
       const run = async () => {
-        // Only refresh if market is open
+        // Only fetch quotes during market hours to avoid unnecessary API calls.
+        // If the market is closed, skip fetching and reschedule the next refresh.
 
         if (!isMarketOpenNow()) {
           // Reschedule next refresh without fetching

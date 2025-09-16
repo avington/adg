@@ -18,10 +18,16 @@ export function isMarketOpenNow(): boolean {
     minute: '2-digit',
     second: '2-digit',
   });
-  const [month, day, year, hour, minute, second] = etFormatter
-    .formatToParts(now)
-    .filter((part) => part.type !== 'literal')
-    .map((part) => part.value);
+  const parts = etFormatter.formatToParts(now);
+  const getPart = (type: string) =>
+    parts.find((part) => part.type === type)?.value ?? '0';
+
+  const year = getPart('year');
+  const month = getPart('month');
+  const day = getPart('day');
+  const hour = getPart('hour');
+  const minute = getPart('minute');
+  const second = getPart('second');
 
   const etDate = new Date(
     Number(year),

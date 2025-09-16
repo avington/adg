@@ -22,7 +22,7 @@ export const HoldingsOverViewTable: React.FC = () => {
     return data?.positionOverviews ?? [];
   }, [data]);
 
-  const latestQuote = useAppSelector(selectAllQuotes);
+  const allQuotes = useAppSelector(selectAllQuotes);
 
   // Derive updatedHoldings instead of storing it in state
   const updatedHoldings = useMemo<
@@ -30,9 +30,9 @@ export const HoldingsOverViewTable: React.FC = () => {
   >(() => {
     return holdings.map((h) => ({
       ...h,
-      latestQuote: latestQuote[h.symbol],
+      latestQuote: allQuotes[h.symbol],
     }));
-  }, [latestQuote, holdings]);
+  }, [allQuotes, holdings]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
