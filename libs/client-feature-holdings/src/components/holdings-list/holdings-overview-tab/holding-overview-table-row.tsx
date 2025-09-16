@@ -1,9 +1,10 @@
 import { MenuButton, TableCell, TableRow } from '@adg/client-components';
+import { WithLatestQuote } from '@adg/global-models';
 import { PositionOverviewProjection } from '@adg/global-read-models';
 import { useNavigate } from 'react-router-dom';
 
 export interface HoldingsOverViewTableProps {
-  holdingsOverview: PositionOverviewProjection;
+  holdingsOverview: WithLatestQuote<PositionOverviewProjection>;
 }
 
 export const HoldingsOverViewTableRow: React.FC<HoldingsOverViewTableProps> = ({
@@ -31,8 +32,8 @@ export const HoldingsOverViewTableRow: React.FC<HoldingsOverViewTableProps> = ({
         />
       </TableCell>
       <TableCell>{holdingsOverview.summary.companyName}</TableCell>
-      <TableCell>{holdingsOverview.stockQuote.price}</TableCell>
-      <TableCell>100</TableCell>
+      <TableCell>{holdingsOverview.latestQuote?.price}</TableCell>
+      <TableCell>{holdingsOverview.lots?.totalShares}</TableCell>
       <TableCell>200</TableCell>
       <TableCell>150</TableCell>
     </TableRow>

@@ -2,7 +2,12 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultBase": "main",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals",
+      "!{projectRoot}/dist/**",
+      "!{projectRoot}/**/*.tsbuildinfo"
+    ],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",

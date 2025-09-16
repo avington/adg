@@ -4,6 +4,7 @@ import {
 } from '@adg/client-graphql-data';
 import { useLazyQuery } from '@apollo/client';
 import { QUOTES_SHORT } from '@adg/client-graphql-data';
+import { isMarketOpenNow } from '@adg/global-formulas';
 import {
   selectAllUniqueSymbols,
   setQuotes,
@@ -90,6 +91,17 @@ export const QuotesRefresher: React.FC = () => {
     // Schedule a fetch for a single symbol
     const schedule = (symbol: string) => {
       const run = async () => {
+        // Only fetch quotes during market hours to avoid unnecessary API calls.
+        // If the market is closed, skip fetching and reschedule the next refresh.
+
+        if (!isMarketOpenNow()) {
+          // Reschedule next refresh without fetching
+          timersRef.current[symbol] = window.setTimeout(
+            () => schedule(symbol),
+            nextDelay()
+          );
+          return;
+        }
         try {
           const result = await fetchOne({ variables: { symbols: [symbol] } });
           const one = result?.data?.quotesShort?.[0];

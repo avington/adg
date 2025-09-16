@@ -46,6 +46,9 @@
       "path": "../client-state/tsconfig.lib.json"
     },
     {
+      "path": "../global-formulas/tsconfig.lib.json"
+    },
+    {
       "path": "../client-graphql-data/tsconfig.lib.json"
     }
   ]

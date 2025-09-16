@@ -6,6 +6,9 @@
       "path": "../client-state"
     },
     {
+      "path": "../global-formulas"
+    },
+    {
       "path": "../client-graphql-data"
     },
     {

@@ -6,6 +6,12 @@
       "path": "../client-theme"
     },
     {
+      "path": "../global-models"
+    },
+    {
+      "path": "../client-state"
+    },
+    {
       "path": "../client-hooks"
     },
     {

@@ -111,34 +111,35 @@ export async function googleJwtAuthMiddleware(
       if (token) {
         const parts = token.split('.');
         if (parts.length === 3) {
-          let payloadJson: string;
+          let payloadJson: string = '';
           try {
             // Use 'base64' decoding for broader compatibility
             payloadJson = Buffer.from(parts[1], 'base64').toString('utf8');
           } catch (bufferErr) {
-            console.error(
-          if (
-            payloadJson &&
-            process.env.NODE_ENV === 'development'
-          ) {
-            const payload = JSON.parse(payloadJson) as Record<string, unknown>;
-            const now = Math.floor(Date.now() / 1000);
-            // Only log non-sensitive fields for debugging
-            console.error('Token payload (decoded, unverified):', {
-              aud: payload['aud'],
-              azp: payload['azp'],
-              iss: payload['iss'],
-              iat: payload['iat'],
-              nbf: payload['nbf'],
-              exp: payload['exp'],
-              now,
-              skew: (Number(payload['iat']) || 0) - now,
-            });
+            console.error('Failed to base64 decode token payload:', bufferErr);
           }
-              exp: payload['exp'],
-              now,
-              skew: (Number(payload['iat']) || 0) - now,
-            });
+
+          if (payloadJson && process.env.NODE_ENV === 'development') {
+            try {
+              const payload = JSON.parse(payloadJson) as Record<
+                string,
+                unknown
+              >;
+              const now = Math.floor(Date.now() / 1000);
+              // Only log non-sensitive fields for debugging
+              console.error('Token payload (decoded, unverified):', {
+                aud: payload['aud'],
+                azp: payload['azp'],
+                iss: payload['iss'],
+                iat: payload['iat'],
+                nbf: payload['nbf'],
+                exp: payload['exp'],
+                now,
+                skew: (Number(payload['iat']) || 0) - now,
+              });
+            } catch (jsonErr) {
+              console.error('Failed to parse decoded token JSON:', jsonErr);
+            }
           }
         }
       }
