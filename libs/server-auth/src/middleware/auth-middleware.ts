@@ -30,6 +30,14 @@ export async function googleJwtAuthMiddleware(
   res: Response,
   next: NextFunction
 ) {
+  // Track if the client disconnected (prevents ECONNRESET when writing)
+  let aborted = false;
+  const onAborted = () => {
+    aborted = true;
+    if (DEBUG_AUTH) console.warn('[AUTH] request aborted by client');
+  };
+  req.once('aborted', onAborted);
+
   if (DEBUG_AUTH) {
     const authHeader = req.headers.authorization;
     console.log(
@@ -56,6 +64,8 @@ export async function googleJwtAuthMiddleware(
       locale: 'en',
       verifiedEmail: true,
     };
+    // Clean up listener before exiting middleware
+    req.off('aborted', onAborted);
     return next();
   }
 
@@ -63,21 +73,45 @@ export async function googleJwtAuthMiddleware(
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ message: 'No token provided' });
+      if (!aborted) res.status(401).json({ message: 'No token provided' });
+      req.off('aborted', onAborted);
+      return;
     }
 
     token = authHeader.split(' ')[1];
 
-    // Verify the token with Google
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      // Accept either a single client ID or a list
-      audience: CLIENT_IDS.length === 1 ? CLIENT_IDS[0] : CLIENT_IDS,
-    });
+    // Verify the token with Google, but avoid hanging indefinitely.
+    // If verification takes too long (e.g., network issues), fail fast with 401.
+    const timeoutMs = Number(process.env.AUTH_VERIFY_TIMEOUT_MS) || 7000;
+    const abortController = new AbortController();
+    const timeout = setTimeout(() => {
+      abortController.abort();
+    }, timeoutMs);
+
+    let ticket;
+    try {
+      const verifyPromise = client.verifyIdToken({
+        idToken: token,
+        // Accept either a single client ID or a list
+        audience: CLIENT_IDS.length === 1 ? CLIENT_IDS[0] : CLIENT_IDS,
+        // @ts-expect-error: google-auth-library may not support AbortSignal yet, but future versions might
+        signal: abortController.signal,
+      });
+      ticket = await verifyPromise;
+    } catch (err) {
+      if (abortController.signal.aborted) {
+        throw new Error('verifyIdToken timeout');
+      }
+      throw err;
+    } finally {
+      clearTimeout(timeout);
+    }
 
     const payload = ticket.getPayload();
     if (!payload) {
-      return res.status(401).json({ message: 'Invalid token payload' });
+      if (!aborted) res.status(401).json({ message: 'Invalid token payload' });
+      req.off('aborted', onAborted);
+      return;
     }
 
     if (DEBUG_AUTH) {
@@ -98,6 +132,7 @@ export async function googleJwtAuthMiddleware(
         email: user.email,
       });
     }
+    req.off('aborted', onAborted);
     return next();
   } catch (err) {
     // Extra diagnostics to understand why verification failed
@@ -111,17 +146,17 @@ export async function googleJwtAuthMiddleware(
       if (token) {
         const parts = token.split('.');
         if (parts.length === 3) {
-          let payloadJson: string = '';
+          let decodedPayload = '';
           try {
             // Use 'base64' decoding for broader compatibility
-            payloadJson = Buffer.from(parts[1], 'base64').toString('utf8');
+            decodedPayload = Buffer.from(parts[1], 'base64').toString('utf8');
           } catch (bufferErr) {
             console.error('Failed to base64 decode token payload:', bufferErr);
           }
 
-          if (payloadJson && process.env.NODE_ENV === 'development') {
+          if (decodedPayload && process.env.NODE_ENV === 'development') {
             try {
-              const payload = JSON.parse(payloadJson) as Record<
+              const payload = JSON.parse(decodedPayload) as Record<
                 string,
                 unknown
               >;
@@ -146,7 +181,9 @@ export async function googleJwtAuthMiddleware(
     } catch (decodeErr) {
       console.error('Failed to decode token for diagnostics:', decodeErr);
     }
-    return res.status(401).json({ message: 'Invalid or expired token' });
+    if (!aborted) res.status(401).json({ message: 'Invalid or expired token' });
+    req.off('aborted', onAborted);
+    return;
   }
 }
 

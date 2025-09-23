@@ -27,6 +27,7 @@
     "@adg/global-formulas": "0.0.1",
     "@adg/global-validations": "0.0.1",
     "@adg/global-models": "0.0.1",
-    "mongodb": "^6.16.0"
+    "mongodb": "^6.16.0",
+    "winston": "^3.17.0"
   }
 }

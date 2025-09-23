@@ -41,7 +41,13 @@ console.log(
   DB_NAME
 );
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN || 'http://localhost:4200';
+// Support multiple origins via comma-separated env; include common dev defaults
+const clientDomains = (
+  process.env.CLIENT_DOMAIN || 'http://localhost:4200,http://localhost:3000'
+)
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
 // Set BYPASS_AUTH=true in your environment to skip authentication for development/testing
 const BYPASS_AUTH = process.env.BYPASS_AUTH === 'true';
 
@@ -78,8 +84,38 @@ async function start() {
     app.use(morgan('combined'));
   }
 
-  // Add CORS and body parser middleware
-  app.use(cors({ origin: CLIENT_DOMAIN, credentials: true }));
+  // Add CORS and body parser middleware (robust for local dev and preflight)
+  const corsOptions: cors.CorsOptions = {
+    origin: (origin, callback) => {
+      // Allow requests without origin (mobile apps, curl)
+      if (!origin) return callback(null, true);
+      try {
+        const u = new URL(origin);
+        const isLocalHost =
+          u.hostname === 'localhost' || u.hostname === '127.0.0.1';
+        if (isLocalHost) return callback(null, true);
+        if (clientDomains.includes(origin)) return callback(null, true);
+      } catch {
+        // If origin is malformed, deny CORS for safety
+      }
+      // Do not error—just indicate CORS not allowed
+      return callback(null, false);
+    },
+    credentials: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Requested-With',
+      'Accept',
+      'Origin',
+    ],
+    optionsSuccessStatus: 204,
+    preflightContinue: false,
+  };
+  app.use(cors(corsOptions));
+  // Explicitly handle OPTIONS for all routes (some proxies require this)
+  app.options('*', cors(corsOptions));
   app.use(bodyParser.json());
 
   // Add Google Auth middleware BEFORE Apollo middleware

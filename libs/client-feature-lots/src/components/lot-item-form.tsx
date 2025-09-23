@@ -90,6 +90,9 @@ export const LotItemForm: React.FC<LotItemFormProps> = ({
             id="shares"
             type="number"
             placeholder="Enter shares"
+            step={1}
+            min={0}
+            inputMode="numeric"
             {...register('shares', {
               setValueAs: (value) => (value ? Number(value) : undefined),
             })}
@@ -103,6 +106,9 @@ export const LotItemForm: React.FC<LotItemFormProps> = ({
             id="price"
             type="number"
             placeholder="Enter price"
+            step="0.01"
+            min={0}
+            inputMode="decimal"
             {...register('price', {
               setValueAs: (value) => (value ? Number(value) : undefined),
             })}

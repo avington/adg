@@ -1,4 +1,5 @@
 import { Button, TableRow, TableCell } from '@adg/client-components';
+import { toDollar } from '@adg/client-components';
 import { LotProjection } from '@adg/global-read-models';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,7 +22,7 @@ export const LotListTableRow: React.FC<LotListTableRowProps> = ({
       </TableCell>
       <TableCell>{lot.transactionType}</TableCell>
       <TableCell>{lot.shares}</TableCell>
-      <TableCell>{lot.price ? `$${lot.price.toFixed(2)}` : '-'}</TableCell>
+      <TableCell>{lot.price != null ? toDollar(lot.price) : '-'}</TableCell>
       <TableCell>
         <Button
           onClick={() => onEdit(lot)}

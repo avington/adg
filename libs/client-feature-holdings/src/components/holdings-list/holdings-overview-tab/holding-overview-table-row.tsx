@@ -1,7 +1,11 @@
 import { MenuButton, TableCell, TableRow } from '@adg/client-components';
+import { toDollar } from '@adg/client-components';
 import { WithLatestQuote } from '@adg/global-models';
+import { calculateMarketValue, calculateCostBasis } from '@adg/global-formulas';
 import { PositionOverviewProjection } from '@adg/global-read-models';
 import { useNavigate } from 'react-router-dom';
+
+// Remove local calculateCostBasis; now imported from global-formulas
 
 export interface HoldingsOverViewTableProps {
   holdingsOverview: WithLatestQuote<PositionOverviewProjection>;
@@ -32,10 +36,27 @@ export const HoldingsOverViewTableRow: React.FC<HoldingsOverViewTableProps> = ({
         />
       </TableCell>
       <TableCell>{holdingsOverview.summary.companyName}</TableCell>
-      <TableCell>{holdingsOverview.latestQuote?.price}</TableCell>
+      <TableCell>
+        {toDollar(holdingsOverview.latestQuote?.price ?? 0)}
+      </TableCell>
       <TableCell>{holdingsOverview.lots?.totalShares}</TableCell>
-      <TableCell>200</TableCell>
-      <TableCell>150</TableCell>
+      <TableCell>
+        {toDollar(
+          calculateMarketValue({
+            totalShares: holdingsOverview.lots?.totalShares,
+            price: holdingsOverview.latestQuote?.price,
+          })
+        )}
+      </TableCell>
+
+      <TableCell>
+        {toDollar(
+          calculateCostBasis(
+            holdingsOverview.lots?.totalShares,
+            holdingsOverview.lots?.averagePrice
+          )
+        )}
+      </TableCell>
     </TableRow>
   );
 };

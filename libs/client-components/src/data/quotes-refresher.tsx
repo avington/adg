@@ -2,6 +2,7 @@ import {
   useQuotesShort,
   useUserHoldingsSymbolsByPortfolio,
 } from '@adg/client-graphql-data';
+import { useLoadAllPositionsLots } from '@adg/client-graphql-data';
 import { useLazyQuery } from '@apollo/client';
 import { QUOTES_SHORT } from '@adg/client-graphql-data';
 import { isMarketOpenNow } from '@adg/global-formulas';
@@ -19,6 +20,8 @@ import { useEffect, useRef } from 'react';
 
 export const QuotesRefresher: React.FC = () => {
   const dispatch = useAppDispatch();
+  // Trigger loading of all portfolios' positions lots into Redux on mount
+  useLoadAllPositionsLots();
   const { loading, error } = useUserHoldingsSymbolsByPortfolio({
     onCompleted: (data) => {
       if (data?.userHoldingsSymbolsByPortfolio) {

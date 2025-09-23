@@ -6,9 +6,6 @@
       "path": "../client-theme"
     },
     {
-      "path": "../global-models"
-    },
-    {
       "path": "../client-state"
     },
     {
@@ -19,6 +16,12 @@
     },
     {
       "path": "../global-read-models"
+    },
+    {
+      "path": "../global-formulas"
+    },
+    {
+      "path": "../global-models"
     },
     {
       "path": "../global-validations"
