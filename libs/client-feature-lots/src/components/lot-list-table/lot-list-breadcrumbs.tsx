@@ -30,10 +30,7 @@ const BreadcrumbLink = styled(Link)`
   }
 `;
 
-const CurrentCrumb = styled.span<{
-  children?: React.ReactNode;
-  'aria-current'?: string;
-}>`
+const CurrentCrumb = styled.span`
   color: var(--color-blue-grey-900);
   font-weight: 700;
 `;
