@@ -1,5 +1,7 @@
 import { MenuButton, TableCell, TableRow } from '@adg/client-components';
+import { toDollar } from '@adg/client-components';
 import { WithLatestQuote } from '@adg/global-models';
+import { calculateMarketValue } from '@adg/global-formulas';
 import { PositionOverviewProjection } from '@adg/global-read-models';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,10 +34,25 @@ export const HoldingsOverViewTableRow: React.FC<HoldingsOverViewTableProps> = ({
         />
       </TableCell>
       <TableCell>{holdingsOverview.summary.companyName}</TableCell>
-      <TableCell>{holdingsOverview.latestQuote?.price}</TableCell>
+      <TableCell>
+        {toDollar(holdingsOverview.latestQuote?.price ?? 0)}
+      </TableCell>
       <TableCell>{holdingsOverview.lots?.totalShares}</TableCell>
-      <TableCell>200</TableCell>
-      <TableCell>150</TableCell>
+      <TableCell>
+        {toDollar(
+          calculateMarketValue({
+            totalShares: holdingsOverview.lots?.totalShares,
+            price: holdingsOverview.latestQuote?.price,
+          })
+        )}
+      </TableCell>
+
+      <TableCell>
+        {toDollar(
+          (holdingsOverview.lots?.averagePrice ?? 0) *
+            (holdingsOverview.lots?.totalShares ?? 0)
+        )}
+      </TableCell>
     </TableRow>
   );
 };

@@ -27,6 +27,23 @@
       "subject": "feat: update position overview collection name; add holdings overview hooks and queries; implement HoldingsOverviewTable component (#35)"
     },
     "targetVersion": "latest",
-    "confirmedPackageUpdates": true
+    "confirmedPackageUpdates": true,
+    "runningMigrations": [
+      "rename-test-path-pattern"
+    ],
+    "completedMigrations": {
+      "rename-test-path-pattern": {
+        "type": "successful",
+        "name": "rename-test-path-pattern",
+        "changedFiles": [
+          {
+            "path": "nx.json",
+            "type": "UPDATE"
+          }
+        ],
+        "ref": "63cf9f45a6e43a26190cb23dcb0668387cbe037e",
+        "nextSteps": []
+      }
+    }
   }
 }

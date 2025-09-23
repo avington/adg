@@ -30,18 +30,38 @@ const clientDomains = (
 const app = express();
 const DEBUG_HTTP = process.env.DEBUG_HTTP === 'true';
 
-// Middleware to enable CORS
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests without origin (mobile apps, curl) and from whitelisted origins
-      if (!origin || clientDomains.includes(origin))
-        return callback(null, true);
-      return callback(new Error('CORS blocked: origin not allowed'));
-    },
-    credentials: true,
-  })
-);
+// Middleware to enable CORS (robust for local dev and preflight)
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests without origin (mobile apps, curl)
+    if (!origin) return callback(null, true);
+    try {
+      const u = new URL(origin);
+      const isLocalHost =
+        u.hostname === 'localhost' || u.hostname === '127.0.0.1';
+      if (isLocalHost) return callback(null, true);
+      if (clientDomains.includes(origin)) return callback(null, true);
+    } catch {
+      // If origin is malformed, deny CORS for safety
+    }
+    // Do not error—just indicate CORS not allowed
+    return callback(null, false);
+  },
+  credentials: true,
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'Accept',
+    'Origin',
+  ],
+  optionsSuccessStatus: 204,
+  preflightContinue: false,
+};
+app.use(cors(corsOptions));
+// Explicitly handle OPTIONS for all routes (some proxies require this)
+app.options('*', cors(corsOptions));
 
 // Very-early request tracer (before JSON parsing or other middleware)
 if (DEBUG_HTTP) {
@@ -182,9 +202,10 @@ async function start() {
       err: unknown,
       _req: express.Request,
       res: express.Response,
-      _next: express.NextFunction
+      _next: express.NextFunction // keep 4-arg signature for Express
     ) => {
-      // _next is intentionally unused (underscore prefix)
+      // _next is intentionally unused; mark as used to appease linters
+      void _next;
       console.error('Unhandled error:', err);
       res.status(500).json({ error: 'Internal Server Error' });
     }
