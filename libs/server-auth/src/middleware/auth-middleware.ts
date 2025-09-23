@@ -94,7 +94,7 @@ export async function googleJwtAuthMiddleware(
         idToken: token,
         // Accept either a single client ID or a list
         audience: CLIENT_IDS.length === 1 ? CLIENT_IDS[0] : CLIENT_IDS,
-        // @ts-ignore: google-auth-library may not support AbortSignal yet, but future versions might
+        // @ts-expect-error: google-auth-library may not support AbortSignal yet, but future versions might
         signal: abortController.signal,
       });
       ticket = await verifyPromise;
