@@ -1,6 +1,6 @@
 /**
  * Calculate current market value for a position by multiplying total shares and latest price.
- * Falls back to 0 when inputs are missing/invalid.
+ * Throws an error if totalShares or price is missing or invalid.
  */
 export function calculateMarketValue(params: {
   totalShares?: number | null | undefined;
