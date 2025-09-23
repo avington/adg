@@ -9,12 +9,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { holdingsSlice } from './holdings/holdings-reducer';
 import { allSymbolsSlice } from './portfolios/all-symbols-reducer';
 import { quoteSlice } from './portfolios/quotes-reducer';
+import { positionsLotsSlice } from './portfolios/positions-lots-reducer';
 
 // Slice reducers
 const reducer = {
   holdings: holdingsSlice.reducer,
   allSymbols: allSymbolsSlice.reducer,
   quotes: quoteSlice.reducer,
+  positionsLots: positionsLotsSlice.reducer,
 };
 
 // Listener middleware (optional – extend as needed)
@@ -47,3 +49,6 @@ export * from './portfolios/all-symbols-selectors';
 
 export * from './portfolios/quotes-reducer';
 export * from './portfolios/quotes-selectors';
+export * from './portfolios/positions-lots-reducer';
+export * from './portfolios/positions-lots-selectors';
+export * from './portfolios/positions-lots-selectors';
