@@ -1,29 +1,30 @@
 import { UserModel } from '@adg/global-models';
 import { NextFunction, Request, Response } from 'express';
-import { OAuth2Client } from 'google-auth-library';
+import { OAuth2Client, LoginTicket } from 'google-auth-library';
 import { mapTokenInfoToUser } from '../auth/user-mapper';
 
 const DEBUG_AUTH = process.env.DEBUG_AUTH === 'true';
+const BYPASS_AUTH = process.env.BYPASS_AUTH === 'true';
 // Default to the correct Google Client ID (matches token aud). Allow env override.
-if (!process.env.GOOGLE_CLIENT_ID) {
+// If BYPASS_AUTH is enabled (dev/testing), don't require GOOGLE_CLIENT_ID.
+if (!process.env.GOOGLE_CLIENT_ID && !BYPASS_AUTH) {
   throw new Error(
     'GOOGLE_CLIENT_ID environment variable must be set for authentication.'
   );
 }
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 // Allow multiple client IDs for dev/prod or localhost vs deployed (deduped)
-const CLIENT_IDS = Array.from(
+const CLIENT_IDS: string[] = Array.from(
   new Set(
     [
       ...(process.env.GOOGLE_CLIENT_IDS
         ? process.env.GOOGLE_CLIENT_IDS.split(',').map((s) => s.trim())
         : []),
       CLIENT_ID,
-    ].filter(Boolean)
+    ].filter((v): v is string => typeof v === 'string' && v.length > 0)
   )
 );
-const client = new OAuth2Client(CLIENT_ID);
-const BYPASS_AUTH = process.env.BYPASS_AUTH === 'true';
+const client = new OAuth2Client(CLIENT_ID || '');
 
 export async function googleJwtAuthMiddleware(
   req: Request & { user?: UserModel },
@@ -83,30 +84,30 @@ export async function googleJwtAuthMiddleware(
     // Verify the token with Google, but avoid hanging indefinitely.
     // If verification takes too long (e.g., network issues), fail fast with 401.
     const timeoutMs = Number(process.env.AUTH_VERIFY_TIMEOUT_MS) || 7000;
-    const abortController = new AbortController();
-    const timeout = setTimeout(() => {
-      abortController.abort();
-    }, timeoutMs);
+    let timeoutHandle: NodeJS.Timeout | undefined;
 
-    let ticket;
+    const verifyPromise: Promise<LoginTicket> = client.verifyIdToken({
+      idToken: token,
+      // Accept either a single client ID or a list
+      audience: CLIENT_IDS.length === 1 ? CLIENT_IDS[0] : CLIENT_IDS,
+    });
+
+    const timeoutPromise = new Promise<LoginTicket>((_, reject) => {
+      timeoutHandle = setTimeout(
+        () => reject(new Error('verifyIdToken timeout')),
+        timeoutMs
+      );
+    });
+
+    let ticket: LoginTicket;
     try {
-      const verifyPromise = client.verifyIdToken({
-        idToken: token,
-        // Accept either a single client ID or a list
-        audience: CLIENT_IDS.length === 1 ? CLIENT_IDS[0] : CLIENT_IDS,
-        // @ts-expect-error: google-auth-library may not support AbortSignal yet, but future versions might
-        signal: abortController.signal,
-      });
-      ticket = await verifyPromise;
-    } catch (err) {
-      if (abortController.signal.aborted) {
-        throw new Error('verifyIdToken timeout');
-      }
-      throw err;
+      ticket = await Promise.race([
+        verifyPromise,
+        timeoutPromise,
+      ]);
     } finally {
-      clearTimeout(timeout);
+      if (timeoutHandle) clearTimeout(timeoutHandle);
     }
-
     const payload = ticket.getPayload();
     if (!payload) {
       if (!aborted) res.status(401).json({ message: 'Invalid token payload' });
