@@ -5,11 +5,7 @@ import ChevronRight from '@mui/icons-material/ChevronRight';
 import { LoadingOverlay } from '@adg/client-components';
 import { useAllPortfolios } from '@adg/client-graphql-data';
 
-const BreadcrumbContainer = styled.nav<{
-  className?: string;
-  'aria-label'?: string;
-  children?: React.ReactNode;
-}>`
+const BreadcrumbContainer = styled.nav`
   position: relative;
   display: flex;
   align-items: center;
