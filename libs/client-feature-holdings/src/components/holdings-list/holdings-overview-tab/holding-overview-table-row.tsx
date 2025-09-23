@@ -5,6 +5,14 @@ import { calculateMarketValue } from '@adg/global-formulas';
 import { PositionOverviewProjection } from '@adg/global-read-models';
 import { useNavigate } from 'react-router-dom';
 
+// Utility function to calculate cost basis
+function calculateCostBasis(
+  totalShares?: number,
+  averagePrice?: number
+): number {
+  return (averagePrice ?? 0) * (totalShares ?? 0);
+}
+
 export interface HoldingsOverViewTableProps {
   holdingsOverview: WithLatestQuote<PositionOverviewProjection>;
 }
@@ -49,8 +57,10 @@ export const HoldingsOverViewTableRow: React.FC<HoldingsOverViewTableProps> = ({
 
       <TableCell>
         {toDollar(
-          (holdingsOverview.lots?.averagePrice ?? 0) *
-            (holdingsOverview.lots?.totalShares ?? 0)
+          calculateCostBasis(
+            holdingsOverview.lots?.totalShares,
+            holdingsOverview.lots?.averagePrice
+          )
         )}
       </TableCell>
     </TableRow>

@@ -202,10 +202,8 @@ async function start() {
       err: unknown,
       _req: express.Request,
       res: express.Response,
-      _next: express.NextFunction // keep 4-arg signature for Express
+      _: express.NextFunction // keep 4-arg signature for Express
     ) => {
-      // _next is intentionally unused; mark as used to appease linters
-      void _next;
       console.error('Unhandled error:', err);
       res.status(500).json({ error: 'Internal Server Error' });
     }

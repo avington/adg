@@ -51,4 +51,3 @@ export * from './portfolios/quotes-reducer';
 export * from './portfolios/quotes-selectors';
 export * from './portfolios/positions-lots-reducer';
 export * from './portfolios/positions-lots-selectors';
-export * from './portfolios/positions-lots-selectors';

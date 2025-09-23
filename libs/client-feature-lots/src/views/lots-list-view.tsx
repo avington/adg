@@ -12,7 +12,7 @@ import IconAdd from '@mui/icons-material/Add';
 import { useNavigate, useParams } from 'react-router-dom';
 import LotListSummaryPanel from '../components/lot-list-summary-panel';
 import { LotListTable } from '../components/lot-list-table/lot-list-table';
-import LotListBreadcrumbs from '../components/lot-list-table/lot-list-breadcumbs';
+import LotListBreadcrumbs from '../components/lot-list-table/lot-list-breadcrumbs';
 
 export const LotsListView: React.FC = () => {
   const navigate = useNavigate();

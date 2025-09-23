@@ -19,7 +19,8 @@
     "tslib": "^2.3.0",
     "@adg/server-shared-kernel": "0.0.1",
     "@adg/global-models": "0.0.1",
-    "@adg/server-domain-position-events": "0.0.1"
+    "@adg/server-domain-position-events": "0.0.1",
+    "uuid": "^11.1.0"
   },
   "nx": {
     "name": "@adg/server-domain-position-aggregates"

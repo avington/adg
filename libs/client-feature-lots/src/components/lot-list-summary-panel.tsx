@@ -1,9 +1,13 @@
-import { HeadingContainer } from '@adg/client-components';
+import {
+  HeadingContainer,
+  LoadingOverlay,
+  useToaster,
+} from '@adg/client-components';
 import {
   useAllPortfolios,
   useHoldingsOverview,
-  useLotsByPortfolioAndSymbol,
 } from '@adg/client-graphql-data';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -38,38 +42,54 @@ export const LotListSummaryPanel: React.FC = () => {
     error: holdingsOverviewError,
   } = useHoldingsOverview(portfolioId ?? '');
 
+  const { showError } = useToaster();
+
+  useEffect(() => {
+    if (portfoliosError) {
+      showError('Failed to load portfolios.');
+    }
+    if (holdingsOverviewError) {
+      showError('Failed to load holdings overview.');
+    }
+  }, [portfoliosError, holdingsOverviewError, showError]);
+
   const holding = holdingsOverviewData?.positionOverviews.find(
     (h) => h.symbol === symbol
   );
 
   return (
-    <StyledLotListSummaryPanel>
-      <div style={{ gridArea: 'name' }}>{portfolioName}</div>
-      <div style={{ gridArea: 'symbol' }}>{symbol}</div>
-      <HeadingContainer
-        gridArea="totalShares"
-        label="Total Shares"
-        value={holding?.lots?.totalShares ?? 0}
+    <div>
+      <LoadingOverlay
+        isLoading={portfoliosLoading || holdingsOverviewLoading}
       />
-      <HeadingContainer
-        gridArea="averagePrice"
-        label="$ Cost Average"
-        value={holding?.lots?.averagePrice ?? 0}
-        showDollar
-      />
-      <HeadingContainer
-        gridArea="realizedGains"
-        label="Realized Gains"
-        value={holding?.lots?.realizedGains ?? 0}
-        showDollar
-      />
-      <HeadingContainer
-        gridArea="unrealizedGains"
-        label="Unrealized Gains"
-        value={holding?.lots?.unrealizedGains ?? 0}
-        showDollar
-      />
-    </StyledLotListSummaryPanel>
+      <StyledLotListSummaryPanel>
+        <div style={{ gridArea: 'name' }}>{portfolioName}</div>
+        <div style={{ gridArea: 'symbol' }}>{symbol}</div>
+        <HeadingContainer
+          gridArea="totalShares"
+          label="Total Shares"
+          value={holding?.lots?.totalShares ?? 0}
+        />
+        <HeadingContainer
+          gridArea="averagePrice"
+          label="$ Cost Average"
+          value={holding?.lots?.averagePrice ?? 0}
+          showDollar
+        />
+        <HeadingContainer
+          gridArea="realizedGains"
+          label="Realized Gains"
+          value={holding?.lots?.realizedGains ?? 0}
+          showDollar
+        />
+        <HeadingContainer
+          gridArea="unrealizedGains"
+          label="Unrealized Gains"
+          value={holding?.lots?.unrealizedGains ?? 0}
+          showDollar
+        />
+      </StyledLotListSummaryPanel>
+    </div>
   );
 };
 export default LotListSummaryPanel;
