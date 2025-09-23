@@ -1,17 +1,11 @@
 import { MenuButton, TableCell, TableRow } from '@adg/client-components';
 import { toDollar } from '@adg/client-components';
 import { WithLatestQuote } from '@adg/global-models';
-import { calculateMarketValue } from '@adg/global-formulas';
+import { calculateMarketValue, calculateCostBasis } from '@adg/global-formulas';
 import { PositionOverviewProjection } from '@adg/global-read-models';
 import { useNavigate } from 'react-router-dom';
 
-// Utility function to calculate cost basis
-function calculateCostBasis(
-  totalShares?: number,
-  averagePrice?: number
-): number {
-  return (averagePrice ?? 0) * (totalShares ?? 0);
-}
+// Remove local calculateCostBasis; now imported from global-formulas
 
 export interface HoldingsOverViewTableProps {
   holdingsOverview: WithLatestQuote<PositionOverviewProjection>;

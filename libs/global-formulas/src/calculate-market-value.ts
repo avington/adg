@@ -6,8 +6,13 @@ export function calculateMarketValue(params: {
   totalShares?: number | null | undefined;
   price?: number | null | undefined;
 }): number {
-  const shares = Number(params.totalShares ?? 0);
-  const price = Number(params.price ?? 0);
-  if (!isFinite(shares) || !isFinite(price)) return 0;
+  if (params.totalShares == null || params.price == null) {
+    throw new Error('Both totalShares and price must be provided.');
+  }
+  const shares = Number(params.totalShares);
+  const price = Number(params.price);
+  if (!isFinite(shares) || !isFinite(price)) {
+    throw new Error('Both totalShares and price must be valid finite numbers.');
+  }
   return shares * price;
 }

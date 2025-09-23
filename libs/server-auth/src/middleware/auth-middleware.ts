@@ -83,15 +83,29 @@ export async function googleJwtAuthMiddleware(
     // Verify the token with Google, but avoid hanging indefinitely.
     // If verification takes too long (e.g., network issues), fail fast with 401.
     const timeoutMs = Number(process.env.AUTH_VERIFY_TIMEOUT_MS) || 7000;
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('verifyIdToken timeout')), timeoutMs)
-    );
-    const verifyPromise = client.verifyIdToken({
-      idToken: token,
-      // Accept either a single client ID or a list
-      audience: CLIENT_IDS.length === 1 ? CLIENT_IDS[0] : CLIENT_IDS,
-    });
-    const ticket = await Promise.race([verifyPromise, timeoutPromise]);
+    const abortController = new AbortController();
+    const timeout = setTimeout(() => {
+      abortController.abort();
+    }, timeoutMs);
+
+    let ticket;
+    try {
+      const verifyPromise = client.verifyIdToken({
+        idToken: token,
+        // Accept either a single client ID or a list
+        audience: CLIENT_IDS.length === 1 ? CLIENT_IDS[0] : CLIENT_IDS,
+        // @ts-ignore: google-auth-library may not support AbortSignal yet, but future versions might
+        signal: abortController.signal,
+      });
+      ticket = await verifyPromise;
+    } catch (err) {
+      if (abortController.signal.aborted) {
+        throw new Error('verifyIdToken timeout');
+      }
+      throw err;
+    } finally {
+      clearTimeout(timeout);
+    }
 
     const payload = ticket.getPayload();
     if (!payload) {
@@ -132,17 +146,17 @@ export async function googleJwtAuthMiddleware(
       if (token) {
         const parts = token.split('.');
         if (parts.length === 3) {
-          let payloadJson = '';
+          let decodedPayload = '';
           try {
             // Use 'base64' decoding for broader compatibility
-            payloadJson = Buffer.from(parts[1], 'base64').toString('utf8');
+            decodedPayload = Buffer.from(parts[1], 'base64').toString('utf8');
           } catch (bufferErr) {
             console.error('Failed to base64 decode token payload:', bufferErr);
           }
 
-          if (payloadJson && process.env.NODE_ENV === 'development') {
+          if (decodedPayload && process.env.NODE_ENV === 'development') {
             try {
-              const payload = JSON.parse(payloadJson) as Record<
+              const payload = JSON.parse(decodedPayload) as Record<
                 string,
                 unknown
               >;

@@ -74,7 +74,7 @@ export const LotListBreadcrumbs: React.FC<LotListBreadcrumbsProps> = ({
       className={className}
       aria-label="Breadcrumb navigation"
     >
-      <LoadingOverlay isLoading={!!loading} />
+      {loading && <LoadingOverlay isLoading />}
 
       <BreadcrumbLink to="/portfolio">Portfolios</BreadcrumbLink>
       <BreadcrumbSeparator>
