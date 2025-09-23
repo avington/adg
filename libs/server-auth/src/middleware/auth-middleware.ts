@@ -1,6 +1,6 @@
 import { UserModel } from '@adg/global-models';
 import { NextFunction, Request, Response } from 'express';
-import { OAuth2Client } from 'google-auth-library';
+import { OAuth2Client, LoginTicket } from 'google-auth-library';
 import { mapTokenInfoToUser } from '../auth/user-mapper';
 
 const DEBUG_AUTH = process.env.DEBUG_AUTH === 'true';
@@ -83,29 +83,26 @@ export async function googleJwtAuthMiddleware(
     // Verify the token with Google, but avoid hanging indefinitely.
     // If verification takes too long (e.g., network issues), fail fast with 401.
     const timeoutMs = Number(process.env.AUTH_VERIFY_TIMEOUT_MS) || 7000;
-    const abortController = new AbortController();
-    const timeout = setTimeout(() => {
-      abortController.abort();
-    }, timeoutMs);
 
-    let ticket;
-    try {
-      const verifyPromise = client.verifyIdToken({
-        idToken: token,
-        // Accept either a single client ID or a list
-        audience: CLIENT_IDS.length === 1 ? CLIENT_IDS[0] : CLIENT_IDS,
-        // @ts-expect-error: google-auth-library may not support AbortSignal yet, but future versions might
-        signal: abortController.signal,
-      });
-      ticket = await verifyPromise;
-    } catch (err) {
-      if (abortController.signal.aborted) {
-        throw new Error('verifyIdToken timeout');
-      }
-      throw err;
-    } finally {
-      clearTimeout(timeout);
-    }
+    // Verify the token with Google with a manual timeout using Promise.race
+    let timeoutHandle: NodeJS.Timeout | undefined;
+    const verifyPromise = client.verifyIdToken({
+      idToken: token,
+      // Accept either a single client ID or a list
+      audience: CLIENT_IDS.length === 1 ? CLIENT_IDS[0] : CLIENT_IDS,
+    });
+    const timeoutPromise = new Promise<LoginTicket>((_, reject) => {
+      timeoutHandle = setTimeout(
+        () => reject(new Error('verifyIdToken timeout')),
+        timeoutMs
+      );
+    });
+
+    const ticket: LoginTicket = await Promise.race([
+      verifyPromise,
+      timeoutPromise,
+    ]);
+    if (timeoutHandle) clearTimeout(timeoutHandle);
 
     const payload = ticket.getPayload();
     if (!payload) {
