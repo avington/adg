@@ -99,13 +99,15 @@ export async function googleJwtAuthMiddleware(
       );
     });
 
-    const ticket: LoginTicket = await Promise.race([
-      verifyPromise,
-      timeoutPromise,
-    ]);
-
-    if (timeoutHandle) clearTimeout(timeoutHandle);
-
+    let ticket: LoginTicket;
+    try {
+      ticket = await Promise.race([
+        verifyPromise,
+        timeoutPromise,
+      ]);
+    } finally {
+      if (timeoutHandle) clearTimeout(timeoutHandle);
+    }
     const payload = ticket.getPayload();
     if (!payload) {
       if (!aborted) res.status(401).json({ message: 'Invalid token payload' });
