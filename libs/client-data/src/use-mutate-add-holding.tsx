@@ -4,6 +4,8 @@ import { PositionCreateRequestModel } from '@adg/global-validations';
 import { useState } from 'react';
 import { VITE_API_BASE_URL } from './constants';
 
+const IS_DEV = import.meta.env.DEV;
+
 export const useMutateAddHolding = (onSuccess?: () => void) => {
   const { setTrue, setFalse, value: loading } = useBoolean(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -13,6 +15,7 @@ export const useMutateAddHolding = (onSuccess?: () => void) => {
     setTrue();
     setErrorMessage(null);
     const maxAttempts = 2; // one retry for transient network issues
+    const isDev = import.meta.env.DEV; // cache dev environment check
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
         const upperSymbol = holding.symbol.toUpperCase();
@@ -30,9 +33,8 @@ export const useMutateAddHolding = (onSuccess?: () => void) => {
         const isAxios = axios.isAxiosError(error);
         if (isAxios) {
           const status = error.response?.status;
-          const network = !error.response;
           // Detailed console diagnostics (dev only)
-          if (import.meta.env.DEV) {
+          if (IS_DEV) {
             console.error('[addHolding] attempt failed', {
               attempt,
               status,
@@ -43,6 +45,7 @@ export const useMutateAddHolding = (onSuccess?: () => void) => {
               hasResponse: !!error.response,
             });
           }
+          }
           if (network && attempt < maxAttempts) {
             // Small backoff before retry
             await new Promise((r) => setTimeout(r, 250));
@@ -52,12 +55,12 @@ export const useMutateAddHolding = (onSuccess?: () => void) => {
             (error.response?.data as any)?.message ||
               (error.response?.data as any)?.error ||
               'Failed to create position'
-          );
         } else {
-          if (import.meta.env.DEV) {
+          if (IS_DEV) {
             console.error('[addHolding] unexpected error', error);
           }
           setErrorMessage('Unexpected error inserting a holding');
+        }
         }
         return; // stop after reporting
       } finally {

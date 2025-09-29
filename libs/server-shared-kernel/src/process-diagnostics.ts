@@ -74,7 +74,10 @@ export function registerProcessDiagnostics(opts: DiagnosticsOptions = {}) {
       } catch (e) {
         log('shutdown_error', { signal: sig, error: serializeError(e) });
       } finally {
-        process.exit(sig === 'SIGINT' ? 130 : 143);
+        // 130: SIGINT (128 + 2), 143: SIGTERM (128 + 15) per standard shell exit codes
+        const EXIT_CODE_SIGINT = 130;
+        const EXIT_CODE_SIGTERM = 143;
+        process.exit(sig === 'SIGINT' ? EXIT_CODE_SIGINT : EXIT_CODE_SIGTERM);
       }
     });
   });

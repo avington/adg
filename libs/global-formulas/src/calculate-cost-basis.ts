@@ -32,7 +32,7 @@ export function calculateCostBasis(
   if (typeof arg1 === 'object' && arg1 !== null && !Array.isArray(arg1)) {
     // Object style
     totalShares = arg1.totalShares;
-    averagePrice = arg1.averagePrice ?? arg2; // allow accidental second param
+    averagePrice = arg1.averagePrice;
   } else {
     // Positional style
     totalShares = arg1 as number | null | undefined;

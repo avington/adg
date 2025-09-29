@@ -141,17 +141,8 @@ const eventStore = new MongoEventStore(
 
 async function start() {
   // Surface crashes that might be causing restarts without useful logs
-  process.on('uncaughtException', (err) => {
-    console.error('Uncaught Exception:', err);
-  });
-  process.on('unhandledRejection', (reason) => {
-    console.error('Unhandled Rejection:', reason);
-  });
-
-  // Connect to MongoDB for event store
-  console.log('Initializing event store connection...');
+  // (Handled by diagnostics module; do not register again here)
   try {
-    await eventStore.connect();
     console.log(`Connected to event store DB: ${EVENT_STORE_DB_NAME}`);
   } catch (err) {
     console.error('Failed to connect to MongoDB event store.');
