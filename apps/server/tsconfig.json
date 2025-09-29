@@ -49,6 +49,9 @@
       "path": "../../libs/server-auth"
     },
     {
+      "path": "../../libs/server-shared-kernel"
+    },
+    {
       "path": "./tsconfig.app.json"
     }
   ]

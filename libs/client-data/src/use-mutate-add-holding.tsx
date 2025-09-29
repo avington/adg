@@ -4,6 +4,8 @@ import { PositionCreateRequestModel } from '@adg/global-validations';
 import { useState } from 'react';
 import { VITE_API_BASE_URL } from './constants';
 
+const IS_DEV = import.meta.env.DEV;
+
 export const useMutateAddHolding = (onSuccess?: () => void) => {
   const { setTrue, setFalse, value: loading } = useBoolean(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -12,23 +14,60 @@ export const useMutateAddHolding = (onSuccess?: () => void) => {
   const addHolding = async (holding: PositionCreateRequestModel) => {
     setTrue();
     setErrorMessage(null);
-    try {
-      const response = await axios.post<PositionCreateRequestModel>(
-        `${VITE_API_BASE_URL}/positions`,
-        { ...holding, symbol: holding.symbol.toUpperCase() }
-      );
-      setData(response.data);
-      if (onSuccess && !!response.data) {
-        onSuccess();
+    const maxAttempts = 2; // one retry for transient network issues
+    const isDev = import.meta.env.DEV; // cache dev environment check
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        const upperSymbol = holding.symbol.toUpperCase();
+        const url = `${VITE_API_BASE_URL}/positions`;
+        const response = await axios.post<PositionCreateRequestModel>(url, {
+          ...holding,
+          symbol: upperSymbol,
+        });
+        setData(response.data);
+        if (onSuccess && !!response.data) {
+          onSuccess();
+        }
+        return; // success, exit function
+      } catch (error) {
+        const isAxios = axios.isAxiosError(error);
+        if (isAxios) {
+          const status = error.response?.status;
+          // Detailed console diagnostics (dev only)
+          if (IS_DEV) {
+            console.error('[addHolding] attempt failed', {
+              attempt,
+              status,
+              code: error.code,
+              message: error.message,
+              url: error.config?.url,
+              baseURL: error.config?.baseURL,
+              hasResponse: !!error.response,
+            });
+          }
+          }
+          if (!error.response && attempt < maxAttempts) {
+            // Small backoff before retry
+            await new Promise((r) => setTimeout(r, 250));
+            continue; // retry loop
+          }
+          setErrorMessage(
+            (error.response?.data as any)?.message ||
+              (error.response?.data as any)?.error ||
+              'Failed to create position'
+        } else {
+          if (IS_DEV) {
+            console.error('[addHolding] unexpected error', error);
+          }
+          setErrorMessage('Unexpected error inserting a holding');
+        }
+        }
+        return; // stop after reporting
+      } finally {
+        if (attempt === maxAttempts) {
+          setFalse();
+        }
       }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setErrorMessage(error.response?.data?.message || 'An error occurred');
-      } else {
-        setErrorMessage('An unexpected error occurred inserting a holding');
-      }
-    } finally {
-      setFalse();
     }
   };
 

@@ -60,6 +60,9 @@
     },
     {
       "path": "../../libs/server-auth/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/server-shared-kernel/tsconfig.lib.json"
     }
   ]
 }
