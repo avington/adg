@@ -46,7 +46,7 @@ export const useMutateAddHolding = (onSuccess?: () => void) => {
             });
           }
           }
-          if (network && attempt < maxAttempts) {
+          if (!error.response && attempt < maxAttempts) {
             // Small backoff before retry
             await new Promise((r) => setTimeout(r, 250));
             continue; // retry loop
