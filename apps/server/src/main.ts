@@ -1,6 +1,9 @@
 // Description: Main entry point for the server application,
 // setting up middleware, routes, and starting the server.
 import 'dotenv/config';
+// Register diagnostics (must be first after dotenv)
+import { registerProcessDiagnostics } from '@adg/server-shared-kernel';
+registerProcessDiagnostics({ serviceName: 'write-api' });
 import express from 'express';
 import * as path from 'path';
 import cors from 'cors';
@@ -29,6 +32,19 @@ const clientDomains = (
   .filter(Boolean);
 const app = express();
 const DEBUG_HTTP = process.env.DEBUG_HTTP === 'true';
+
+// Ultra-early diagnostic logger (before CORS & body parsing) to trace connection vs auth issues
+app.use((req, _res, next) => {
+  // Keep lightweight; avoid logging large headers
+  const origin = req.headers.origin;
+  const hasAuth = !!req.headers.authorization;
+  console.log(
+    `[early] ${req.method} ${req.originalUrl || req.url} origin=${
+      origin || 'n/a'
+    } auth=${hasAuth ? 'y' : 'n'}`
+  );
+  next();
+});
 
 // Middleware to enable CORS (robust for local dev and preflight)
 const corsOptions: cors.CorsOptions = {
@@ -96,6 +112,18 @@ app.get('/api', (req, res) => {
 // Simple health endpoint
 app.get('/healthz', (_req, res) => {
   res.status(200).json({ status: 'ok' });
+});
+
+// Simple diagnostic echo (no auth) to verify connectivity & headers
+app.get('/diag/echo', (req, res) => {
+  res.json({
+    ok: true,
+    method: req.method,
+    url: req.originalUrl || req.url,
+    origin: req.headers.origin || null,
+    hasAuth: !!req.headers.authorization,
+    time: new Date().toISOString(),
+  });
 });
 
 app.use('/api/v1/auth', googleJwtAuthMiddleware, authRouter);
@@ -202,7 +230,7 @@ async function start() {
       err: unknown,
       _req: express.Request,
       res: express.Response,
-      _next: express.NextFunction // keep 4-arg signature for Express
+      _next: express.NextFunction // eslint-disable-line @typescript-eslint/no-unused-vars -- required to keep 4-arg error handler signature
     ) => {
       console.error('Unhandled error:', err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -210,13 +238,20 @@ async function start() {
   );
 
   const port = Number(process.env.SERVER_PORT) || 3333;
-  const host = process.env.SERVER_HOST || '0.0.0.0';
+  const requestedHost = process.env.SERVER_HOST;
+  // Fallback: if host is unspecified or IPv6 '::', bind to 0.0.0.0 for wider compatibility on Windows
+  const host =
+    !requestedHost || requestedHost === '::' ? '0.0.0.0' : requestedHost;
   const server = app.listen(port, host, () => {
+    const displayHost = host === '0.0.0.0' ? 'localhost' : host;
+    console.log('[startup] Requested host =', requestedHost || '(none)');
+    console.log('[startup] Effective bind host =', host);
+    console.log('[startup] API base URL:', `http://${displayHost}:${port}/api`);
     console.log(
-      `Listening at http://${
-        host === '0.0.0.0' ? 'localhost' : host
-      }:${port}/api`
+      '[startup] Health URL:',
+      `http://${displayHost}:${port}/healthz`
     );
+    console.log(`Listening at http://${displayHost}:${port}/api`);
   });
   server.on('error', console.error);
   // Gracefully handle low-level client errors (avoid connection resets without logs)

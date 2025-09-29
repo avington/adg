@@ -7,3 +7,4 @@ export * from './event-bus-impl.js';
 export * from './event-bus.js';
 export * from './event-store.js';
 export * from './value-object.js';
+export * from './process-diagnostics.js';

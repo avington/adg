@@ -1,17 +1,53 @@
 /**
- * Calculate the cost basis for a position.
+ * Calculate the cost basis (total cost) of a position.
  *
- * Supports either positional arguments (totalShares, averagePrice)
- * or a single object argument: { totalShares, averagePrice }.
+ * Supports two calling styles:
+ * 1. Object: calculateCostBasis({ totalShares, averagePrice })
+ * 2. Positional (legacy): calculateCostBasis(totalShares, averagePrice)
  *
- * If inputs are missing or not finite numbers, returns 0.
+ * Any missing / non-finite inputs result in 0 to keep UI resilient.
  */
 export function calculateCostBasis(params: {
   totalShares?: number | null | undefined;
   averagePrice?: number | null | undefined;
-}): number {
-  const { totalShares, averagePrice } = params;
-  if (totalShares == null || averagePrice == null) return 0;
+}): number;
+export function calculateCostBasis(
+  totalShares?: number | null | undefined,
+  averagePrice?: number | null | undefined
+): number;
+export function calculateCostBasis(
+  arg1?:
+    | number
+    | null
+    | undefined
+    | {
+        totalShares?: number | null | undefined;
+        averagePrice?: number | null | undefined;
+      },
+  arg2?: number | null | undefined
+): number {
+  let totalShares: number | null | undefined;
+  let averagePrice: number | null | undefined;
+
+  if (typeof arg1 === 'object' && arg1 !== null && !Array.isArray(arg1)) {
+    // Object style
+    totalShares = arg1.totalShares;
+    averagePrice = arg1.averagePrice ?? arg2; // allow accidental second param
+  } else {
+    // Positional style
+    totalShares = arg1 as number | null | undefined;
+    averagePrice = arg2;
+  }
+
+  if (
+    totalShares === null ||
+    totalShares === undefined ||
+    averagePrice === null ||
+    averagePrice === undefined
+  ) {
+    return 0;
+  }
+
   const sharesNum = Number(totalShares);
   const avgNum = Number(averagePrice);
   if (!isFinite(sharesNum) || !isFinite(avgNum)) return 0;
@@ -19,13 +55,11 @@ export function calculateCostBasis(params: {
 }
 
 /**
- * Calculate the cost basis for a position using positional arguments.
- *
- * If inputs are missing or not finite numbers, returns 0.
+ * Explicit helper for positional usage retained for clarity.
  */
 export function calculateCostBasisFromValues(
   totalShares?: number | null,
   averagePrice?: number | null
 ): number {
-  return calculateCostBasis({ totalShares, averagePrice });
+  return calculateCostBasis(totalShares, averagePrice);
 }
